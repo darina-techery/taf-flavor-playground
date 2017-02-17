@@ -1,9 +1,14 @@
-package main.steps;
+package steps;
 
-import main.actions.CalculateActions;
+import actions.CalculateActions;
 
 public final class CalculateSteps {
-    private CalculateActions calculateActions;
+
+    private final CalculateActions calculateActions;
+
+    public CalculateSteps(CalculateActions calculateActions) {
+        this.calculateActions = calculateActions;
+    }
 
     public int calculateTwoPlusThree(){
         return calculateActions.twoPlusThree();

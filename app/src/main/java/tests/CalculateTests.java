@@ -1,10 +1,13 @@
-package main.tests;
+package tests;
 
+import actions.DroidPhoneCalculateActions;
 import com.sun.tools.javac.util.Assert;
-import main.steps.CalculateSteps;
+import steps.CalculateSteps;
 
 public final class CalculateTests {
-    private CalculateSteps calculateSteps = new CalculateSteps();
+
+    private CalculateSteps calculateSteps = new CalculateSteps(new DroidPhoneCalculateActions());
+
     //@Test
     public void testCalculateCommonWay(){
         int actualResult = calculateSteps.calculateTwoPlusThree();
