@@ -1,5 +1,7 @@
 buildscript {
 
+    ext.daggerVersion='2.9'
+
     repositories {
         jcenter()
         maven {
@@ -8,7 +10,6 @@ buildscript {
     }
 
     dependencies {
-//        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.9"
     }
 }

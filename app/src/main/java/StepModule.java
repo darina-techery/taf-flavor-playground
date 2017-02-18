@@ -1,3 +1,4 @@
+import actions.CalculateActions;
 import dagger.Module;
 import dagger.Provides;
 import steps.CalculateSteps;
@@ -6,8 +7,8 @@ import steps.CalculateSteps;
 public class StepModule {
 
     @Provides
-    CalculateSteps calculateSteps() {
-        return new CalculateSteps(null);
+    CalculateSteps calculateSteps(CalculateActions calculateActions) {
+        return new CalculateSteps(calculateActions);
     }
 
 }

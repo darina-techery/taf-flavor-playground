@@ -1,5 +1,4 @@
 apply plugin: 'net.ltgt.apt' // plugin for generation java code
-//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'java'
 
 repositories {
@@ -9,31 +8,30 @@ repositories {
 sourceSets {
 
     main {
-        output.generatedSourcesDir = "${project.buildDir}/generated/source/apt/${sourceSet.name}"
+        java.srcDir "${project.buildDir}/generated/source/apt/${sourceSet.name}"
     }
 
-//    droid {
-//        compileClasspath += sourceSets.main.output
-//        runtimeClasspath += sourceSets.main.output
-//    }
-//
-//    ios {
-//        compileClasspath += sourceSets.main.output
-//        runtimeClasspath += sourceSets.main.output
-//    }
+    droid {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+
+    ios {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
 }
 
 dependencies {
 
-    // dagger dependency
+    // dagger dependencies
+    droidCompile "com.google.dagger:dagger:${daggerVersion}"
+    iosCompile "com.google.dagger:dagger:${daggerVersion}"
+    compile "com.google.dagger:dagger:${daggerVersion}"
 
-//    droidCompile 'com.google.dagger:dagger:2.8'
-//    iosCompile 'com.google.dagger:dagger:2.8'
-    compile 'com.google.dagger:dagger:2.7'
-
-    apt 'com.google.dagger:dagger-compiler:2.7'
-//    droidApt 'com.google.dagger:dagger-compiler:2.8'
-//    iosApt 'com.google.dagger:dagger-compiler:2.8'
+    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    droidApt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    iosApt "com.google.dagger:dagger-compiler:${daggerVersion}"
 
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
