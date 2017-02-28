@@ -10,28 +10,13 @@ sourceSets {
     main {
         java.srcDir "${project.buildDir}/generated/source/apt/${sourceSet.name}"
     }
-
-    droid {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
-
-    ios {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
 }
 
 dependencies {
 
     // dagger dependencies
-    droidCompile "com.google.dagger:dagger:${daggerVersion}"
-    iosCompile "com.google.dagger:dagger:${daggerVersion}"
     compile "com.google.dagger:dagger:${daggerVersion}"
-
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
-    droidApt "com.google.dagger:dagger-compiler:${daggerVersion}"
-    iosApt "com.google.dagger:dagger-compiler:${daggerVersion}"
 
 
     testCompile group: 'junit', name: 'junit', version: '4.11'

@@ -1,8 +1,6 @@
-package action;
+package actions;
 
-import actions.CalculateActions;
-
-public final class DroidPhoneCalculateActions extends CalculateActions {
+final class DroidPhoneCalculateActions extends CalculateActions {
 
     @Override
     public int twoAndTwo() {

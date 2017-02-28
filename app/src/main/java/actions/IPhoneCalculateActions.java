@@ -1,8 +1,6 @@
-package action;
+package actions;
 
-import actions.CalculateActions;
-
-public final class IPhoneCalculateActions extends CalculateActions {
+final class IPhoneCalculateActions extends CalculateActions {
     @Override
     public int twoAndTwo() {
         System.out.println("Two multiplied by two (iPhone)");

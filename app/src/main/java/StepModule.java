@@ -3,7 +3,7 @@ import dagger.Module;
 import dagger.Provides;
 import steps.CalculateSteps;
 
-@Module
+@Module()
 public class StepModule {
 
     @Provides
