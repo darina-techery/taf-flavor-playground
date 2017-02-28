@@ -14,7 +14,7 @@ public class Main {
     private static MainComponent create(String arg) {
         return DaggerMainComponent.builder()
                 .daggerActionModule(
-                        new DaggerActionModule(arg.equals("ios") ? new IPhoneActionModule() : new DroidActionModule()))
+                        new ActionModuleWrapper(arg.equals("ios") ? new IPhoneActionModule() : new DroidActionModule()))
                 .build();
     }
 

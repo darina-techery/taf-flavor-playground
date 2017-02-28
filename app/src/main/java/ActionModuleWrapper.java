@@ -4,11 +4,11 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class DaggerActionModule implements ActionModule {
+public class ActionModuleWrapper implements ActionModule {
 
     private final ActionModule actionModule;
 
-    public DaggerActionModule(ActionModule actionModule) {
+    public ActionModuleWrapper(ActionModule actionModule) {
         this.actionModule = actionModule;
     }
 

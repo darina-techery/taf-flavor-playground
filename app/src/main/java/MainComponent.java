@@ -2,7 +2,7 @@ import dagger.Component;
 import steps.CalculateSteps;
 
 @Component(modules = {
-        DaggerActionModule.class,
+        ActionModuleWrapper.class,
         StepModule.class
 })
 public interface MainComponent {
