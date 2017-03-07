@@ -1,4 +1,4 @@
-package main.pages;
+package pages;
 
 public final class CalculatePage extends BasePage {
     public int two = 2;

@@ -1,4 +1,4 @@
-package main.pages;
+package pages;
 
 public abstract class BasePage {
     public BasePage(){

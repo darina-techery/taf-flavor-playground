@@ -1,4 +1,4 @@
-package main.actions;
+package actions;
 
 public abstract class BaseActions {
 }
