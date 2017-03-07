@@ -3,6 +3,7 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    maven { url 'https://plugins.gradle.org/m2' }
 }
 
 sourceSets {
@@ -12,12 +13,27 @@ sourceSets {
     }
 }
 
+configurations {
+    agent
+}
+
 dependencies {
 
     // dagger dependencies
     compile "com.google.dagger:dagger:${daggerVersion}"
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    agent "org.aspectj:aspectjweaver:${aspectjVersion}"
+    compile "ru.yandex.qatools.allure:allure-testng-adaptor:${allureVersion}"
+    compile "org.hamcrest:java-hamcrest:2.0.0.0"
+    testCompile "org.hamcrest:java-hamcrest:2.0.0.0"
+    testCompile 'org.testng:testng:6.1.1'
+    testCompile "ru.yandex.qatools.allure:allure-testng-adaptor:${allureVersion}"
+}
 
+test.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+test {
+    useTestNG()
 }

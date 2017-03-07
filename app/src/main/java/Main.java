@@ -1,10 +1,11 @@
-import actions.DroidActionModule;
-import actions.IPhoneActionModule;
+import actions.modules.DroidActionModule;
+import actions.modules.IPhoneActionModule;
 import tests.CalculateTests;
 
 public class Main {
 
     public static void main(String... args) {
+    	if (args.length == 0) return;
         MainComponent component = create(args[0]);
 
         CalculateTests tests = new CalculateTests(component.calculateSteps());
@@ -13,8 +14,10 @@ public class Main {
 
     private static MainComponent create(String arg) {
         return DaggerMainComponent.builder()
-                .daggerActionModule(
-                        new ActionModuleWrapper(arg.equals("ios") ? new IPhoneActionModule() : new DroidActionModule()))
+		        .actionModuleWrapper(
+                        new ActionModuleWrapper(arg.equals("ios")
+                                ? new IPhoneActionModule()
+                                : new DroidActionModule()))
                 .build();
     }
 

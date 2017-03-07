@@ -1,4 +1,7 @@
-package actions;
+package actions.modules;
+
+import actions.CalculateActions;
+import actions.IPhoneCalculateActions;
 
 public class IPhoneActionModule implements ActionModule {
 

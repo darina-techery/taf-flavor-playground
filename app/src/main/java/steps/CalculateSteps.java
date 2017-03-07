@@ -1,6 +1,7 @@
 package steps;
 
 import actions.CalculateActions;
+import ru.yandex.qatools.allure.annotations.Step;
 
 public final class CalculateSteps {
 
@@ -10,6 +11,7 @@ public final class CalculateSteps {
         this.calculateActions = calculateActions;
     }
 
+    @Step
     public int calculateTwoPlusThree(){
         return calculateActions.twoPlusThree();
     }

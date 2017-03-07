@@ -1,4 +1,4 @@
-import actions.ActionModule;
+import actions.modules.ActionModule;
 import actions.CalculateActions;
 import dagger.Module;
 import dagger.Provides;

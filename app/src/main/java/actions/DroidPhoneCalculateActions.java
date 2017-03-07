@@ -1,6 +1,6 @@
 package actions;
 
-final class DroidPhoneCalculateActions extends CalculateActions {
+public final class DroidPhoneCalculateActions extends CalculateActions {
 
     @Override
     public int twoAndTwo() {
@@ -10,7 +10,7 @@ final class DroidPhoneCalculateActions extends CalculateActions {
 
     @Override
     public int twoPlusThree() {
-        System.out.println("DroidPhoneCalculateActions");
+        System.out.println("Two plus three (droid phone)");
         return super.twoPlusThree();
     }
 }
