@@ -19,7 +19,6 @@ public final class CalculateTests extends BaseTest {
         int actualResult = calculateSteps.calculateTwoAndTwo();
         int expectedResult = 4;
 	    Assert.assertThat("Check 2 and 2 result: ", actualResult, is(expectedResult));
-//        Assert.check(actualResult == expectedResult, "2 and 2 should be "+expectedResult+", but was "+actualResult);
     }
 
 
