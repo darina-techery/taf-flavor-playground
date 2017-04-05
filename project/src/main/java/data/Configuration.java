@@ -12,17 +12,22 @@ public class Configuration {
 	public final boolean isCIRun;
 
 	public Configuration(){
-		platformName = readPlatformName();
-		device = "51B46B7C-8415-4517-9B04-21A2045B20A5";
+//		platformName = readPlatformName();
+
+//		platformName = Platform.ANDROID_PHONE;
 //		device = "emulator-5554";
+
+		platformName = Platform.IPHONE;
+		device = "51B46B7C-8415-4517-9B04-21A2045B20A5";
+
 		appPath = getAbsolutePathToApp();
 		apiURL = "http://dtapp-qa.worldventures.biz";
 		isCIRun = false;
 	}
 
 	private Platform readPlatformName(){
-		return Platform.IPHONE;
-//		return Platform.ANDROID_PHONE;
+//		return Platform.IPHONE;
+		return Platform.ANDROID_PHONE;
 	}
 
 	public boolean isAndroidPhone() {

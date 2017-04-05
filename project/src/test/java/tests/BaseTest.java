@@ -1,21 +1,28 @@
 package tests;
 
-import actions.BaseActions;
 import actions.definitions.ActionDefinitions;
 import actions.definitions.DroidActionDefinitions;
 import actions.definitions.IPhoneActionDefinitions;
 import dagger.*;
 import data.Configuration;
+import driver.DriverListener;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import org.apache.logging.log4j.Logger;
+import utils.LogProvider;
 
-abstract class BaseTest {
+abstract class BaseTest implements LogProvider, DriverListener {
 
     private StepsComponent stepsComponent;
 
     private Configuration configuration;
 
+    protected Logger log = getLogger();
+
     BaseTest(){
     	initConfiguration();
     	initStepsComponent();
+    	subscribeToDriverUpdates();
     }
 
 	StepsComponent getStepsComponent() {
@@ -52,4 +59,8 @@ abstract class BaseTest {
 			    .build();
     }
 
+	@Override
+	public void receiveDriverUpdate(AppiumDriver<MobileElement> driver) {
+		initStepsComponent();
+	}
 }

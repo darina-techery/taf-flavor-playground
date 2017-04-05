@@ -1,14 +1,19 @@
 package utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public final class CMDUtils {
+
+	private static final Logger log = LogManager.getLogger(CMDUtils.class);
 	private CMDUtils(){}
 
 	public static String executeCommand(String command) {
-		System.out.println("Execute >> "+command+"");
+		log.info("Execute >> "+command+"");
 		String[] cmd = {"/bin/sh", "-c", command};
 		Runtime run = Runtime.getRuntime();
 		Process pr;

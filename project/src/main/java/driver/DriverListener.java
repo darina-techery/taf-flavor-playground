@@ -5,5 +5,7 @@ import io.appium.java_client.MobileElement;
 
 public interface DriverListener {
 	void receiveDriverUpdate(AppiumDriver<MobileElement> driver);
-	void subscribeToDriverUpdates();
+	default void subscribeToDriverUpdates() {
+		DriverProvider.addDriverListener(this);
+	}
 }

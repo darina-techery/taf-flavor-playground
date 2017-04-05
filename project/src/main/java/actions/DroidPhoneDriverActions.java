@@ -29,7 +29,6 @@ public class DroidPhoneDriverActions extends DriverActions {
 
 	@Override
 	public void reInitDriver() {
-//		System.out.println("Reinit default Android driver");
 		DesiredCapabilities capabilities = new DroidPhoneCapabilities().getCapabilities();
 		reInitDriver(capabilities);
 	}

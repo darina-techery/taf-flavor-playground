@@ -11,8 +11,10 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import utils.LogProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,7 +23,9 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-public class DriverProvider {
+public class DriverProvider implements LogProvider {
+
+	private final Logger log = getLogger();
 
 	@Inject
 	Configuration configuration;
@@ -33,13 +37,11 @@ public class DriverProvider {
 		DaggerConfigurationComponent
 				.create()
 				.inject(this);
-		System.out.println(this.toString());
 		this.provider = new AppiumServiceProvider(configuration);
 	}
 
 	private AppiumDriver<MobileElement> getDriver() {
 		if (driver == null) {
-			System.out.println("Init a driver");
 			//No specific Capabilities required at first start
 			driver = buildDriver(null);
 		}
@@ -47,9 +49,9 @@ public class DriverProvider {
 	}
 
 	private AppiumDriver<MobileElement> buildDriver(@Nullable DesiredCapabilities capabilities) {
+		log.debug("Initializing driver: [START]");
 		AppiumDriver<MobileElement> driver;
 		final AppiumDriverLocalService service = provider.getService();
-		System.out.println("Service: " + service);
 		switch (configuration.platformName) {
 			case ANDROID_PHONE:
 				DesiredCapabilities desiredCapabilities = capabilities == null ?
@@ -67,17 +69,18 @@ public class DriverProvider {
 				throw new RuntimeException("No driver properties specified for " + configuration.platformName);
 		}
 		driver.manage().timeouts().implicitlyWait(BaseCapabilities.DEFAULT_TIME_OUT_IN_SECONDS, TimeUnit.SECONDS);
-		System.out.println("Created driver instance: "+ driver.toString());
+		log.debug("Initializing driver: [ END ]");
 		return driver;
 	}
 
 	private void sendDriverRestartNotification(){
+		log.debug("Notify all listeners about new driver: [START]");
 		driverListeners.forEach(driverListener -> driverListener.receiveDriverUpdate(driver));
+		log.debug("Notify all listeners about new driver: [ END ]");
 	}
 
 	public static AppiumDriver<MobileElement> get(){
 		AppiumDriver<MobileElement> driver = DriverHolder.PROVIDER_INSTANCE.getDriver();
-		System.out.println("Requested driver instance: " + driver.toString());
 		return driver;
 	}
 
@@ -88,18 +91,14 @@ public class DriverProvider {
 	public static void restart(DesiredCapabilities capabilities) {
 		AppiumDriver<MobileElement> newDriver = DriverHolder.PROVIDER_INSTANCE.buildDriver(capabilities);
 		DriverHolder.setDriver(newDriver);
-
 	}
 
 	private static class DriverHolder {
 		private static final DriverProvider PROVIDER_INSTANCE = new DriverProvider();
-//		private static final AppiumDriver<MobileElement> DRIVER_INSTANCE = PROVIDER_INSTANCE.getDriver();
 
 		private static void setDriver(AppiumDriver<MobileElement> driver){
 			PROVIDER_INSTANCE.driver = driver;
 			PROVIDER_INSTANCE.sendDriverRestartNotification();
-//			DRIVER_INSTANCE = driver;
-			System.out.println("Driver instance updated: " + driver.toString());
 		}
 	}
 }

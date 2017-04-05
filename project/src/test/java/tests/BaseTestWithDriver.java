@@ -13,7 +13,7 @@ abstract class BaseTestWithDriver extends BaseTest {
 
 	@BeforeMethod
 	public void resetAndroidApp() {
-		System.out.println("BeforeTest started");
+		log.debug("BeforeTest [START]");
 		if (isFirstTest) {
 			isFirstTest = false;
 		} else {
@@ -21,15 +21,15 @@ abstract class BaseTestWithDriver extends BaseTest {
 				driverSteps.resetApplication();
 			}
 		}
-		System.out.println("BeforeTest completed");
+		log.debug("BeforeTest [ END ]");
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void resetIOSApp() {
 		if (getConfiguration().isIOS()) {
-			System.out.println("Reset iOS app in @AfterTest");
+			log.debug("Reset iOS app in @AfterTest [START]");
 			driverSteps.resetApplication();
-			System.out.println("Reset iOS app in @AfterTest: done");
+			log.debug("Reset iOS app in @AfterTest [ END ]");
 
 		}
 	}
