@@ -16,13 +16,6 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 
 	private final Logger log = getLogger();
 
-//	@BeforeClass
-//	void initSteps() {
-//		log.debug("Init steps component [START]");
-//		loginSteps = getStepsComponent().loginSteps();
-//		log.debug("Init steps component [ END ]");
-//	}
-
 	@Test(invocationCount = 5)
 	public void loginToApp() {
 		loginSteps.login("65663904", "65663904");

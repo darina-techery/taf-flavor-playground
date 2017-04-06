@@ -11,17 +11,11 @@ abstract class BaseTestWithDriver extends BaseTest {
 
 	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
-	private boolean isFirstTest = true;
-
 	@BeforeMethod
 	public void resetAndroidApp() {
 		log.debug("BeforeTest [START]");
-		if (isFirstTest) {
-			isFirstTest = false;
-		} else {
-			if (getConfiguration().isAndroid()) {
-				driverSteps.resetApplication();
-			}
+		if (getConfiguration().isAndroid()) {
+			driverSteps.resetApplication();
 		}
 		log.debug("BeforeTest [ END ]");
 	}
