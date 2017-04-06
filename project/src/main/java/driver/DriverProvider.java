@@ -14,6 +14,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import utils.DelayMeter;
 import utils.LogProvider;
 
 import javax.inject.Inject;
@@ -24,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class DriverProvider implements LogProvider {
+
+	public static final String INIT_PAGES_OPERATION = "Pages instantiation";
 
 	private final Logger log = getLogger();
 
@@ -40,7 +43,25 @@ public class DriverProvider implements LogProvider {
 		this.provider = new AppiumServiceProvider(configuration);
 	}
 
-	private AppiumDriver<MobileElement> getDriver() {
+	public static AppiumDriver<MobileElement> get(){
+		return DriverHolder.PROVIDER_INSTANCE.getActiveDriver();
+	}
+
+	public static void addDriverListener(DriverListener listener) {
+		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
+	}
+
+	public static void restart(DesiredCapabilities capabilities) {
+		AppiumDriver<MobileElement> newDriver = DriverHolder.PROVIDER_INSTANCE.buildDriver(capabilities);
+		DriverHolder.setDriver(newDriver);
+	}
+
+	public static void receiveTeardownNotification() {
+		//Existing listeners will not be used past teardown point
+		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
+	}
+
+	private AppiumDriver<MobileElement> getActiveDriver() {
 		if (driver == null) {
 			//No specific Capabilities required at first start
 			driver = buildDriver(null);
@@ -75,23 +96,13 @@ public class DriverProvider implements LogProvider {
 
 	private void sendDriverRestartNotification(){
 		log.debug("Notify all listeners about new driver: [START]");
+		DelayMeter.startMeter(INIT_PAGES_OPERATION);
 		driverListeners.forEach(driverListener -> driverListener.receiveDriverUpdate(driver));
 		log.debug("Notify all listeners about new driver: [ END ]");
+		DelayMeter.stopMeter(INIT_PAGES_OPERATION);
 	}
 
-	public static AppiumDriver<MobileElement> get(){
-		AppiumDriver<MobileElement> driver = DriverHolder.PROVIDER_INSTANCE.getDriver();
-		return driver;
-	}
 
-	public static void addDriverListener(DriverListener listener) {
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
-	}
-
-	public static void restart(DesiredCapabilities capabilities) {
-		AppiumDriver<MobileElement> newDriver = DriverHolder.PROVIDER_INSTANCE.buildDriver(capabilities);
-		DriverHolder.setDriver(newDriver);
-	}
 
 	private static class DriverHolder {
 		private static final DriverProvider PROVIDER_INSTANCE = new DriverProvider();

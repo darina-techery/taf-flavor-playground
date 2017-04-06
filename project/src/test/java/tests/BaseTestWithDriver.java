@@ -1,5 +1,7 @@
 package tests;
 
+import driver.DriverProvider;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -34,7 +36,12 @@ abstract class BaseTestWithDriver extends BaseTest {
 		}
 	}
 
-	@AfterSuite
+	@AfterClass(alwaysRun = true)
+	private void sendTeardownNotificationToDriver() {
+		DriverProvider.receiveTeardownNotification();
+	}
+
+	@AfterSuite(alwaysRun = true)
 	public void shutdownDriver(){
 		driverSteps.shutdownApplication();
 	}
