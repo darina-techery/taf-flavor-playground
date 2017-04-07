@@ -1,9 +1,9 @@
 package dagger;
 
-import actions.CalculateActions;
-import actions.DriverActions;
-import actions.LoginActions;
-import steps.CalculateSteps;
+import actions.BaseActivityFeedActions;
+import actions.BaseDriverActions;
+import actions.BaseLoginActions;
+import steps.ActivityFeedSteps;
 import steps.DriverSteps;
 import steps.LoginSteps;
 
@@ -11,16 +11,16 @@ import steps.LoginSteps;
 class StepsModule {
 
     @Provides
-    public CalculateSteps calculateSteps(CalculateActions calculateActions) {
-        return new CalculateSteps(calculateActions);
-    }
-
-    @Provides
-    public LoginSteps loginSteps(LoginActions loginActions) {
+    public LoginSteps loginSteps(BaseLoginActions loginActions) {
         return new LoginSteps(loginActions);
     }
 
     @Provides
-    public DriverSteps driverSteps(DriverActions driverActions) { return new DriverSteps(driverActions); }
+    public DriverSteps driverSteps(BaseDriverActions driverActions) { return new DriverSteps(driverActions); }
+
+    @Provides
+    public ActivityFeedSteps activityFeedSteps(BaseActivityFeedActions activityFeedActions) {
+    	return new ActivityFeedSteps(activityFeedActions);
+    }
 
 }

@@ -1,6 +1,6 @@
 package dagger;
 
-import steps.CalculateSteps;
+import steps.ActivityFeedSteps;
 import steps.DriverSteps;
 import steps.LoginSteps;
 
@@ -10,9 +10,9 @@ import steps.LoginSteps;
 })
 public interface StepsComponent {
 
-    CalculateSteps calculateSteps();
-
     LoginSteps loginSteps();
 
     DriverSteps driverSteps();
+
+    ActivityFeedSteps activityFeedSteps();
 }

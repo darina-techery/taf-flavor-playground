@@ -5,22 +5,18 @@ import actions.*;
 public class IPhoneActionDefinitions implements ActionDefinitions {
 
     @Override
-    public CalculateActions calculateActions() {
-        return new IPhoneCalculateActions();
-    }
-
-    @Override
-    public LoginActions loginActions() {
+    public BaseLoginActions loginActions() {
         return new IPhoneLoginActions();
     }
 
     @Override
-    public DriverActions driverActions() {
+    public BaseDriverActions driverActions() {
         return new IPhoneDriverActions();
     }
 
-//    @Override
-//    public DriverActions driverActions() {
-//        return new DriverActions();
-//    }
+    @Override
+    public BaseActivityFeedActions activityFeedActions() {
+        return new IPhoneActivityFeedActions();
+    }
+
 }

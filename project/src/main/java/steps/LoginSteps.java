@@ -1,12 +1,12 @@
 package steps;
 
-import actions.LoginActions;
+import actions.BaseLoginActions;
 import ru.yandex.qatools.allure.annotations.Step;
 
 public class LoginSteps {
-	private final LoginActions loginActions;
+	private final BaseLoginActions loginActions;
 
-	public LoginSteps(LoginActions loginActions) {
+	public LoginSteps(BaseLoginActions loginActions) {
 		this.loginActions = loginActions;
 	}
 

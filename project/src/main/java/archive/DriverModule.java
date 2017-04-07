@@ -1,11 +1,6 @@
-package driver;
+package archive;
 
 import dagger.Module;
-import dagger.Provides;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-
-import javax.inject.Singleton;
 
 @Module
 public class DriverModule {

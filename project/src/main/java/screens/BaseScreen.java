@@ -15,15 +15,9 @@ abstract class BaseScreen implements DriverListener, LogProvider {
 	protected final Logger log = getLogger();
 
 	BaseScreen() {
-		log.debug("Entered "+this.getClass().getSimpleName() + " constructor.");
         AppiumDriver<MobileElement> driver = DriverProvider.get();
         initPageElements(driver);
 		subscribeToDriverUpdates();
-	}
-
-	@Override
-	public void subscribeToDriverUpdates() {
-		DriverProvider.addDriverListener(this);
 	}
 
 	@Override

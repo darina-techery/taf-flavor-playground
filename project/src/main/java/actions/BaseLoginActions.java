@@ -2,10 +2,8 @@ package actions;
 
 import screens.LoginScreen;
 
-public abstract class LoginActions extends BaseScreenActions {
+public abstract class BaseLoginActions extends BaseScreenActions {
 
-//	@Page
-//	Screens<LoginScreen> loginPage = Screens.create(LoginScreen.class);
 	LoginScreen loginPage = new LoginScreen();
 
 	public void setLogin(String username) {

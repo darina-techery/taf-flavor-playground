@@ -1,15 +1,14 @@
 package steps;
 
-import actions.DriverActions;
-import data.Configuration;
+import actions.BaseDriverActions;
 import org.openqa.selenium.ScreenOrientation;
 import ru.yandex.qatools.allure.annotations.Step;
 
 public class DriverSteps {
 
-	private final DriverActions actions;
+	private final BaseDriverActions actions;
 
-	public DriverSteps(DriverActions actions) {
+	public DriverSteps(BaseDriverActions actions) {
 		this.actions = actions;
 	}
 

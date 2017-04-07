@@ -1,8 +1,8 @@
 package dagger;
 
-import actions.CalculateActions;
-import actions.DriverActions;
-import actions.LoginActions;
+import actions.BaseActivityFeedActions;
+import actions.BaseDriverActions;
+import actions.BaseLoginActions;
 import actions.definitions.ActionDefinitions;
 
 @Module
@@ -16,20 +16,20 @@ public class ActionsModule implements ActionDefinitions {
 
     @Override
     @Provides
-    public CalculateActions calculateActions() {
-        return actionDefinitions.calculateActions();
-    }
-
-    @Override
-    @Provides
-    public LoginActions loginActions() {
+    public BaseLoginActions loginActions() {
         return actionDefinitions.loginActions();
     }
 
     @Override
     @Provides
-    public DriverActions driverActions() {
+    public BaseDriverActions driverActions() {
         return actionDefinitions.driverActions();
+    }
+
+    @Override
+    @Provides
+    public BaseActivityFeedActions activityFeedActions() {
+        return actionDefinitions.activityFeedActions();
     }
 
 

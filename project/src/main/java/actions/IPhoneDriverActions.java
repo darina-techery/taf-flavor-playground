@@ -1,14 +1,12 @@
 package actions;
 
-import driver.capabilities.IPhoneCapabilities;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.CMDUtils;
 import utils.LogProvider;
 
-public class IPhoneDriverActions extends DriverActions implements LogProvider {
+public class IPhoneDriverActions extends BaseDriverActions implements LogProvider {
 
 	private final Logger log = getLogger();
 
@@ -34,9 +32,4 @@ public class IPhoneDriverActions extends DriverActions implements LogProvider {
 //		IsUserLoggedIn.setFalse();
 	}
 
-	@Override
-	public void reInitDriver() {
-		DesiredCapabilities defaultIphoneCapabilities = new IPhoneCapabilities().getCapabilities();
-		reInitDriver(defaultIphoneCapabilities);
-	}
 }

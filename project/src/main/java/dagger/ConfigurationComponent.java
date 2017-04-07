@@ -1,7 +1,5 @@
 package dagger;
 
-import actions.BaseActions;
-import actions.DriverActions;
 import actions.DroidPhoneDriverActions;
 import actions.IPhoneDriverActions;
 import data.Configuration;

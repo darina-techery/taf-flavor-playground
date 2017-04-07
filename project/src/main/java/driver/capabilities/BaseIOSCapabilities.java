@@ -6,7 +6,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public abstract class BaseIOSCapabilities extends BaseCapabilities {
 	@Override
-	DesiredCapabilities getCapabilities() {
+	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.APP, configuration.appPath);
 		capabilities.setCapability(MobileCapabilityType.UDID, getConfiguration().device);

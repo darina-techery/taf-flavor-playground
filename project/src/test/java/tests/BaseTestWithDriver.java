@@ -26,13 +26,12 @@ abstract class BaseTestWithDriver extends BaseTest {
 			log.debug("Reset iOS app in @AfterTest [START]");
 			driverSteps.resetApplication();
 			log.debug("Reset iOS app in @AfterTest [ END ]");
-
 		}
 	}
 
 	@AfterClass(alwaysRun = true)
 	private void sendTeardownNotificationToDriver() {
-		DriverProvider.receiveTeardownNotification();
+		DriverProvider.removeDriverListeners();
 	}
 
 	@AfterSuite(alwaysRun = true)

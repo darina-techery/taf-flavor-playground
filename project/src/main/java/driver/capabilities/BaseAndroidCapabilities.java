@@ -7,7 +7,7 @@ import java.time.Duration;
 
 public abstract class BaseAndroidCapabilities extends BaseCapabilities {
 	@Override
-	DesiredCapabilities getCapabilities() {
+	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android");

@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class IPhoneLoginActions extends LoginActions {
+public class IPhoneLoginActions extends BaseLoginActions {
 
 	private IPhoneDriverActions driverActions = new IPhoneDriverActions();
 

@@ -1,6 +1,5 @@
 package driver;
 
-import com.sun.istack.internal.Nullable;
 import dagger.DaggerConfigurationComponent;
 import data.Configuration;
 import driver.capabilities.BaseCapabilities;
@@ -16,7 +15,9 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.DelayMeter;
 import utils.LogProvider;
+import utils.exceptions.NotImplementedException;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashSet;
@@ -32,8 +33,8 @@ public class DriverProvider implements LogProvider {
 
 	@Inject
 	Configuration configuration;
-	final private AppiumServiceProvider provider;
 	private AppiumDriver<MobileElement> driver;
+	private final AppiumServiceProvider provider;
 	private final Set<DriverListener> driverListeners = new HashSet<>();
 
 	DriverProvider() {
@@ -47,8 +48,8 @@ public class DriverProvider implements LogProvider {
 		return DriverHolder.PROVIDER_INSTANCE.getActiveDriver();
 	}
 
-	public static void addDriverListener(DriverListener listener) {
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
+	public static void restart() {
+		restart(null);
 	}
 
 	public static void restart(DesiredCapabilities capabilities) {
@@ -56,7 +57,11 @@ public class DriverProvider implements LogProvider {
 		DriverHolder.setDriver(newDriver);
 	}
 
-	public static void receiveTeardownNotification() {
+	public static void addDriverListener(DriverListener listener) {
+		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
+	}
+
+	public static void removeDriverListeners() {
 		//Existing listeners will not be used past teardown point
 		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
 	}
@@ -73,25 +78,33 @@ public class DriverProvider implements LogProvider {
 		log.debug("Initializing driver: [START]");
 		AppiumDriver<MobileElement> driver;
 		final AppiumDriverLocalService service = provider.getService();
-		switch (configuration.platformName) {
-			case ANDROID_PHONE:
-				DesiredCapabilities desiredCapabilities = capabilities == null ?
-						new DroidPhoneCapabilities().getCapabilities() : capabilities;
-				driver = new AndroidDriver<>(service, desiredCapabilities);
-				driver.rotate(ScreenOrientation.PORTRAIT);
-				break;
-			case IPHONE:
-				desiredCapabilities = capabilities == null ?
-						new IPhoneCapabilities().getCapabilities() : capabilities;
-				driver = new IOSDriver<>(service, desiredCapabilities);
-				driver.rotate(ScreenOrientation.PORTRAIT);
-				break;
-			default:
-				throw new RuntimeException("No driver properties specified for " + configuration.platformName);
+		if (capabilities == null) {
+			capabilities = getDefaultCapabilities();
 		}
+		if (configuration.isAndroid()) {
+			driver = new AndroidDriver<>(service, capabilities);
+		} else {
+			driver = new IOSDriver<>(service, capabilities);
+		}
+		driver.rotate(ScreenOrientation.PORTRAIT);
 		driver.manage().timeouts().implicitlyWait(BaseCapabilities.DEFAULT_TIME_OUT_IN_SECONDS, TimeUnit.SECONDS);
 		log.debug("Initializing driver: [ END ]");
 		return driver;
+	}
+
+	private DesiredCapabilities getDefaultCapabilities() {
+		BaseCapabilities capabilities;
+		switch (configuration.platformName) {
+			case ANDROID_PHONE:
+				capabilities = new DroidPhoneCapabilities();
+				break;
+			case IPHONE:
+				capabilities = new IPhoneCapabilities();
+				break;
+			default:
+				throw new NotImplementedException("No default capabilities created for Tablets yet.");
+		}
+		return capabilities.getCapabilities();
 	}
 
 	private void sendDriverRestartNotification(){
@@ -101,8 +114,6 @@ public class DriverProvider implements LogProvider {
 		log.debug("Notify all listeners about new driver: [ END ]");
 		DelayMeter.stopMeter(INIT_PAGES_OPERATION);
 	}
-
-
 
 	private static class DriverHolder {
 		private static final DriverProvider PROVIDER_INSTANCE = new DriverProvider();

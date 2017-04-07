@@ -61,6 +61,10 @@ public class Configuration {
 	private String getAbsolutePathToApp(){
 		String applicationFileName = isIOS() ? "DreamTrip.app" : "DreamTrips.apk";
 		File fullPath = new File("./apps", applicationFileName);
+		if (!fullPath.exists()) {
+			throw new RuntimeException(String.format(
+					"Application under test was not found at [%s].", fullPath));
+		}
 		return fullPath.getAbsolutePath();
 	}
 

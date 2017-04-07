@@ -1,14 +1,15 @@
 package actions.definitions;
 
-import actions.CalculateActions;
-import actions.DriverActions;
-import actions.LoginActions;
+import actions.BaseActivityFeedActions;
+import actions.BaseDriverActions;
+import actions.BaseLoginActions;
 
 public interface ActionDefinitions {
 
-    CalculateActions calculateActions();
+    BaseLoginActions loginActions();
 
-    LoginActions loginActions();
+    BaseDriverActions driverActions();
 
-    DriverActions driverActions();
+    BaseActivityFeedActions activityFeedActions();
+
 }

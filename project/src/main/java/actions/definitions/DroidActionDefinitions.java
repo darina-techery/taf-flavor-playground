@@ -5,22 +5,18 @@ import actions.*;
 public class DroidActionDefinitions implements ActionDefinitions {
 
     @Override
-    public CalculateActions calculateActions() {
-        return new DroidPhoneCalculateActions();
-    }
-
-    @Override
-    public LoginActions loginActions() {
+    public BaseLoginActions loginActions() {
         return new DroidPhoneLoginActions();
     }
 
     @Override
-    public DriverActions driverActions() {
+    public BaseDriverActions driverActions() {
         return new DroidPhoneDriverActions();
     }
 
-//    @Override
-//    public DriverActions driverActions() {
-//        return new DriverActions();
-//    }
+	@Override
+	public BaseActivityFeedActions activityFeedActions() {
+		return new DroidActivityFeedActions();
+	}
+
 }

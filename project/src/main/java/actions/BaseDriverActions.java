@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class DriverActions extends BaseActions {
+public abstract class BaseDriverActions extends BaseActions {
 
 	public void rotateScreen(ScreenOrientation orientation) {
 		getDriver().rotate(orientation);
@@ -50,7 +50,9 @@ public abstract class DriverActions extends BaseActions {
 
 	public abstract void resetApplication();
 
-	public abstract void reInitDriver();
+	public void reInitDriver() {
+		DriverProvider.restart();
+	}
 
 	public void reInitDriver(DesiredCapabilities capabilities) {
 		DriverProvider.restart(capabilities);

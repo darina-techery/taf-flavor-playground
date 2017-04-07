@@ -1,17 +1,15 @@
 package actions;
 
 import data.Configuration;
-import driver.capabilities.DroidPhoneCapabilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import javax.inject.Inject;
 
-public class DroidPhoneDriverActions extends DriverActions {
+public class DroidPhoneDriverActions extends BaseDriverActions {
 
 	@Inject
 	Configuration configuration;
@@ -25,12 +23,6 @@ public class DroidPhoneDriverActions extends DriverActions {
 	public void resetApplication() {
 		getDriver().resetApp();
 		setDefaultScreenOrientation();
-	}
-
-	@Override
-	public void reInitDriver() {
-		DesiredCapabilities capabilities = new DroidPhoneCapabilities().getCapabilities();
-		reInitDriver(capabilities);
 	}
 
 	private void setDefaultScreenOrientation() {

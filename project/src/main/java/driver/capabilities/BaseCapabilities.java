@@ -22,5 +22,5 @@ public abstract class BaseCapabilities {
 		return configuration;
 	}
 
-	abstract DesiredCapabilities getCapabilities();
+	public abstract DesiredCapabilities getCapabilities();
 }

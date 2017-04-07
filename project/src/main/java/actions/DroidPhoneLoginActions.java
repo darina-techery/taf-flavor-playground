@@ -1,8 +1,8 @@
 package actions;
 
-public class DroidPhoneLoginActions extends LoginActions {
+public class DroidPhoneLoginActions extends BaseLoginActions {
 
-	DriverActions driverActions = new DroidPhoneDriverActions();
+	BaseDriverActions driverActions = new DroidPhoneDriverActions();
 
 	@Override
 	public void setLogin(String username) {
