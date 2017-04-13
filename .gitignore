@@ -1,1 +1,7 @@
 .idea
+.gradle
+build
+project/build
+project/apps
+project/target
+classes
