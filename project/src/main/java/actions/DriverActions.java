@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class BaseDriverActions extends BaseActions {
+public abstract class DriverActions extends BaseActions {
 
 	public void rotateScreen(ScreenOrientation orientation) {
 		getDriver().rotate(orientation);

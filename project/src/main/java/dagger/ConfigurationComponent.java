@@ -1,6 +1,6 @@
 package dagger;
 
-import actions.DroidPhoneDriverActions;
+import actions.DroidDriverActions;
 import actions.IPhoneDriverActions;
 import data.Configuration;
 import driver.DriverProvider;
@@ -16,7 +16,7 @@ public interface ConfigurationComponent {
 
 	void inject (DriverProvider provider);
 
-	void inject(DroidPhoneDriverActions driverActions);
+	void inject(DroidDriverActions driverActions);
 
 	void inject(IPhoneDriverActions driverActions);
 }

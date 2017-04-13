@@ -18,7 +18,8 @@ configurations {
 }
 
 dependencies {
-
+    // generate Steps - Actions structure using custom lib
+    apt files('libs/annotation-processing-1.0.jar')
     // dagger dependencies
     compile "com.google.dagger:dagger:${daggerVersion}"
     apt "com.google.dagger:dagger-compiler:${daggerVersion}"

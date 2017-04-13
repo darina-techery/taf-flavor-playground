@@ -1,4 +1,4 @@
 package actions;
 
-public class DroidActivityFeedActions extends BaseActivityFeedActions {
+public class DroidActivityFeedActions extends ActivityFeedActions {
 }

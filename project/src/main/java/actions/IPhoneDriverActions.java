@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import utils.CMDUtils;
 import utils.LogProvider;
 
-public class IPhoneDriverActions extends BaseDriverActions implements LogProvider {
+public class IPhoneDriverActions extends DriverActions implements LogProvider {
 
 	private final Logger log = getLogger();
 

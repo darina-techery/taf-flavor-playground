@@ -9,7 +9,7 @@ import org.openqa.selenium.ScreenOrientation;
 
 import javax.inject.Inject;
 
-public class DroidPhoneDriverActions extends BaseDriverActions {
+public class DroidDriverActions extends DriverActions {
 
 	@Inject
 	Configuration configuration;

@@ -1,8 +1,8 @@
 package tests;
 
-import actions.definitions.ActionDefinitions;
-import actions.definitions.DroidActionDefinitions;
-import actions.definitions.IPhoneActionDefinitions;
+import actions.definitions.ActionsDefinition;
+import actions.definitions.DroidActionsDefinition;
+import actions.definitions.IPhoneActionsDefinition;
 import dagger.*;
 import data.Configuration;
 import driver.DriverListener;
@@ -40,13 +40,13 @@ abstract class BaseTest implements LogProvider, DriverListener {
     }
 
     private void initStepsComponent(){
-    	ActionDefinitions actionDefinitions;
+    	ActionsDefinition actionDefinitions;
     	switch (configuration.platformName) {
 		    case ANDROID_PHONE:
-		    	actionDefinitions = new DroidActionDefinitions();
+		    	actionDefinitions = new DroidActionsDefinition();
 		    	break;
 		    case IPHONE:
-		    	actionDefinitions = new IPhoneActionDefinitions();
+		    	actionDefinitions = new IPhoneActionsDefinition();
 		    	break;
 		    case ANDROID_TABLET:
 		    case IPAD:

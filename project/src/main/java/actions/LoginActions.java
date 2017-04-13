@@ -2,7 +2,7 @@ package actions;
 
 import screens.LoginScreen;
 
-public abstract class BaseLoginActions extends BaseScreenActions {
+public abstract class LoginActions extends BaseScreenActions {
 
 	LoginScreen loginPage = new LoginScreen();
 

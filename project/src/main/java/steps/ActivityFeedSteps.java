@@ -1,12 +1,14 @@
 package steps;
 
-import actions.BaseActivityFeedActions;
+import actions.ActivityFeedActions;
+import utils.annotations.UseActions;
 
 public class ActivityFeedSteps {
 
-	private final BaseActivityFeedActions activityFeedActions;
+	private final ActivityFeedActions activityFeedActions;
 
-	public ActivityFeedSteps(BaseActivityFeedActions activityFeedActions) {
+	@UseActions
+	public ActivityFeedSteps(ActivityFeedActions activityFeedActions) {
 		this.activityFeedActions = activityFeedActions;
 	}
 }

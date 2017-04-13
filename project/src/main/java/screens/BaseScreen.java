@@ -12,7 +12,7 @@ import utils.LogProvider;
 
 abstract class BaseScreen implements DriverListener, LogProvider {
 
-	protected final Logger log = getLogger();
+	private final Logger log = getLogger();
 
 	BaseScreen() {
         AppiumDriver<MobileElement> driver = DriverProvider.get();

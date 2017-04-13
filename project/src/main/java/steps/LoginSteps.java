@@ -1,13 +1,18 @@
 package steps;
 
-import actions.BaseLoginActions;
+import actions.ActivityFeedActions;
+import actions.LoginActions;
 import ru.yandex.qatools.allure.annotations.Step;
+import utils.annotations.UseActions;
 
 public class LoginSteps {
-	private final BaseLoginActions loginActions;
+	private final LoginActions loginActions;
+	private final ActivityFeedActions activityFeedActions;
 
-	public LoginSteps(BaseLoginActions loginActions) {
+	@UseActions
+	public LoginSteps(LoginActions loginActions, ActivityFeedActions activityFeedActions) {
 		this.loginActions = loginActions;
+		this.activityFeedActions = activityFeedActions;
 	}
 
 	@Step("Login to application with provided credentials")
