@@ -1,0 +1,53 @@
+apply plugin: 'net.ltgt.apt' // plugin for generation java code
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://plugins.gradle.org/m2' }
+}
+
+sourceSets {
+
+    main {
+        java.srcDir "${project.buildDir}/generated/source/apt/${sourceSet.name}"
+    }
+}
+
+configurations {
+    agent
+}
+
+dependencies {
+    // generate Steps - Actions structure using custom lib
+    apt files('libs/annotation-processing-1.0.jar')
+    // dagger dependencies
+    compile "com.google.dagger:dagger:${daggerVersion}"
+    apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    agent "org.aspectj:aspectjweaver:${aspectjVersion}"
+    compile "ru.yandex.qatools.allure:allure-testng-adaptor:${allureVersion}"
+    compile "io.appium:java-client:4.1.2"
+    compile "ru.yandex.qatools.ashot:ashot:1.5.2"
+    compile "cglib:cglib:3.2.5"
+    testCompile "org.hamcrest:java-hamcrest:2.0.0.0"
+    testCompile 'org.testng:testng:6.1.1'
+    testCompile "ru.yandex.qatools.allure:allure-testng-adaptor:${allureVersion}"
+
+    //Fixtures (test data in JSON format)
+    compile 'ie.corballis:json-fixtures-lib:1.0.4'
+    //Logging framework
+    compile 'org.apache.logging.log4j:log4j-api:2.8.1'
+    compile 'org.apache.logging.log4j:log4j-core:2.8.1'
+    //Nullable annotation and static code analysis
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    //Additional language tools from Apache
+    compile 'org.apache.commons:commons-lang3:3.5'
+
+}
+
+test.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
+
+test {
+    useTestNG()
+}
