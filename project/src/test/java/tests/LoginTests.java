@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import steps.ActivityFeedSteps;
 import steps.LoginSteps;
 import utils.DelayMeter;
-import utils.LogProvider;
+import utils.log.LogProvider;
 
 import java.util.concurrent.TimeUnit;
 

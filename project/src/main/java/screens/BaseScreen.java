@@ -8,13 +8,13 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import utils.LogProvider;
+import utils.log.LogProvider;
 
-abstract class BaseScreen implements DriverListener, LogProvider {
+public abstract class BaseScreen implements DriverListener, LogProvider {
 
 	private final Logger log = getLogger();
 
-	BaseScreen() {
+	public BaseScreen() {
         AppiumDriver<MobileElement> driver = DriverProvider.get();
         initPageElements(driver);
 		subscribeToDriverUpdates();

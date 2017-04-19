@@ -7,7 +7,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import steps.DriverSteps;
 
-abstract class BaseTestWithDriver extends BaseTest {
+public abstract class BaseTestWithDriver extends BaseTest {
 
 	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 

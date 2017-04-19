@@ -1,6 +1,7 @@
 package actions;
 
 import driver.DriverProvider;
+import driver.HasDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
@@ -8,7 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class DriverActions extends BaseActions {
+public abstract class DriverActions implements HasDriver {
 
 	public void rotateScreen(ScreenOrientation orientation) {
 		getDriver().rotate(orientation);

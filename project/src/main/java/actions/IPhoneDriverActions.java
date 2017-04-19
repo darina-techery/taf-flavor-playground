@@ -4,7 +4,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import utils.CMDUtils;
-import utils.LogProvider;
+import utils.log.LogProvider;
 
 public class IPhoneDriverActions extends DriverActions implements LogProvider {
 

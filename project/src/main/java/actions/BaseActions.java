@@ -1,15 +1,12 @@
 package actions;
 
-import driver.DriverProvider;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
+import driver.HasDriver;
+import utils.exceptions.NotImplementedException;
 
-public abstract class BaseActions {
+public abstract class BaseActions implements HasDriver {
 
-	protected AppiumDriver<MobileElement> getDriver(){
-		return DriverProvider.get();
+	public void waitForScreen() {
+		throw new NotImplementedException();
 	}
-
-
 
 }

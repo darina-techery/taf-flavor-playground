@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.DelayMeter;
-import utils.LogProvider;
+import utils.log.LogProvider;
 import utils.exceptions.NotImplementedException;
 
 import javax.annotation.Nullable;
@@ -36,12 +36,14 @@ public class DriverProvider implements LogProvider {
 	private AppiumDriver<MobileElement> driver;
 	private final AppiumServiceProvider provider;
 	private final Set<DriverListener> driverListeners = new HashSet<>();
+	private final Boolean isAndroid;
 
 	DriverProvider() {
 		DaggerConfigurationComponent
 				.create()
 				.inject(this);
 		this.provider = new AppiumServiceProvider(configuration);
+		this.isAndroid = configuration.isAndroid();
 	}
 
 	public static AppiumDriver<MobileElement> get(){
@@ -64,6 +66,10 @@ public class DriverProvider implements LogProvider {
 	public static void removeDriverListeners() {
 		//Existing listeners will not be used past teardown point
 		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
+	}
+
+	public static boolean isAndroid() {
+		return DriverHolder.PROVIDER_INSTANCE.isAndroid;
 	}
 
 	private AppiumDriver<MobileElement> getActiveDriver() {
