@@ -24,7 +24,7 @@ public final class CMDUtils {
 			response = buf.readLine();
 		}
 		catch (IOException e) {
-			throw new RuntimeException("Failed to calculate command ["+command+"] and read response.", e);
+			throw new RuntimeException("Failed to execute command ["+command+"] and read response.", e);
 		}
 		return response == null ? "" : response;
 	}
