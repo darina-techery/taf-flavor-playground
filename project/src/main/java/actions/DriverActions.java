@@ -1,5 +1,6 @@
 package actions;
 
+import com.google.common.base.Preconditions;
 import driver.DriverProvider;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
@@ -8,6 +9,9 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 public abstract class DriverActions implements HasDriver {
 
@@ -50,6 +54,27 @@ public abstract class DriverActions implements HasDriver {
 	public abstract void declineAlert(By by);
 
 	public abstract void resetApplication();
+
+	public Map<String, String> extractAppStrings(@Nonnull String locale) {
+		Preconditions.checkNotNull(locale);
+		String lang = getLanguage(locale);
+		return getDriver().getAppStringMap(lang);
+	}
+
+	protected String getLanguage(String locale) {
+		String lang = "";
+		switch (locale) {
+			case "zh-sg":
+				lang = isAndroid() ? "zh-rCN" : "zh-Hans";
+				break;
+			case "zh-hk":
+				lang = isAndroid() ? "zh-rHK" : "zh-Hant";
+				break;
+			default:
+				lang = locale;
+		}
+		return lang;
+	}
 
 	public void reInitDriver() {
 		DriverProvider.restart();

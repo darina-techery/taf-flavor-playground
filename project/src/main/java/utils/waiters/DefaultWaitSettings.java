@@ -1,5 +1,11 @@
 package utils.waiters;
 
+import driver.DriverProvider;
+import io.appium.java_client.MobileElement;
+import org.apache.logging.log4j.LogManager;
+
+import java.util.function.Consumer;
+
 class DefaultWaitSettings {
 	static void describeIsDisplayed(BaseWait wait) {
 		wait.describe("check if element is displayed");
@@ -44,6 +50,19 @@ class DefaultWaitSettings {
 
 	static void untilTrue(BaseWait<?, Boolean> wait) {
 		wait.until(result -> result);
+	}
+
+	static Consumer<MobileElement> buildTypeTextOperation(CharSequence text) {
+		return el -> {
+			el.click();
+			el.clear();
+			el.sendKeys(text);
+			try {
+				DriverProvider.get().hideKeyboard();
+			} catch (Exception e) {
+				LogManager.getLogger().warn("Failed to hide keyboard: ", e);
+			}
+		};
 	}
 
 }

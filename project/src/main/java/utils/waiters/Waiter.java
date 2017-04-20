@@ -1,6 +1,8 @@
 package utils.waiters;
 
+import driver.HasDriver;
 import io.appium.java_client.MobileElement;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -10,7 +12,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public interface Waiter extends CommonLogMessages{
+public interface Waiter extends CommonLogMessages, HasDriver {
 
 	default <R> ElementWait<R> wait(MobileElement e, Class<R> resultType) {
 		ElementWait<R> wait = new ElementWait<R>();
@@ -77,7 +79,7 @@ public interface Waiter extends CommonLogMessages{
 	}
 
 	default boolean anyContainsTextForElements(List<MobileElement> list, String text) {
-		AnyWait<Void, Boolean> wait = new AnyWait<>();
+		ElementWait<Boolean> wait = new ElementWait<>();
 		wait.calculate(() -> {
 			for (MobileElement el: list) {
 				if (el.getText().contains(text)) {
@@ -146,11 +148,7 @@ public interface Waiter extends CommonLogMessages{
 		ElementWait<Void> wait = wait(e, Void.class);
 		DefaultWaitSettings.describeSetText(wait, text);
 		wait.when(el -> el.isDisplayed() && el.isEnabled());
-		wait.execute(el -> {
-			el.click();
-			el.clear();
-			el.sendKeys(text);
-		});
+		wait.execute(DefaultWaitSettings.buildTypeTextOperation(text));
 		wait.go();
 	}
 
@@ -162,11 +160,7 @@ public interface Waiter extends CommonLogMessages{
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		DefaultWaitSettings.describeSetText(wait, text);
-		wait.findAndExecute(el -> {
-			el.click();
-			el.clear();
-			el.sendKeys(text);
-		});
+		wait.findAndExecute(DefaultWaitSettings.buildTypeTextOperation(text));
 		wait.go();
 	}
 
@@ -227,6 +221,11 @@ public interface Waiter extends CommonLogMessages{
 		ElementWait<Void> wait = wait(e, Void.class);
 		DefaultWaitSettings.describeClear(wait);
 		wait.execute(RemoteWebElement::clear).go();
+		try {
+			getDriver().hideKeyboard();
+		} catch (Exception ex) {
+			LogManager.getLogger().warn("Failed to hide keyboard: ", ex);
+		}
 	}
 
 	default boolean exists(MobileElement e, WaitConfig config) {

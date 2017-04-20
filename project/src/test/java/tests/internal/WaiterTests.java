@@ -1,5 +1,6 @@
 package tests.internal;
 
+import data.AppStrings;
 import driver.DriverProvider;
 import io.appium.java_client.MobileElement;
 import org.junit.Assert;
@@ -37,6 +38,7 @@ public class WaiterTests extends BaseTest implements Waiter {
 		}
 		loginScreen = new LoginScreen();
 		uiTestScreen = new LoginScreenForWaiterTests();
+		driverSteps.readMainAppStrings(getConfiguration().locale);
 	}
 
 	@Test(enabled = true)
@@ -113,18 +115,18 @@ public class WaiterTests extends BaseTest implements Waiter {
 	@Test(enabled = true)
 	public void getAttributeForElement() {
 		clear(loginScreen.fldLogin);
-		click(loginScreen.fldPassword);
-		String hint = getAttribute(loginScreen.fldLogin, "value");
-		Assert.assertThat("'Value' attribute for login field contains a hint", hint, is("WV Member ID"));
+		String attributeName = getConfiguration().isAndroid() ? "text" : "value";
+		String hint = getAttribute(loginScreen.fldLogin, attributeName);
+		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
 
 	@Test(enabled = true)
 	public void getAttributeForLocator() {
 		clear(loginScreen.fldLogin);
-		click(loginScreen.fldPassword);
 		By loginFieldLocator = getLoginFieldLocator();
-		String hint = getAttribute(loginFieldLocator, "value");
-		Assert.assertThat("'Value' attribute for login field contains a hint", hint, is("WV Member ID"));
+		String attributeName = getConfiguration().isAndroid() ? "text" : "value";
+		String hint = getAttribute(loginFieldLocator, attributeName);
+		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
 
 	@Test(enabled = true)
