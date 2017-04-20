@@ -2,9 +2,9 @@ package actions;
 
 import screens.NavigationMenu;
 import utils.runner.Assert;
-import utils.waiters.Waiter;
+import static utils.waiters.Waiter.*;
 
-public class IPhoneNavigationActions extends NavigationActions implements Waiter {
+public class IPhoneNavigationActions extends NavigationActions{
 
 	NavigationMenu navigationMenu = new NavigationMenu();
 

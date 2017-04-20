@@ -2,11 +2,12 @@ package actions;
 
 import screens.LoginScreen;
 import utils.runner.Assert;
-import utils.waiters.Waiter;
 
 import java.util.Arrays;
 
-public abstract class LoginActions extends BaseActions implements Waiter {
+import static utils.waiters.Waiter.*;
+
+public abstract class LoginActions extends BaseActions {
 
 	LoginScreen loginPage = new LoginScreen();
 

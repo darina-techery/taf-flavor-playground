@@ -2,9 +2,8 @@ package actions;
 
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
-import utils.waiters.Waiter;
 
-public class IPhoneLoginActions extends LoginActions implements Waiter {
+public class IPhoneLoginActions extends LoginActions {
 
 	private IPhoneDriverActions driverActions = new IPhoneDriverActions();
 

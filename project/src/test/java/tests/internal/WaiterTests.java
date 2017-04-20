@@ -15,6 +15,7 @@ import screens.internal.LoginScreenForWaiterTests;
 import steps.DriverSteps;
 import tests.BaseTest;
 import utils.exceptions.FailedTestException;
+import utils.log.CommonLogMessages;
 import utils.waiters.ByWait;
 import utils.waiters.WaitConfig;
 import utils.waiters.Waiter;
@@ -25,8 +26,9 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
 import static screens.internal.LoginScreenForWaiterTests.*;
+import static utils.waiters.Waiter.*;
 
-public class WaiterTests extends BaseTest implements Waiter {
+public class WaiterTests extends BaseTest implements CommonLogMessages {
 	private final DriverSteps driverSteps = getStepsComponent().driverSteps();
 	private LoginScreen loginScreen;
 	private LoginScreenForWaiterTests uiTestScreen;
@@ -195,7 +197,7 @@ public class WaiterTests extends BaseTest implements Waiter {
 	@Test(enabled = true)
 	public void testWaitFailsWhenFailOnTimeout() {
 		boolean exceptionCaught = false;
-		ByWait<Void> wait = wait(INVALID_LOCATOR, Void.class);
+		ByWait<Void> wait = Waiter.wait(INVALID_LOCATOR, Void.class);
 		wait.findAndExecute(RemoteWebElement::click);
 		wait.config(WaitConfig.get().failOnTimeout(true));
 		try {
