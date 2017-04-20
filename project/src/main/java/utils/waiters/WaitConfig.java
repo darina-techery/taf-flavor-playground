@@ -8,10 +8,10 @@ public final class WaitConfig {
 	boolean failOnTimeout;
 	Duration duration;
 
-	private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 5;
-	//	private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 10;
-	private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 5;
-	//	private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 30;
+//	private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 5;
+		private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 10;
+//	private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 5;
+		private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 30;
 
 	private WaitConfig() {
 		duration = Duration.ofSeconds(DriverProvider.isAndroid()

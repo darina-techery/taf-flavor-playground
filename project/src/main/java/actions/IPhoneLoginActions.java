@@ -2,18 +2,11 @@ package actions;
 
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.waiters.Waiter;
 
-public class IPhoneLoginActions extends LoginActions {
+public class IPhoneLoginActions extends LoginActions implements Waiter {
 
 	private IPhoneDriverActions driverActions = new IPhoneDriverActions();
-
-	@Override
-	public void waitForScreen() {
-		new WebDriverWait(getDriver(), 30)
-				.until(ExpectedConditions.elementToBeClickable(loginPage.fldLogin));
-	}
 
 	@Override
 	public void loginToApp() {
