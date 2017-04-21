@@ -1,9 +1,12 @@
 package steps;
 
 import actions.DriverActions;
+import data.AppStrings;
 import org.openqa.selenium.ScreenOrientation;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
+
+import java.util.Map;
 
 public class DriverSteps {
 
@@ -34,5 +37,10 @@ public class DriverSteps {
 		actions.closeApp();
 	}
 
+	@Step("Read app strings")
+	public void readMainAppStrings(String locale) {
+		Map<String, String> appStrings = actions.extractAppStrings(locale);
+		AppStrings.add(appStrings, actions.isAndroid());
+	}
 
 }

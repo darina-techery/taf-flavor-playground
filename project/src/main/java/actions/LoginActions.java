@@ -1,29 +1,36 @@
 package actions;
 
 import screens.LoginScreen;
+import utils.runner.Assert;
 
-public abstract class LoginActions extends BaseScreenActions {
+import java.util.Arrays;
+
+import static utils.waiters.Waiter.*;
+
+public abstract class LoginActions extends BaseActions {
 
 	LoginScreen loginPage = new LoginScreen();
 
 	public void setLogin(String username) {
-		loginPage.fldLogin.click();
-		loginPage.fldLogin.clear();
-		loginPage.fldLogin.sendKeys(username);
+		setText(loginPage.fldLogin, username);
 	}
 
 	public void setPassword(String password) {
-		loginPage.fldPassword.click();
-		loginPage.fldPassword.clear();
-		loginPage.fldPassword.sendKeys(password);
+		setText(loginPage.fldPassword, password);
 	}
 
 	public void loginToApp(){
-		loginPage.btnLogin.click();
+		click(loginPage.btnLogin);
 	}
 
 	public String getCurrentLoginValue(){
-		return loginPage.fldLogin.getText();
+		return getText(loginPage.fldLogin);
+	}
+
+	@Override
+	public void waitForScreen() {
+		boolean areFieldsPresent = areAllDisplayedForElements(Arrays.asList(loginPage.fldLogin, loginPage.fldPassword));
+		Assert.assertThat("Login and password fields are present on the screen", areFieldsPresent);
 	}
 
 }

@@ -9,9 +9,9 @@ import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.apache.logging.log4j.Logger;
-import utils.LogProvider;
+import utils.log.LogProvider;
 
-abstract class BaseTest implements LogProvider, DriverListener {
+public abstract class BaseTest implements LogProvider, DriverListener {
 
     private StepsComponent stepsComponent;
 
@@ -19,17 +19,17 @@ abstract class BaseTest implements LogProvider, DriverListener {
 
     protected Logger log = getLogger();
 
-    BaseTest(){
+    public BaseTest(){
     	initConfiguration();
     	initStepsComponent();
     	subscribeToDriverUpdates();
     }
 
-	StepsComponent getStepsComponent() {
+	public StepsComponent getStepsComponent() {
 		return stepsComponent;
 	}
 
-	Configuration getConfiguration() {
+	public Configuration getConfiguration() {
     	return configuration;
 	}
 

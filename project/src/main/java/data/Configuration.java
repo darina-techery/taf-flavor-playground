@@ -10,6 +10,7 @@ public class Configuration {
 	public final String appPath;
 	public final String apiURL;
 	public final boolean isCIRun;
+	public final String locale;
 
 	public Configuration(){
 //		platformName = readPlatformName();
@@ -23,6 +24,8 @@ public class Configuration {
 		appPath = getAbsolutePathToApp();
 		apiURL = "http://dtapp-qa.worldventures.biz";
 		isCIRun = false;
+
+		locale = "en";
 	}
 
 	private Platform readPlatformName(){

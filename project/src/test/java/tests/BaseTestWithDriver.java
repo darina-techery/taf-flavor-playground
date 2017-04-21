@@ -1,31 +1,35 @@
 package tests;
 
 import driver.DriverProvider;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.*;
 import steps.DriverSteps;
 
-abstract class BaseTestWithDriver extends BaseTest {
+public abstract class BaseTestWithDriver extends BaseTest {
 
 	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
+	@BeforeSuite
+	public void resetApplicationToDefaultState(){
+		driverSteps.resetApplication();
+	}
+
+	@BeforeClass
+	public void extractAppStrings() {
+		String locale = getConfiguration().locale;
+		driverSteps.readMainAppStrings(locale);
+	}
+
 	@BeforeMethod
 	public void resetAndroidApp() {
-		log.debug("BeforeTest [START]");
 		if (getConfiguration().isAndroid()) {
 			driverSteps.resetApplication();
 		}
-		log.debug("BeforeTest [ END ]");
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void resetIOSApp() {
 		if (getConfiguration().isIOS()) {
-			log.debug("Reset iOS app in @AfterTest [START]");
 			driverSteps.resetApplication();
-			log.debug("Reset iOS app in @AfterTest [ END ]");
 		}
 	}
 

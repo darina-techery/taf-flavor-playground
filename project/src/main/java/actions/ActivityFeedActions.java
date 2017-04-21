@@ -1,4 +1,4 @@
 package actions;
 
-public abstract class ActivityFeedActions {
+public abstract class ActivityFeedActions extends BaseActions {
 }
