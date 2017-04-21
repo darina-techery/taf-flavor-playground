@@ -1,5 +1,6 @@
 package tests;
 
+import data.Configuration;
 import driver.DriverProvider;
 import org.testng.annotations.*;
 import steps.DriverSteps;
@@ -15,20 +16,20 @@ public abstract class BaseTestWithDriver extends BaseTest {
 
 	@BeforeClass
 	public void extractAppStrings() {
-		String locale = getConfiguration().locale;
+		String locale = Configuration.getParameters().locale;
 		driverSteps.readMainAppStrings(locale);
 	}
 
 	@BeforeMethod
 	public void resetAndroidApp() {
-		if (getConfiguration().isAndroid()) {
+		if (Configuration.isAndroid()) {
 			driverSteps.resetApplication();
 		}
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void resetIOSApp() {
-		if (getConfiguration().isIOS()) {
+		if (Configuration.isIOS()) {
 			driverSteps.resetApplication();
 		}
 	}

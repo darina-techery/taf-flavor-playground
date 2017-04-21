@@ -1,5 +1,6 @@
 package driver;
 
+import data.Configuration;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
@@ -9,6 +10,6 @@ public interface HasDriver {
 	}
 
 	default boolean isAndroid() {
-		return DriverProvider.isAndroid();
+		return Configuration.isAndroid();
 	}
 }

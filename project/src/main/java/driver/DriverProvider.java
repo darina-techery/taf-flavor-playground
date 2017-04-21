@@ -1,6 +1,5 @@
 package driver;
 
-import dagger.DaggerConfigurationComponent;
 import data.Configuration;
 import driver.capabilities.BaseCapabilities;
 import driver.capabilities.DroidPhoneCapabilities;
@@ -14,11 +13,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.DelayMeter;
-import utils.log.LogProvider;
 import utils.exceptions.NotImplementedException;
+import utils.log.LogProvider;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,20 +28,12 @@ public class DriverProvider implements LogProvider {
 	public static final String INIT_PAGES_OPERATION = "Pages instantiation";
 
 	private final Logger log = getLogger();
-
-	@Inject
-	Configuration configuration;
 	private AppiumDriver<MobileElement> driver;
 	private final AppiumServiceProvider provider;
 	private final Set<DriverListener> driverListeners = new HashSet<>();
-	private final Boolean isAndroid;
 
 	DriverProvider() {
-		DaggerConfigurationComponent
-				.create()
-				.inject(this);
-		this.provider = new AppiumServiceProvider(configuration);
-		this.isAndroid = configuration.isAndroid();
+		this.provider = new AppiumServiceProvider();
 	}
 
 	public static AppiumDriver<MobileElement> get(){
@@ -68,10 +58,6 @@ public class DriverProvider implements LogProvider {
 		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
 	}
 
-	public static boolean isAndroid() {
-		return DriverHolder.PROVIDER_INSTANCE.isAndroid;
-	}
-
 	private AppiumDriver<MobileElement> getActiveDriver() {
 		if (driver == null) {
 			//No specific Capabilities required at first start
@@ -87,7 +73,7 @@ public class DriverProvider implements LogProvider {
 		if (capabilities == null) {
 			capabilities = getDefaultCapabilities();
 		}
-		if (configuration.isAndroid()) {
+		if (Configuration.isAndroid()) {
 			driver = new AndroidDriver<>(service, capabilities);
 		} else {
 			driver = new IOSDriver<>(service, capabilities);
@@ -100,7 +86,7 @@ public class DriverProvider implements LogProvider {
 
 	private DesiredCapabilities getDefaultCapabilities() {
 		BaseCapabilities capabilities;
-		switch (configuration.platformName) {
+		switch (Configuration.getParameters().platform) {
 			case ANDROID_PHONE:
 				capabilities = new DroidPhoneCapabilities();
 				break;

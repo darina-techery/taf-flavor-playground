@@ -6,42 +6,37 @@ import actions.definitions.IPhoneActionsDefinition;
 import dagger.*;
 import data.Configuration;
 import driver.DriverListener;
+import ie.corballis.fixtures.annotation.FixtureAnnotations;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.apache.logging.log4j.Logger;
+import utils.exceptions.FailedConfigurationException;
 import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
 
     private StepsComponent stepsComponent;
 
-    private Configuration configuration;
-
-    protected Logger log = getLogger();
-
-    public BaseTest(){
-    	initConfiguration();
+    public BaseTest() {
+    	initFixtures();
     	initStepsComponent();
     	subscribeToDriverUpdates();
     }
 
-	public StepsComponent getStepsComponent() {
+	private void initFixtures() {
+		try {
+			FixtureAnnotations.initFixtures(this);
+		} catch (Exception e) {
+			throw new FailedConfigurationException(e, "Failed to read JSON fixtures with test data");
+		}
+	}
+
+	protected StepsComponent getStepsComponent() {
 		return stepsComponent;
 	}
 
-	public Configuration getConfiguration() {
-    	return configuration;
-	}
-
-    private void initConfiguration(){
-    	ConfigurationComponent component = DaggerConfigurationComponent
-			    .create();
-	    configuration = component.getConfiguration();
-    }
-
     private void initStepsComponent(){
     	ActionsDefinition actionDefinitions;
-    	switch (configuration.platformName) {
+    	switch (Configuration.getParameters().platform) {
 		    case ANDROID_PHONE:
 		    	actionDefinitions = new DroidActionsDefinition();
 		    	break;
@@ -51,7 +46,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 		    case ANDROID_TABLET:
 		    case IPAD:
 		    default:
-		    	throw new RuntimeException("No action definitions created for "+configuration.platformName);
+		    	throw new RuntimeException("No action definitions created for "+Configuration.getParameters().platform);
 	    }
 	    stepsComponent = DaggerStepsComponent.builder()
 			    .actionsModule(

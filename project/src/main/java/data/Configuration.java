@@ -1,80 +1,72 @@
 package data;
 
-import javax.inject.Singleton;
-import java.io.File;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import utils.exceptions.FailedConfigurationException;
 
-@Singleton
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 public class Configuration {
-	public final Platform platformName;
-	public final String device;
-	public final String appPath;
-	public final String apiURL;
-	public final boolean isCIRun;
-	public final String locale;
 
-	public Configuration(){
-//		platformName = readPlatformName();
+	public final RunParameters runParameters = new RunParameters();
 
-//		platformName = Platform.ANDROID_PHONE;
-//		device = "emulator-5554";
-
-		platformName = Platform.IPHONE;
-		device = "51B46B7C-8415-4517-9B04-21A2045B20A5";
-
-		appPath = getAbsolutePathToApp();
-		apiURL = "http://dtapp-qa.worldventures.biz";
-		isCIRun = false;
-
-		locale = "en";
+	private static class ConfigurationHolder {
+		private static final Configuration INSTANCE = new Configuration();
 	}
 
-	private Platform readPlatformName(){
-//		return Platform.IPHONE;
-		return Platform.ANDROID_PHONE;
+	private Configuration() {
+		RunParameters defaultParameters = readConfigFromFixture();
+		runParameters.readFromSysEnv();
+		runParameters.addMissingValues(defaultParameters);
 	}
 
-	public boolean isAndroidPhone() {
-		return platformName.equals(Platform.ANDROID_PHONE);
+	public static RunParameters getParameters() {
+		return ConfigurationHolder.INSTANCE.runParameters;
 	}
 
-	public boolean isAndroidTablet() {
-		return platformName.equals(Platform.ANDROID_TABLET);
+	private RunParameters readConfigFromFixture(){
+		GsonBuilder builder = new GsonBuilder();
+		builder.excludeFieldsWithoutExposeAnnotation();
+		Gson gson = builder.create();
+
+		try {
+			JsonReader reader = new JsonReader(new FileReader(
+					"src/test/resources/fixtures/default_config.fixtures.json"));
+			return gson.fromJson(reader, RunParameters.class);
+		} catch (FileNotFoundException e) {
+			throw new FailedConfigurationException(e, "Failed to locate config file");
+		}
+
 	}
 
-	public boolean isIPhone() {
-		return platformName.equals(Platform.IPHONE);
+	public static boolean isAndroidPhone() {
+		return getParameters().platform.equals(Platform.ANDROID_PHONE);
 	}
 
-	public boolean isIPad() {
-		return platformName.equals(Platform.IPAD);
+	public static boolean isAndroidTablet() {
+		return getParameters().platform.equals(Platform.ANDROID_TABLET);
 	}
 
-	public boolean isIOS() { return isIPad() || isIPhone();}
+	public static boolean isIPhone() {
+		return getParameters().platform.equals(Platform.IPHONE);
+	}
 
-	public boolean isAndroid() { return isAndroidPhone() || isAndroidTablet(); }
+	public static boolean isIPad() {
+		return getParameters().platform.equals(Platform.IPAD);
+	}
 
-	public boolean isPhone(){
+	public static boolean isIOS() { return isIPad() || isIPhone();}
+
+	public static boolean isAndroid() { return isAndroidPhone() || isAndroidTablet(); }
+
+	public static boolean isPhone(){
 		return isAndroidPhone() || isIPhone();
 	}
 
-	public boolean isTablet(){
+	public static boolean isTablet(){
 		return isAndroidTablet() || isIPad();
 	}
 
-	private String getAbsolutePathToApp(){
-		String applicationFileName = isIOS() ? "DreamTrip.app" : "DreamTrips.apk";
-		File fullPath = new File("./apps", applicationFileName);
-		if (!fullPath.exists()) {
-			throw new RuntimeException(String.format(
-					"Application under test was not found at [%s].", fullPath));
-		}
-		return fullPath.getAbsolutePath();
-	}
-
-	public enum Platform {
-		ANDROID_PHONE,
-		ANDROID_TABLET,
-		IPHONE,
-		IPAD
-	}
 }

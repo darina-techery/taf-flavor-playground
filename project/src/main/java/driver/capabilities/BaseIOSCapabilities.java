@@ -1,5 +1,6 @@
 package driver.capabilities;
 
+import data.Configuration;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -8,8 +9,8 @@ public abstract class BaseIOSCapabilities extends BaseCapabilities {
 	@Override
 	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability(MobileCapabilityType.APP, configuration.appPath);
-		capabilities.setCapability(MobileCapabilityType.UDID, getConfiguration().device);
+		capabilities.setCapability(MobileCapabilityType.APP, Configuration.getParameters().fullAppPath);
+		capabilities.setCapability(MobileCapabilityType.UDID, Configuration.getParameters().device);
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 0);
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, true);
 		capabilities.setCapability(MobileCapabilityType.FULL_RESET, false);

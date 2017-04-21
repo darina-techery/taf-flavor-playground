@@ -6,7 +6,6 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +13,6 @@ import java.net.ServerSocket;
 
 @Singleton
 class AppiumServiceProvider {
-
-	private Configuration configuration;
-
-	AppiumServiceProvider(Configuration configuration){
-		this.configuration = configuration;
-	}
 
 	private AppiumDriverLocalService service;
 
@@ -36,7 +29,7 @@ class AppiumServiceProvider {
 			appiumServiceBuilder.withIPAddress("127.0.0.1");
 			appiumServiceBuilder.withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"));
 
-			if (configuration.isCIRun) {
+			if (Configuration.getParameters().isCIRun) {
 				appiumServiceBuilder.usingAnyFreePort();
 			}
 

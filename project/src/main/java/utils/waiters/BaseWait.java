@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.function.*;
 
-abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
+public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 	protected Logger log = getLogger();
 	private WaitTimer timer;
 	private WaitLogger waitLogger;
