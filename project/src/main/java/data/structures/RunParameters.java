@@ -1,6 +1,7 @@
-package data;
+package data.structures;
 
 import com.google.gson.annotations.Expose;
+import data.Platform;
 import utils.StringUtils;
 import utils.annotations.EnvVar;
 import utils.exceptions.FailedConfigurationException;

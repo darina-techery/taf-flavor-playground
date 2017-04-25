@@ -1,5 +1,6 @@
 package data;
 
+import data.structures.RunParameters;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.FileNotFoundException;

@@ -1,6 +1,6 @@
 package internal;
 
-import data.RunParameters;
+import data.structures.RunParameters;
 import data.TestData;
 import data.TestDataReader;
 import data.structures.User;
