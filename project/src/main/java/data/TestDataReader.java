@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import utils.exceptions.FailedConfigurationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,7 +67,7 @@ public class TestDataReader<T> {
 		return gson.fromJson(jsonObject, testDataClass);
 	}
 
-	public static <O> void readDataMembers(O objectWithTestData) throws FileNotFoundException, IllegalAccessException {
+	public static <O> void readDataMembers(O objectWithTestData) {
 		Class classWithTestData = objectWithTestData.getClass();
 		while (!classWithTestData.equals(Object.class)) {
 			for (Field f : classWithTestData.getDeclaredFields()) {
@@ -77,9 +78,22 @@ public class TestDataReader<T> {
 					String label = dataSource.key();
 
 					TestDataReader reader = new TestDataReader(filename, testDataClass);
-					Object value = label.isEmpty() ? reader.read() : reader.readByKey(label);
+					Object value;
+					try {
+						value = label.isEmpty() ? reader.read() : reader.readByKey(label);
+					} catch (FileNotFoundException e) {
+						throw new FailedConfigurationException(String.format(
+								"Failed to read test data object %s in class %s: JSON file [%s] not found.",
+								f.getName(), classWithTestData, filename));
+					}
 					f.setAccessible(true);
-					f.set(objectWithTestData, value);
+					try {
+						f.set(objectWithTestData, value);
+					} catch (IllegalAccessException e) {
+						throw new FailedConfigurationException(e, String.format(
+								"Could not set value for field %s in class %s.",
+								f.getName(), testDataClass));
+					}
 				}
 			}
 			classWithTestData = classWithTestData.getSuperclass();
