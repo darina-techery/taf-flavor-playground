@@ -7,7 +7,7 @@ import utils.waiters.AnyWait;
 public class DroidNavigationActions extends NavigationActions {
 
 	@Override
-	public void verifyLandingPageLoaded() {
+	public void assertLandingPageLoaded() {
 		String expectedActivityName = "MainActivity";
 		AnyWait<Void, String> activityWait = new AnyWait<>();
 		activityWait.calculate(()->((AndroidDriver) getDriver()).currentActivity());

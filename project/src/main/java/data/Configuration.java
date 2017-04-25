@@ -1,16 +1,14 @@
 package data;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public class Configuration {
 
 	public final RunParameters runParameters = new RunParameters();
+
+	public static final String CONFIG_FILE_NAME = "default_config.json";
 
 	private static class ConfigurationHolder {
 		private static final Configuration INSTANCE = new Configuration();
@@ -27,14 +25,9 @@ public class Configuration {
 	}
 
 	private RunParameters readConfigFromFixture(){
-		GsonBuilder builder = new GsonBuilder();
-		builder.excludeFieldsWithoutExposeAnnotation();
-		Gson gson = builder.create();
-
 		try {
-			JsonReader reader = new JsonReader(new FileReader(
-					"src/test/resources/fixtures/default_config.fixtures.json"));
-			return gson.fromJson(reader, RunParameters.class);
+			TestDataReader<RunParameters> configReader = new TestDataReader<>(CONFIG_FILE_NAME, RunParameters.class);
+			return configReader.read();
 		} catch (FileNotFoundException e) {
 			throw new FailedConfigurationException(e, "Failed to locate config file");
 		}

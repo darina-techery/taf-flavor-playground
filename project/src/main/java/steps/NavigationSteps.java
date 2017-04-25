@@ -16,8 +16,8 @@ public class NavigationSteps  {
 		this.navigationActions = navigationActions;
 	}
 
-	@Step("Wait until landing page is loaded")
-	public void verifyLandingPageLoaded() {
-		navigationActions.verifyLandingPageLoaded();
+	@Step("Verify that landing page is loaded")
+	public void assertLandingPageLoaded() {
+		navigationActions.assertLandingPageLoaded();
 	}
 }

@@ -1,5 +1,6 @@
 package utils;
 
+import data.Configuration;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.BufferedReader;
@@ -35,7 +36,7 @@ public class DebugUtils {
 	}
 
 	public static void rewriteDefaultConfig(String platform, String device) {
-		Path config = new File("project/src/test/resources/fixtures/default_config.fixtures.json").toPath();
+		Path config = new File("project/" + Configuration.CONFIG_FILE_NAME).toPath();
 		List<String> content = new ArrayList<>();
 		String replacementPattern = ":\\s*\"[^\"]+";
 		try (BufferedReader reader = Files.newBufferedReader(config)) {

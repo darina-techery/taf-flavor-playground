@@ -1,4 +1,4 @@
-package tests;
+package base;
 
 import actions.definitions.ActionsDefinition;
 import actions.definitions.DroidActionsDefinition;

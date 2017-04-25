@@ -1,5 +1,6 @@
-package tests.internal;
+package internal;
 
+import base.BaseTest;
 import data.AppStrings;
 import data.Configuration;
 import driver.DriverProvider;
@@ -14,7 +15,6 @@ import org.testng.annotations.Test;
 import screens.LoginScreen;
 import screens.internal.LoginScreenForWaiterTests;
 import steps.DriverSteps;
-import tests.BaseTest;
 import utils.exceptions.FailedTestException;
 import utils.log.CommonLogMessages;
 import utils.waiters.ByWait;
@@ -29,7 +29,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static screens.internal.LoginScreenForWaiterTests.*;
 import static utils.waiters.Waiter.*;
 
-public class WaiterTests extends BaseTest implements CommonLogMessages {
+public final class WaiterTests extends BaseTest implements CommonLogMessages {
 	private final DriverSteps driverSteps = getStepsComponent().driverSteps();
 	private LoginScreen loginScreen;
 	private LoginScreenForWaiterTests uiTestScreen;

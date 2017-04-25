@@ -1,4 +1,4 @@
-package tests;
+package base;
 
 import data.Configuration;
 import driver.DriverProvider;

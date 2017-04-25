@@ -1,8 +1,9 @@
 .idea
 .gradle
 build
-project/build
 project/apps
+project/build
 project/target
 classes
 out
+SandboxTests.java

@@ -9,7 +9,7 @@ public class IPhoneNavigationActions extends NavigationActions{
 	NavigationMenu navigationMenu = new NavigationMenu();
 
 	@Override
-	public void verifyLandingPageLoaded() {
+	public void assertLandingPageLoaded() {
 		Assert.assertThat("Main navigation bar is displayed", isDisplayed(navigationMenu.menuBar));
 	}
 }
