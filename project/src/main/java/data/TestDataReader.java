@@ -5,12 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,16 +20,17 @@ public class TestDataReader<T> {
 	public static final String TEST_DATA_FOLDER = "src/test/resources/fixtures";
 	Class<T> testDataClass;
 	String filePath;
-	GsonBuilder builder;
 	JsonReader reader;
+	Gson gson;
 
 	public TestDataReader(String fileName, Class<T> testDataClass) {
 		this.filePath = TEST_DATA_FOLDER + File.separator + fileName;
 		this.testDataClass = testDataClass;
-		builder = new GsonBuilder();
+		GsonBuilder builder = new GsonBuilder();
 		if (testDataObjectContainsExposedFields(testDataClass)) {
 			builder.excludeFieldsWithoutExposeAnnotation();
 		}
+		gson = builder.create();
 	}
 
 	private boolean testDataObjectContainsExposedFields(Class testDataClass) {
@@ -44,15 +47,12 @@ public class TestDataReader<T> {
 
 	public T read() throws FileNotFoundException {
 		reader = new JsonReader(new FileReader(filePath));
-		Gson gson = builder.create();
 		return gson.fromJson(reader, testDataClass);
 	}
 
 	public Map<String, T> readAllValues() throws FileNotFoundException {
 		Map<String, T> result = new HashMap<>();
-		reader = new JsonReader(new FileReader(filePath));
-		Gson gson = builder.create();
-		Map<String, LinkedTreeMap> rawTypeResult = gson.fromJson(reader, result.getClass());
+		Map<String, LinkedTreeMap> rawTypeResult = getRawTypeValuesMap();
 		rawTypeResult.forEach((k,v) -> {
 			JsonObject jsonObject = gson.toJsonTree(v).getAsJsonObject();
 			result.put(k, gson.fromJson(jsonObject, testDataClass));
@@ -61,7 +61,9 @@ public class TestDataReader<T> {
 	}
 
 	public T readByKey(String key) throws FileNotFoundException {
-		return readAllValues().get(key);
+		Map<String, LinkedTreeMap> rawTypeResult = getRawTypeValuesMap();
+		JsonObject jsonObject = gson.toJsonTree( rawTypeResult.get(key) ).getAsJsonObject();
+		return gson.fromJson(jsonObject, testDataClass);
 	}
 
 	public static <O> void readDataMembers(O objectWithTestData) throws FileNotFoundException, IllegalAccessException {
@@ -82,6 +84,12 @@ public class TestDataReader<T> {
 			}
 			classWithTestData = classWithTestData.getSuperclass();
 		}
+	}
+
+	private Map<String, LinkedTreeMap> getRawTypeValuesMap() throws FileNotFoundException {
+		reader = new JsonReader(new FileReader(filePath));
+		Type resultType = new TypeToken<Map<String, LinkedTreeMap>>(){}.getType();
+		return gson.fromJson(reader, resultType);
 	}
 
 }
