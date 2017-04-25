@@ -1,5 +1,6 @@
 package utils.waiters;
 
+import data.Configuration;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.NoSuchElementException;
@@ -25,7 +26,7 @@ public class ElementWait<R> extends BaseWait<MobileElement, R>
 		String description;
 		if (elementDescriptionInDOM == null) {
 			try {
-				if (isAndroid()) {
+				if (Configuration.isAndroid()) {
 					String tagName = testableObject.getTagName();
 					String[] tagComponents = tagName.split("\\.");
 					tagName = tagComponents[tagComponents.length - 1];

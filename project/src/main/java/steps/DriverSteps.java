@@ -37,10 +37,10 @@ public class DriverSteps {
 		actions.closeApp();
 	}
 
-	@Step("Read app strings")
+	@Step("Initialize app strings")
 	public void readMainAppStrings(String locale) {
 		Map<String, String> appStrings = actions.extractAppStrings(locale);
-		AppStrings.add(appStrings, actions.isAndroid());
+		AppStrings.add(appStrings);
 	}
 
 }

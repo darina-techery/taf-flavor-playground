@@ -328,9 +328,10 @@ public class AppStrings {
 	private AppStrings() {
 	}
 
-	private void addAppStrings(Map<String, String> map, boolean isAndroid) throws IllegalAccessException {
+	private void addAppStrings(Map<String, String> map) throws IllegalAccessException {
 		Field[] declaredFields = this.getClass().getDeclaredFields();
 		String keyByPlatform = "";
+		boolean isAndroid = Configuration.isAndroid();
 		for (Field field : declaredFields) {
 			if (field.isAnnotationPresent(AppStringKey.class)) {
 				AppStringKey key = field.getAnnotation(AppStringKey.class);
@@ -342,9 +343,9 @@ public class AppStrings {
 		}
 	}
 
-	public static void add(Map<String, String> map, boolean isAndroid) {
+	public static void add(Map<String, String> map) {
 		try {
-			AppStringsHolder.INSTANCE.addAppStrings(map, isAndroid);
+			AppStringsHolder.INSTANCE.addAppStrings(map);
 		}
 		catch (IllegalAccessException e) {
 			throw new FailedConfigurationException(e, "Failed to write values into App Strings map");

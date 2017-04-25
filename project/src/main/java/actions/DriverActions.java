@@ -1,6 +1,7 @@
 package actions;
 
 import com.google.common.base.Preconditions;
+import data.Configuration;
 import driver.DriverProvider;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
@@ -65,10 +66,10 @@ public abstract class DriverActions implements HasDriver {
 		String lang = "";
 		switch (locale) {
 			case "zh-sg":
-				lang = isAndroid() ? "zh-rCN" : "zh-Hans";
+				lang = Configuration.isAndroid() ? "zh-rCN" : "zh-Hans";
 				break;
 			case "zh-hk":
-				lang = isAndroid() ? "zh-rHK" : "zh-Hant";
+				lang = Configuration.isAndroid() ? "zh-rHK" : "zh-Hant";
 				break;
 			default:
 				lang = locale;

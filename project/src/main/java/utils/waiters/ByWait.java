@@ -1,5 +1,6 @@
 package utils.waiters;
 
+import data.Configuration;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
@@ -32,7 +33,7 @@ public class ByWait<R> extends BaseWait<By, R> implements HasDriver {
 	@Nullable
 	@Override
 	public R go() {
-		if (!isAndroid()
+		if (!Configuration.isAndroid()
 				&& preconditionWithoutTestableObject == null
 				&& preconditionWithTestableObject == null
 				&& testableObject != null){
