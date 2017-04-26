@@ -7,7 +7,9 @@ import utils.annotations.EnvVar;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.Arrays;
 
 public class RunParameters {
@@ -27,10 +29,6 @@ public class RunParameters {
 	@Expose
 	String platformName;
 
-	@EnvVar("APP_PATH")
-	@Expose
-	String appPath;
-
 	@EnvVar("RUN_ON_CI")
 	@Expose
 	String runOnCI;
@@ -41,11 +39,16 @@ public class RunParameters {
 	@Expose
 	String iosAppName;
 
+	@EnvVar("APP_PATH")
+	String appPath;
+
 	public boolean isCIRun;
 
 	public Platform platform;
 
 	public String fullAppPath;
+
+	private static final String APP_RESOURCE_DIRECTORY = "apps";
 
 	public void readFromSysEnv() {
 		for (Field f : this.getClass().getDeclaredFields()) {
@@ -74,18 +77,33 @@ public class RunParameters {
 		this.platform = Platform.byName(platformName);
 		this.isCIRun = (!StringUtils.isNullOrEmpty(runOnCI)
 				&& Arrays.asList("yes", "y", "true").contains(runOnCI));
-		this.fullAppPath = getAbsolutePathToApp();
+		try {
+			this.fullAppPath = getAbsolutePathToApp();
+		} catch (FileNotFoundException e) {
+			throw new FailedConfigurationException("Failed to locate application under test.");
+		}
 	}
 
-	private String getAbsolutePathToApp(){
+	private String getAbsolutePathToApp() throws FileNotFoundException {
 		String applicationFileName = platform.equals(Platform.IPAD) || platform.equals(Platform.IPHONE)
 				? iosAppName : droidAppName;
-		File fullPath = new File(appPath, applicationFileName);
-		if (!fullPath.exists()) {
-			throw new RuntimeException(String.format(
-					"Application under test was not found at [%s].", fullPath));
+		if (this.appPath == null) {
+			ClassLoader classLoader = getClass().getClassLoader();
+			String resourcePath = APP_RESOURCE_DIRECTORY + File.separator + applicationFileName;
+			URL resource = classLoader.getResource(resourcePath);
+			if (resource == null) {
+				throw new FileNotFoundException(String.format(
+						"Application under test was not found as resource at path %s", resourcePath));
+			}
+			return resource.getPath();
+		} else {
+			File fullPath = new File(appPath, applicationFileName);
+			if (!fullPath.exists()) {
+				throw new FileNotFoundException(String.format(
+						"Application under test was not found at [%s].", fullPath));
+			}
+			return fullPath.getAbsolutePath();
 		}
-		return fullPath.getAbsolutePath();
 	}
 
 	private void setValue(Field f, String value) {

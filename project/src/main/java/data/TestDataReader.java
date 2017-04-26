@@ -14,24 +14,36 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestDataReader<T> {
-	public static final String TEST_DATA_FOLDER = "src/test/resources/fixtures";
-	Class<T> testDataClass;
+public final class TestDataReader<T> {
+	public static final String TEST_DATA_FOLDER = "fixtures";
+	final Class<T> testDataClass;
 	String filePath;
 	JsonReader reader;
 	Gson gson;
 
-	public TestDataReader(String fileName, Class<T> testDataClass) {
-		this.filePath = TEST_DATA_FOLDER + File.separator + fileName;
+	public TestDataReader(String fileName, Class<T> testDataClass) throws FileNotFoundException {
 		this.testDataClass = testDataClass;
+		this.filePath = getDataFilePath(fileName);
 		GsonBuilder builder = new GsonBuilder();
 		if (testDataObjectContainsExposedFields(testDataClass)) {
 			builder.excludeFieldsWithoutExposeAnnotation();
 		}
 		gson = builder.create();
+	}
+
+	private String getDataFilePath(String fileName) throws FileNotFoundException {
+		ClassLoader classLoader = getClass().getClassLoader();
+		String resourcePath = TEST_DATA_FOLDER + File.separator + fileName;
+		URL resource = classLoader.getResource(resourcePath);
+		if (resource == null) {
+			throw new FileNotFoundException("Resource file was not found by path "+resourcePath);
+		}
+		return resource.getPath();
+
 	}
 
 	private boolean testDataObjectContainsExposedFields(Class testDataClass) {
@@ -77,18 +89,15 @@ public class TestDataReader<T> {
 					String filename = dataSource.file();
 					String label = dataSource.key();
 
-					TestDataReader reader = new TestDataReader(filename, testDataClass);
-					Object value;
 					try {
-						value = label.isEmpty() ? reader.read() : reader.readByKey(label);
+						TestDataReader reader = new TestDataReader(filename, testDataClass);
+						Object value = label.isEmpty() ? reader.read() : reader.readByKey(label);
+						f.setAccessible(true);
+						f.set(objectWithTestData, value);
 					} catch (FileNotFoundException e) {
 						throw new FailedConfigurationException(String.format(
 								"Failed to read test data object %s in class %s: JSON file [%s] not found.",
 								f.getName(), classWithTestData, filename));
-					}
-					f.setAccessible(true);
-					try {
-						f.set(objectWithTestData, value);
 					} catch (IllegalAccessException e) {
 						throw new FailedConfigurationException(e, String.format(
 								"Could not set value for field %s in class %s.",

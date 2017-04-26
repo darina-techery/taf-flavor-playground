@@ -1,7 +1,6 @@
 {
     "platformName" : "AndroidPhone",
     "device": "emulator-5554",
-    "appPath" : "./apps",
     "apiURL" : "http://dtapp-qa.worldventures.biz",
     "droidAppName" : "DreamTrips.apk",
     "iosAppName" : "DreamTrip.app",

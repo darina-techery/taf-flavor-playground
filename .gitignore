@@ -1,9 +1,9 @@
 .idea
 .gradle
 build
-project/apps
 project/build
 project/target
 classes
 out
 SandboxTests.java
+/project/src/test/resources/apps/

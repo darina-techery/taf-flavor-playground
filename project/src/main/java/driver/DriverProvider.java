@@ -29,15 +29,15 @@ public class DriverProvider implements LogProvider {
 
 	private final Logger log = getLogger();
 	private AppiumDriver<MobileElement> driver;
-	private final AppiumServiceProvider provider;
+	private final AppiumServiceProvider appiumServiceProvider;
 	private final Set<DriverListener> driverListeners = new HashSet<>();
 
 	DriverProvider() {
-		this.provider = new AppiumServiceProvider();
+		this.appiumServiceProvider = new AppiumServiceProvider();
 	}
 
 	public static AppiumDriver<MobileElement> get(){
-		return DriverHolder.PROVIDER_INSTANCE.getActiveDriver();
+		return DriverHolder.INSTANCE.getActiveDriver();
 	}
 
 	public static void restart() {
@@ -45,17 +45,21 @@ public class DriverProvider implements LogProvider {
 	}
 
 	public static void restart(DesiredCapabilities capabilities) {
-		AppiumDriver<MobileElement> newDriver = DriverHolder.PROVIDER_INSTANCE.buildDriver(capabilities);
+		AppiumDriver<MobileElement> newDriver = DriverHolder.INSTANCE.buildDriver(capabilities);
 		DriverHolder.setDriver(newDriver);
 	}
 
 	public static void addDriverListener(DriverListener listener) {
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
+		DriverHolder.INSTANCE.driverListeners.add(listener);
 	}
 
 	public static void removeDriverListeners() {
 		//Existing listeners will not be used past teardown point
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
+		DriverHolder.INSTANCE.driverListeners.clear();
+	}
+
+	public static int getAppiumPort() {
+		return DriverHolder.INSTANCE.appiumServiceProvider.getService().getUrl().getPort();
 	}
 
 	private AppiumDriver<MobileElement> getActiveDriver() {
@@ -69,7 +73,7 @@ public class DriverProvider implements LogProvider {
 	private AppiumDriver<MobileElement> buildDriver(@Nullable DesiredCapabilities capabilities) {
 		log.debug("Initializing driver: [START]");
 		AppiumDriver<MobileElement> driver;
-		final AppiumDriverLocalService service = provider.getService();
+		final AppiumDriverLocalService service = appiumServiceProvider.getService();
 		if (capabilities == null) {
 			capabilities = getDefaultCapabilities();
 		}
@@ -108,11 +112,11 @@ public class DriverProvider implements LogProvider {
 	}
 
 	private static class DriverHolder {
-		private static final DriverProvider PROVIDER_INSTANCE = new DriverProvider();
+		private static final DriverProvider INSTANCE = new DriverProvider();
 
 		private static void setDriver(AppiumDriver<MobileElement> driver){
-			PROVIDER_INSTANCE.driver = driver;
-			PROVIDER_INSTANCE.sendDriverRestartNotification();
+			INSTANCE.driver = driver;
+			INSTANCE.sendDriverRestartNotification();
 		}
 	}
 }
