@@ -1,47 +1,35 @@
-package tests;
+package base;
 
 import actions.definitions.ActionsDefinition;
 import actions.definitions.DroidActionsDefinition;
 import actions.definitions.IPhoneActionsDefinition;
-import dagger.*;
+import dagger.ActionsModule;
+import dagger.DaggerStepsComponent;
+import dagger.StepsComponent;
 import data.Configuration;
+import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.apache.logging.log4j.Logger;
 import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
 
     private StepsComponent stepsComponent;
 
-    private Configuration configuration;
-
-    protected Logger log = getLogger();
-
-    public BaseTest(){
-    	initConfiguration();
+    public BaseTest() {
+	    TestDataReader.readDataMembers(this);
     	initStepsComponent();
     	subscribeToDriverUpdates();
     }
 
-	public StepsComponent getStepsComponent() {
+	protected StepsComponent getStepsComponent() {
 		return stepsComponent;
 	}
 
-	public Configuration getConfiguration() {
-    	return configuration;
-	}
-
-    private void initConfiguration(){
-    	ConfigurationComponent component = DaggerConfigurationComponent
-			    .create();
-	    configuration = component.getConfiguration();
-    }
-
     private void initStepsComponent(){
     	ActionsDefinition actionDefinitions;
-    	switch (configuration.platformName) {
+    	switch (Configuration.getParameters().platform) {
 		    case ANDROID_PHONE:
 		    	actionDefinitions = new DroidActionsDefinition();
 		    	break;
@@ -51,7 +39,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 		    case ANDROID_TABLET:
 		    case IPAD:
 		    default:
-		    	throw new RuntimeException("No action definitions created for "+configuration.platformName);
+		    	throw new RuntimeException("No action definitions created for "+Configuration.getParameters().platform);
 	    }
 	    stepsComponent = DaggerStepsComponent.builder()
 			    .actionsModule(

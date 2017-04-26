@@ -1,0 +1,22 @@
+{
+    "platformName" : "AndroidPhone",
+    "device": "emulator-5554",
+    "apiURL" : "http://dtapp-qa.worldventures.biz",
+    "droidAppName" : "DreamTrips.apk",
+    "iosAppName" : "DreamTrip.app",
+    "locale" : "en",
+    "runOnCI": "y"
+}
+
+/*
+
+platform:
+Unknown, iPhone, AndroidPhone, iPad, AndroidTablet, iPhoneDevice
+
+appPath:
+/Users/administrator/workspace/apps/
+
+device:
+emulator-5554,emulator-5556 or any device UDID
+
+*/

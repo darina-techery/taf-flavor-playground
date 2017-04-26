@@ -1,5 +1,6 @@
-package tests;
-
+import base.BaseTestWithDriver;
+import data.TestData;
+import data.structures.User;
 import driver.DriverProvider;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterClass;
@@ -18,10 +19,13 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 
 	private final Logger log = getLogger();
 
-	@Test(invocationCount = 5)
+	@TestData(file = "user_credentials.json", key = "default_user")
+	User defaultUser;
+
+	@Test(invocationCount = 1)
 	public void loginToApp() {
-		loginSteps.login("65663904", "65663904");
-		navigationSteps.verifyLandingPageLoaded();
+		loginSteps.login(defaultUser.username, defaultUser.password);
+		navigationSteps.assertLandingPageLoaded();
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -29,3 +33,4 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 		DelayMeter.reportOperationDuration(DriverProvider.INIT_PAGES_OPERATION, TimeUnit.MILLISECONDS);
 	}
 }
+

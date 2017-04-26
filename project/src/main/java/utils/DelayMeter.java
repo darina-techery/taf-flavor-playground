@@ -29,7 +29,8 @@ public class DelayMeter {
 	}
 
 	public static long getOperationDurationNanos(String operationName) {
-		return DelaysMap.MAP_INSTANCE.get(operationName).duration;
+		Stopwatch operation = DelaysMap.MAP_INSTANCE.get(operationName);
+		return operation == null ? 0 : operation.duration;
 	}
 
 	public static void reportOperationDuration(String operationName) {

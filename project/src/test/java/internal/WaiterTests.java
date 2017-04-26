@@ -1,6 +1,8 @@
-package tests.internal;
+package internal;
 
+import base.BaseTest;
 import data.AppStrings;
+import data.Configuration;
 import driver.DriverProvider;
 import io.appium.java_client.MobileElement;
 import org.junit.Assert;
@@ -13,7 +15,6 @@ import org.testng.annotations.Test;
 import screens.LoginScreen;
 import screens.internal.LoginScreenForWaiterTests;
 import steps.DriverSteps;
-import tests.BaseTest;
 import utils.exceptions.FailedTestException;
 import utils.log.CommonLogMessages;
 import utils.waiters.ByWait;
@@ -28,19 +29,19 @@ import static org.hamcrest.core.StringContains.containsString;
 import static screens.internal.LoginScreenForWaiterTests.*;
 import static utils.waiters.Waiter.*;
 
-public class WaiterTests extends BaseTest implements CommonLogMessages {
+public final class WaiterTests extends BaseTest implements CommonLogMessages {
 	private final DriverSteps driverSteps = getStepsComponent().driverSteps();
 	private LoginScreen loginScreen;
 	private LoginScreenForWaiterTests uiTestScreen;
 
 	@BeforeClass
 	public void prepareAppAndTestScreens() {
-		if (getConfiguration().isAndroid()) {
+		if (Configuration.isAndroid()) {
 			driverSteps.resetApplication();
 		}
 		loginScreen = new LoginScreen();
 		uiTestScreen = new LoginScreenForWaiterTests();
-		driverSteps.readMainAppStrings(getConfiguration().locale);
+		driverSteps.readMainAppStrings(Configuration.getParameters().locale);
 	}
 
 	@Test(enabled = true)
@@ -117,7 +118,7 @@ public class WaiterTests extends BaseTest implements CommonLogMessages {
 	@Test(enabled = true)
 	public void getAttributeForElement() {
 		clear(loginScreen.fldLogin);
-		String attributeName = getConfiguration().isAndroid() ? "text" : "value";
+		String attributeName = Configuration.isAndroid() ? "text" : "value";
 		String hint = getAttribute(loginScreen.fldLogin, attributeName);
 		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
@@ -126,7 +127,7 @@ public class WaiterTests extends BaseTest implements CommonLogMessages {
 	public void getAttributeForLocator() {
 		clear(loginScreen.fldLogin);
 		By loginFieldLocator = getLoginFieldLocator();
-		String attributeName = getConfiguration().isAndroid() ? "text" : "value";
+		String attributeName = Configuration.isAndroid() ? "text" : "value";
 		String hint = getAttribute(loginFieldLocator, attributeName);
 		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
@@ -212,7 +213,7 @@ public class WaiterTests extends BaseTest implements CommonLogMessages {
 
 	@AfterClass(alwaysRun = true)
 	public void resetIOSApp() {
-		if (getConfiguration().isIOS()) {
+		if (Configuration.isIOS()) {
 			driverSteps.resetApplication();
 		}
 	}
@@ -228,15 +229,15 @@ public class WaiterTests extends BaseTest implements CommonLogMessages {
 	}
 
 	private By getLoginFieldLocator() {
-		return getConfiguration().isAndroid() ? VALID_LOGIN_LOCATOR_ANDROID : VALID_LOGIN_LOCATOR_IOS;
+		return Configuration.isAndroid() ? VALID_LOGIN_LOCATOR_ANDROID : VALID_LOGIN_LOCATOR_IOS;
 	}
 
 	private By getPasswordFieldLocator() {
-		return getConfiguration().isAndroid() ? VALID_PASSWORD_LOCATOR_ANDROID : VALID_PASSWORD_LOCATOR_IOS;
+		return Configuration.isAndroid() ? VALID_PASSWORD_LOCATOR_ANDROID : VALID_PASSWORD_LOCATOR_IOS;
 	}
 
 	private List<By> getAllFieldLocators() {
-		return getConfiguration().isAndroid() ? Arrays.asList( VALID_LOGIN_LOCATOR_ANDROID, VALID_PASSWORD_LOCATOR_ANDROID )
+		return Configuration.isAndroid() ? Arrays.asList( VALID_LOGIN_LOCATOR_ANDROID, VALID_PASSWORD_LOCATOR_ANDROID )
 		: Arrays.asList( VALID_LOGIN_LOCATOR_IOS, VALID_PASSWORD_LOCATOR_IOS);
 	}
 }

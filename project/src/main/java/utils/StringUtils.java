@@ -15,6 +15,10 @@ public class StringUtils {
 		return map.keySet().stream().map(k -> k + " = " + map.get(k)).collect(joinByNewLine());
 	}
 
+	public static boolean isNullOrEmpty(String str) {
+		return str == null || str.isEmpty();
+	}
+
 	public static Collector<CharSequence, ?, String> joinByNewLine() {
 		return joinBy("\n");
 	}
@@ -26,4 +30,5 @@ public class StringUtils {
 	public static Collector<CharSequence, ?, String> joinBy(String delimiter) {
 		return Collectors.joining(delimiter);
 	}
+
 }

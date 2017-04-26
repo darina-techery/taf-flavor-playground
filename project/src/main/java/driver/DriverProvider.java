@@ -1,6 +1,5 @@
 package driver;
 
-import dagger.DaggerConfigurationComponent;
 import data.Configuration;
 import driver.capabilities.BaseCapabilities;
 import driver.capabilities.DroidPhoneCapabilities;
@@ -14,11 +13,10 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.DelayMeter;
-import utils.log.LogProvider;
 import utils.exceptions.NotImplementedException;
+import utils.log.LogProvider;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,24 +28,16 @@ public class DriverProvider implements LogProvider {
 	public static final String INIT_PAGES_OPERATION = "Pages instantiation";
 
 	private final Logger log = getLogger();
-
-	@Inject
-	Configuration configuration;
 	private AppiumDriver<MobileElement> driver;
-	private final AppiumServiceProvider provider;
+	private final AppiumServiceProvider appiumServiceProvider;
 	private final Set<DriverListener> driverListeners = new HashSet<>();
-	private final Boolean isAndroid;
 
 	DriverProvider() {
-		DaggerConfigurationComponent
-				.create()
-				.inject(this);
-		this.provider = new AppiumServiceProvider(configuration);
-		this.isAndroid = configuration.isAndroid();
+		this.appiumServiceProvider = new AppiumServiceProvider();
 	}
 
 	public static AppiumDriver<MobileElement> get(){
-		return DriverHolder.PROVIDER_INSTANCE.getActiveDriver();
+		return DriverHolder.INSTANCE.getActiveDriver();
 	}
 
 	public static void restart() {
@@ -55,21 +45,21 @@ public class DriverProvider implements LogProvider {
 	}
 
 	public static void restart(DesiredCapabilities capabilities) {
-		AppiumDriver<MobileElement> newDriver = DriverHolder.PROVIDER_INSTANCE.buildDriver(capabilities);
+		AppiumDriver<MobileElement> newDriver = DriverHolder.INSTANCE.buildDriver(capabilities);
 		DriverHolder.setDriver(newDriver);
 	}
 
 	public static void addDriverListener(DriverListener listener) {
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.add(listener);
+		DriverHolder.INSTANCE.driverListeners.add(listener);
 	}
 
 	public static void removeDriverListeners() {
 		//Existing listeners will not be used past teardown point
-		DriverHolder.PROVIDER_INSTANCE.driverListeners.clear();
+		DriverHolder.INSTANCE.driverListeners.clear();
 	}
 
-	public static boolean isAndroid() {
-		return DriverHolder.PROVIDER_INSTANCE.isAndroid;
+	public static int getAppiumPort() {
+		return DriverHolder.INSTANCE.appiumServiceProvider.getService().getUrl().getPort();
 	}
 
 	private AppiumDriver<MobileElement> getActiveDriver() {
@@ -83,11 +73,11 @@ public class DriverProvider implements LogProvider {
 	private AppiumDriver<MobileElement> buildDriver(@Nullable DesiredCapabilities capabilities) {
 		log.debug("Initializing driver: [START]");
 		AppiumDriver<MobileElement> driver;
-		final AppiumDriverLocalService service = provider.getService();
+		final AppiumDriverLocalService service = appiumServiceProvider.getService();
 		if (capabilities == null) {
 			capabilities = getDefaultCapabilities();
 		}
-		if (configuration.isAndroid()) {
+		if (Configuration.isAndroid()) {
 			driver = new AndroidDriver<>(service, capabilities);
 		} else {
 			driver = new IOSDriver<>(service, capabilities);
@@ -100,7 +90,7 @@ public class DriverProvider implements LogProvider {
 
 	private DesiredCapabilities getDefaultCapabilities() {
 		BaseCapabilities capabilities;
-		switch (configuration.platformName) {
+		switch (Configuration.getParameters().platform) {
 			case ANDROID_PHONE:
 				capabilities = new DroidPhoneCapabilities();
 				break;
@@ -122,11 +112,11 @@ public class DriverProvider implements LogProvider {
 	}
 
 	private static class DriverHolder {
-		private static final DriverProvider PROVIDER_INSTANCE = new DriverProvider();
+		private static final DriverProvider INSTANCE = new DriverProvider();
 
 		private static void setDriver(AppiumDriver<MobileElement> driver){
-			PROVIDER_INSTANCE.driver = driver;
-			PROVIDER_INSTANCE.sendDriverRestartNotification();
+			INSTANCE.driver = driver;
+			INSTANCE.sendDriverRestartNotification();
 		}
 	}
 }

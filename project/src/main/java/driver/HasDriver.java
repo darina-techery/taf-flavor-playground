@@ -7,8 +7,4 @@ public interface HasDriver {
 	default AppiumDriver<MobileElement> getDriver() {
 		return DriverProvider.get();
 	}
-
-	default boolean isAndroid() {
-		return DriverProvider.isAndroid();
-	}
 }

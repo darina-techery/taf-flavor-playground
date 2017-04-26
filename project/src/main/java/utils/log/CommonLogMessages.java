@@ -1,44 +1,14 @@
 package utils.log;
 
 public interface CommonLogMessages {
-	static String formatMessage(String message, String... parameters){
-		String result = message.replace("{}", "%s");
-		return String.format(result, parameters);
-	}
-
-	/**
-	 * Example: verify response code is 204 (successfully fulfilled)\n
-	 * \tAssert.assertThat(messageWhenNotEqual("response code"), responseCode, is(204))
-	 * @param name - asserted value description
-	 * @return an error message for failed "equals" assertion,
-	 * when actual value is different from expected
-	 */
-	default String messageWhenNotEqual(String name, String... parameters){
-		return String.format("[%s] mismatch",
-				formatMessage(name, parameters));
-	}
-
-	/**
-	 * Example: verify response code is not 400 (bad request)\n
-	 * \tAssert.assertThat(messageWhenEqual("response code"), responseCode, is(not(400)))
-	 * @param name - asserted value description
-	 * @return an error message for failed "not equals" assertion
-	 * when actual value is same as (not) expected
-	 */
-	default String messageWhenEqual(String name, String... parameters){
-		return String.format("[%s] was expected different, but same found",
-				formatMessage(name, parameters));
-	}
-
 	/**
 	 * Example: verify menu is shown\n
 	 * \tAssert.assertThat(messageWhenNotDisplayed("main menu"), is())
 	 * @param elementName - tested element description
 	 * @return an error message for case when element was not displayed
 	 */
-	default String messageWhenNotDisplayed(String elementName, String... parameters){
-		return String.format("[%s] should be displayed, but was not found",
-				formatMessage(elementName, parameters));
+	default String messageWhenNotDisplayed(String elementName){
+		return String.format("[%s] should be displayed, but was not found", elementName);
 	}
 
 	/**
@@ -48,9 +18,8 @@ public interface CommonLogMessages {
 	 * @return an error message for case when element was displayed
 	 * when not expected
 	 */
-	default String messageWhenDisplayed(String elementName, String... parameters){
-		return String.format("[%s] was visible, but should be hidden",
-				formatMessage(elementName, parameters));
+	default String messageWhenDisplayed(String elementName){
+		return String.format("[%s] was visible, but should be hidden", elementName);
 	}
 
 	/**

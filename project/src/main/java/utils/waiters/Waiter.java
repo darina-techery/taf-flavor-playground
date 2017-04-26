@@ -1,5 +1,6 @@
 package utils.waiters;
 
+import data.Configuration;
 import driver.DriverProvider;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
@@ -355,7 +356,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return el -> {
 			el.click();
 			el.clear();
-			if (DriverProvider.isAndroid()) {
+			if (Configuration.isAndroid()) {
 				el.sendKeys(text);
 			} else {
 				el.setValue(text);

@@ -2,7 +2,8 @@
 .gradle
 build
 project/build
-project/apps
 project/target
 classes
 out
+SandboxTests.java
+/project/src/test/resources/apps/
