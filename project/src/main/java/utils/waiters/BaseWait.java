@@ -333,7 +333,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 					operationWithoutReturnWithoutTestableObject, operationWithoutReturnWithTestableObject,
 					operationWithReturnWithoutTestableObject, operationWithReturnWithTestableObject);
 			checkConditionsByType("post-condition",
-					postconditionWithoutResult, postconditionWithoutResult);
+					postconditionWithoutResult, postconditionWithResult);
 			if (totalConditionsProvided == 0) {
 				throw new IllegalArgumentException("No pre- or post-conditions or operations was provided for "
 						+waitClassName);
