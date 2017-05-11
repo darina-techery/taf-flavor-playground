@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
-import utils.waiters.WaitConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,11 +47,9 @@ public final class CMDUtils {
 
 	public static Boolean waitForRuntimeMessageContains(final String command, String expectedResponse, int waitSec) {
 		AnyWait<Void, String> commandRunner = new AnyWait<>();
-		WaitConfig waitConfig = WaitConfig.get()
-				.duration(ofSeconds(waitSec))
-				.retryIn(ofMillis(CMD_RETRY_TIMEOUT_MILLIS));
 		commandRunner
-				.config(waitConfig)
+				.duration(ofSeconds(waitSec))
+				.retryInterval(ofMillis(CMD_RETRY_TIMEOUT_MILLIS))
 				.calculate(() -> {
 					String line = executeCommandAndGetFullResponse(command);
 					log.debug(String.format(COMMAND_RETRY_TEMPLATE, command, expectedResponse, line));

@@ -1,17 +1,28 @@
 package utils.waiters;
 
+import data.Configuration;
 import org.apache.logging.log4j.LogManager;
 
 import java.time.Duration;
 
-class WaitTimer {
+public class WaitTimer {
 	private long startTime;
 	Duration maxDuration;
 	Duration retryInterval;
 
+	//	private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 5;
+	private static final int DEFAULT_ANDROID_TIMEOUT_SECONDS = 10;
+	//	private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 5;
+	private static final int DEFAULT_IOS_TIMEOUT_SECONDS = 30;
+
 	private static final Duration DEFAULT_RETRY_TIMEOUT = Duration.ofMillis(200);
-	WaitTimer(Duration duration) {
-		maxDuration = duration;
+
+	public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(Configuration.isAndroid()
+			? DEFAULT_ANDROID_TIMEOUT_SECONDS
+			: DEFAULT_IOS_TIMEOUT_SECONDS);
+
+	WaitTimer() {
+		maxDuration = DEFAULT_TIMEOUT;
 		retryInterval = DEFAULT_RETRY_TIMEOUT;
 	}
 

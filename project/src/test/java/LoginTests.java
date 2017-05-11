@@ -23,9 +23,14 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 	User defaultUser;
 
 	@Test(invocationCount = 1)
-	public void loginToApp() {
-		loginSteps.login(defaultUser.username, defaultUser.password);
+	public void loginToAppAsFirstTimeUser() {
+		loginSteps.loginWithValidCredentials(defaultUser);
 		navigationSteps.assertLandingPageLoaded();
+	}
+
+	@Test
+	public void loginToApp() {
+		loginSteps.loginIfRequired(defaultUser);
 	}
 
 	@AfterClass(alwaysRun = true)

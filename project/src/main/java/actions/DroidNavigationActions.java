@@ -1,6 +1,7 @@
 package actions;
 
 import io.appium.java_client.android.AndroidDriver;
+import screens.MenuItem;
 import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
 
@@ -17,5 +18,11 @@ public class DroidNavigationActions extends NavigationActions {
 		if (!activityWait.isSuccess()) {
 			throw new FailedTestException("Cannot load "+expectedActivityName+", "+activityWait.result() + " found instead.");
 		}
+	}
+
+	@Override
+	public void selectMenuItem(MenuItem menuItem) {
+		openMenu();
+
 	}
 }

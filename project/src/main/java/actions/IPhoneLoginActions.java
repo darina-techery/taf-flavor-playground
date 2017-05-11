@@ -8,8 +8,8 @@ public class IPhoneLoginActions extends LoginActions {
 	private IPhoneDriverActions driverActions = new IPhoneDriverActions();
 
 	@Override
-	public void loginToApp() {
-		super.loginToApp();
+	public void submit() {
+		super.submit();
 		By decline = MobileBy.AccessibilityId("Don’t Allow");
 		driverActions.declineAlert(decline);
 	}

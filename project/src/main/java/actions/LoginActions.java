@@ -19,7 +19,7 @@ public abstract class LoginActions extends BaseActions {
 		setText(loginPage.fldPassword, password);
 	}
 
-	public void loginToApp(){
+	public void submit(){
 		click(loginPage.btnLogin);
 	}
 
@@ -31,6 +31,10 @@ public abstract class LoginActions extends BaseActions {
 	public void waitForScreen() {
 		boolean areFieldsPresent = areAllDisplayedForElements(Arrays.asList(loginPage.fldLogin, loginPage.fldPassword));
 		Assert.assertThat("Login and password fields are present on the screen", areFieldsPresent);
+	}
+
+	public boolean isScreenActive() {
+		return isDisplayed(loginPage.fldLogin);
 	}
 
 }

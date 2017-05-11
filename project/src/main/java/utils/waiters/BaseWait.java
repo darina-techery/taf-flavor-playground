@@ -14,8 +14,8 @@ import java.util.function.*;
 
 public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 	protected Logger log = getLogger();
-	private WaitTimer timer;
-	private WaitLogger waitLogger;
+	private WaitTimer timer = new WaitTimer();
+	private WaitLogger waitLogger = new WaitLogger();
 
 	private Set<Class<? extends Throwable>> ignoredExceptions;
 
@@ -27,14 +27,16 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 
 	private final String waitClassName;
 
-//	private boolean failOnTimeout = false;
+	private boolean failOnTimeout = false;
+
 	private Boolean success;
+
+	private String actionDescription;
 
 	private static final String OUTPUT_TEMPLATE = "\n\t- %1$-9s [%2$s]";
 
 	BaseWait() {
 		ignoredExceptions = new HashSet<>();
-		waitLogger = new WaitLogger();
 		waitClassName = this.getClass().getSimpleName();
 	}
 
@@ -67,8 +69,22 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		return this;
 	}
 
-	public BaseWait<T, R> config(WaitConfig config) {
-		this.waitConfig = config;
+	public BaseWait<T, R> duration(Duration maxDuration) {
+		if (maxDuration != null) {
+			this.timer.maxDuration = maxDuration;
+		}
+		return this;
+	}
+
+	public BaseWait<T, R> retryInterval(Duration retryInterval) {
+		if (retryInterval != null) {
+			this.timer.retryInterval = retryInterval;
+		}
+		return this;
+	}
+
+	public BaseWait<T, R> failOnTimeout(boolean failOnTimeout) {
+		this.failOnTimeout = failOnTimeout;
 		return this;
 	}
 
@@ -130,7 +146,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		if (waitConfig == null) {
 			waitConfig = WaitConfig.get();
 		}
-		timer = new WaitTimer(waitConfig.duration);
 
 		result = null;
 		success = false;
@@ -220,9 +235,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		}
 		return result;
 	}
-
-
-	String actionDescription;
 
 	void setActionDescription(String actionDescription) {
 		this.actionDescription = actionDescription;

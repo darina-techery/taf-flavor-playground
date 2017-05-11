@@ -1,0 +1,179 @@
+package utils.ui;
+
+import data.Configuration;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.SwipeElementDirection;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import utils.waiters.AnyWait;
+import utils.waiters.WaitTimer;
+import utils.waiters.Waiter;
+
+import java.time.Duration;
+import java.util.function.BooleanSupplier;
+
+import static io.appium.java_client.SwipeElementDirection.DOWN;
+import static io.appium.java_client.SwipeElementDirection.UP;
+
+public class Swipe {
+	private final By DEFAULT_ANDROID_CONTAINER = By.xpath("//*");
+	private final By DEFAULT_IOS_CONTAINER = MobileBy.className("XCUIElementTypeWindow");
+	private final SwipeElementDirection DEFAULT_SWIPE_DIRECTION = UP;
+	private static final int UNDEFINED_OFFSET = -1;
+
+	private SwipeElementDirection swipeDirection;
+	private MobileElement targetElement;
+	private By targetElementBy;
+
+	private MobileElement container;
+	private By containerBy;
+
+	private double offsetFromContainerBorderRatio = 0.1;
+	private int offsetFromContainerBorder = UNDEFINED_OFFSET;
+	private int swipeDurationInMillis = 1000;
+
+	private BooleanSupplier stopSwipeCondition;
+	private Duration timeout = WaitTimer.DEFAULT_TIMEOUT;
+
+	public Swipe direction(SwipeElementDirection direction) {
+		this.swipeDirection = direction;
+		return this;
+	}
+
+	public Swipe timeout(Duration timeout) {
+		if (timeout != null) {
+			this.timeout = timeout;
+		}
+		return this;
+	}
+
+	public Swipe container(By containerBy) {
+		if (containerBy != null) {
+			this.containerBy = containerBy;
+		}
+		return this;
+	}
+
+	public Swipe container(MobileElement container) {
+		if (container != null) {
+			this.container = container;
+		}
+		return this;
+	}
+
+	public Swipe until(BooleanSupplier stopSwipeCondition) {
+		this.stopSwipeCondition = stopSwipeCondition;
+		return this;
+	}
+
+	public Swipe toElement(By targetElementBy) {
+		this.targetElementBy = targetElementBy;
+		return this;
+	}
+
+	public Swipe toElement(MobileElement targetElement) {
+		this.targetElement = targetElement;
+		return this;
+	}
+
+	public Swipe withOffsetFromBorderRatio(double offsetRatio) {
+		this.offsetFromContainerBorderRatio = offsetRatio;
+		return this;
+	}
+
+	public void swipe() {
+		final boolean needToLocateElement = targetElement != null || targetElementBy != null;
+		initDirection();
+
+		AnyWait<Void, Void> scrollOperation = new AnyWait<>();
+		scrollOperation.addIgnorableException(NoSuchElementException.class);
+		scrollOperation.duration(timeout);
+		scrollOperation.when(() -> {
+			initContainer();
+			initOffsetFromContainerBorder();
+			return true;
+		});
+		scrollOperation.execute(() -> {
+			if (!needToLocateElement || !isElementPresent()) {
+				container.swipe(swipeDirection, offsetFromContainerBorder, offsetFromContainerBorder, swipeDurationInMillis);
+			}
+		});
+		scrollOperation.until(() -> {
+			boolean stopFlag = true;
+			if (needToLocateElement) {
+				stopFlag = stopFlag && isElementPresent();
+			}
+			if (stopSwipeCondition != null ) {
+				stopFlag = stopFlag && stopSwipeCondition.getAsBoolean();
+			}
+			return stopFlag;
+		});
+
+		String elementDescription = ElementDescriber.describe(container);
+		if (elementDescription == null) {
+			elementDescription = ElementDescriber.DEFAULT_ELEMENT_DESCRIPTION;
+		}
+		StringBuilder description = new StringBuilder().append("Swipe in [")
+				.append(elementDescription).append("]");
+		if (needToLocateElement) {
+			description.append(" to locate element");
+		}
+		if (stopSwipeCondition != null) {
+			description.append(" until condition");
+		}
+		scrollOperation.describe(description.toString());
+		scrollOperation.go();
+	}
+
+	private boolean isElementPresent() {
+		return (targetElement != null)
+			? Waiter.isDisplayed(targetElement)
+			: Waiter.isDisplayed(targetElementBy);
+	}
+
+	private void initContainer() {
+		if (this.container == null) {
+			if (this.containerBy == null) {
+				containerBy = Configuration.isAndroid() ? DEFAULT_ANDROID_CONTAINER : DEFAULT_IOS_CONTAINER;
+			}
+			container = Waiter.find(containerBy);
+		}
+	}
+
+	private void initDirection() {
+		if (this.swipeDirection == null) {
+			swipeDirection = DEFAULT_SWIPE_DIRECTION;
+		}
+	}
+
+	private void initOffsetFromContainerBorder() {
+		if (offsetFromContainerBorder == UNDEFINED_OFFSET) {
+			int fullDistance = (swipeDirection.equals(DOWN) || swipeDirection.equals(UP))
+					? container.getSize().getHeight()
+					: container.getSize().getWidth();
+			offsetFromContainerBorder = (int) (fullDistance * offsetFromContainerBorderRatio);
+		}
+	}
+
+
+//	public static void swipeTo(By targetObject);
+//
+//	public static void swipeTo(By targetObject, By container);
+//
+//	public static void swipeDownTo(By targetObject, MobileElement container) {
+//		Dimension containerSize = (container == null)
+//				? DriverProvider.get().manage().window().getSize()
+//				: container.getSize();
+//		Point containerCenter = (container == null)
+//				? new Point(containerSize.getWidth() / 2, containerSize.getHeight() / 2)
+//				: container.getCenter();
+//		int startX = containerCenter.getX();
+//		int endX = startX;
+//		int startY = containerCenter.getY() + containerSize.getHeight() / 2 - 10;
+//		int endY = containerCenter.getY() - containerSize.getHeight() / 2 + 10;
+//		if (!isDisplayed(targetObject, Duration.ofSeconds(2))) {
+//
+//		}
+//	}
+}

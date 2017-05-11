@@ -16,7 +16,7 @@ public class AppStrings {
 	public String userPasswordHint;
 
 	@AppStringKey(android = "notifications_title", ios = "Notifications")
-	public String notification;
+	public String notifications;
 
 	@AppStringKey(android = "dtl_locations_title")
 	public String selectLocation;
@@ -63,7 +63,7 @@ public class AppStrings {
 	@AppStringKey(android = "terms", ios = "Terms")
 	public String terms;
 
-	@AppStringKey(ios = "Logout")
+	@AppStringKey(android = "logout_component", ios = "Logout")
 	public String logout;
 
 	@AppStringKey(android = "feed_title", ios = "My Activity Feed")
@@ -80,6 +80,9 @@ public class AppStrings {
 
 	@AppStringKey(android = "messenger", ios = "Messenger")
 	public String messenger;
+
+	@AppStringKey(android = "dtl_local", ios = "Local")
+	public String local;
 
 	@AppStringKey(android = "conversation_list_spinner_item_all_chats", ios = "All Chats")
 	public String allChats;
@@ -176,9 +179,6 @@ public class AppStrings {
 
 	@AppStringKey(ios = "More")
 	public String btnMore;
-
-	@AppStringKey(android = "logout_component")
-	public String logOut;
 
 	@AppStringKey(ios = "Close")
 	public String close;
