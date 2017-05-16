@@ -35,19 +35,19 @@ public class SwipeHelper {
 	}
 
 	public static void scrollDownToText(String text) {
-		By textLocator = ByHelper.getLocatorForText(text);
+		By textLocator = ByHelper.getLocatorByText(text);
 		Swipe swipe = buildGenericSwipe(textLocator, null);
 		swipe.swipe();
 	}
 
 	public static void scrollDownToText(String text, MobileElement container) {
-		By textLocator = ByHelper.getLocatorForText(text);
+		By textLocator = ByHelper.getLocatorByText(text);
 		Swipe swipe = buildGenericSwipe(textLocator, container);
 		swipe.swipe();
 	}
 
 	public static void scrollDownToText(String text, By container) {
-		By textLocator = ByHelper.getLocatorForText(text);
+		By textLocator = ByHelper.getLocatorByText(text);
 		Swipe swipe = buildGenericSwipe(textLocator, container);
 		swipe.swipe();
 	}

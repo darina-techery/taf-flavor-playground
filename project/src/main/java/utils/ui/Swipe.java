@@ -162,25 +162,4 @@ public class Swipe {
 			offsetFromContainerBorder = (int) (fullDistance * offsetFromContainerBorderRatio);
 		}
 	}
-
-
-//	public static void swipeTo(By targetObject);
-//
-//	public static void swipeTo(By targetObject, By container);
-//
-//	public static void swipeDownTo(By targetObject, MobileElement container) {
-//		Dimension containerSize = (container == null)
-//				? DriverProvider.get().manage().window().getSize()
-//				: container.getSize();
-//		Point containerCenter = (container == null)
-//				? new Point(containerSize.getWidth() / 2, containerSize.getHeight() / 2)
-//				: container.getCenter();
-//		int startX = containerCenter.getX();
-//		int endX = startX;
-//		int startY = containerCenter.getY() + containerSize.getHeight() / 2 - 10;
-//		int endY = containerCenter.getY() - containerSize.getHeight() / 2 + 10;
-//		if (!isDisplayed(targetObject, Duration.ofSeconds(2))) {
-//
-//		}
-//	}
 }

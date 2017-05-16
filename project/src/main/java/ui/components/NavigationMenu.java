@@ -31,6 +31,6 @@ public class NavigationMenu extends BaseUiModule {
 	public MobileElement mapButton;
 
 	public final By getAndroidMenuItemLocator(MenuItem item) {
-		return ByHelper.getLocatorForText(item.toString());
+		return ByHelper.getLocatorByText(item.toString());
 	}
 }
