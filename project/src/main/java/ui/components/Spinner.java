@@ -1,10 +1,7 @@
 package ui.components;
 
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
 import ui.BaseUiModule;
 
 public class Spinner extends BaseUiModule {
-	@AndroidFindBy(id = "spinnerIcon")
-	public MobileElement spinnerIcon;
+	//TODO: https://techery.atlassian.net/browse/DTAUT-402
 }

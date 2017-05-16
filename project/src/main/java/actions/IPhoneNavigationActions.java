@@ -6,7 +6,7 @@ import utils.runner.Assert;
 
 import static utils.waiters.Waiter.isDisplayed;
 
-public class IPhoneNavigationActions extends NavigationActions{
+public class IPhoneNavigationActions extends NavigationActions {
 
 	NavigationMenu navigationMenu = new NavigationMenu();
 
@@ -16,17 +16,7 @@ public class IPhoneNavigationActions extends NavigationActions{
 	}
 
 	@Override
-	public void waitSpinnerGone() {
-
-	}
-
-	@Override
 	public String getPageTitle() {
 		throw new NotImplementedException();
 	}
-
-//	@Override
-//	public void selectMenuItem(MenuItem menuItem) {
-//		throw new NotImplementedException();
-//	}
 }

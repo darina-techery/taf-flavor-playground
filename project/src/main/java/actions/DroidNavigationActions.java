@@ -6,8 +6,6 @@ import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
 import utils.waiters.Waiter;
 
-import java.time.Duration;
-
 public class DroidNavigationActions extends NavigationActions {
 
 	@Override
@@ -21,11 +19,6 @@ public class DroidNavigationActions extends NavigationActions {
 		if (!activityWait.isSuccess()) {
 			throw new FailedTestException("Cannot load "+expectedActivityName+", "+activityWait.result() + " found instead.");
 		}
-	}
-
-	@Override
-	public void waitSpinnerGone() {
-		Waiter.waitAbsent(spinner.spinnerIcon, Duration.ofSeconds(10));
 	}
 
 	@Override
