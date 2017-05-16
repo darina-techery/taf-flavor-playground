@@ -11,18 +11,9 @@ import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.testng.annotations.BeforeClass;
-import utils.annotations.UseConfiguration;
 import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
-
-	@BeforeClass
-	public void initConfiguration() {
-		if (this.getClass().isAnnotationPresent(UseConfiguration.class)) {
-
-		}
-	}
 
     private StepsComponent stepsComponent;
 
