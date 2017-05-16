@@ -1,4 +1,4 @@
-package screens;
+package data.ui;
 
 import data.AppStrings;
 
@@ -20,7 +20,7 @@ public enum MenuItem {
 	LEGAL_TERMS(AppStrings.get().legalTerms),
 	LOGOUT(AppStrings.get().logout);
 
-	public final String text;
+	private final String text;
 
 	MenuItem(String text) {
 		this.text = text;
@@ -33,5 +33,11 @@ public enum MenuItem {
 			}
 		}
 		throw new IllegalArgumentException("No menu item exists with name "+name);
+	}
+
+
+	@Override
+	public String toString() {
+		return text;
 	}
 }

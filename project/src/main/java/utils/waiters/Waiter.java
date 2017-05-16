@@ -4,18 +4,18 @@ import data.Configuration;
 import driver.DriverProvider;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidElement;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
+import utils.ADBUtils;
 import utils.log.CommonLogMessages;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
-
-import static java.time.Duration.ofSeconds;
 
 public class Waiter implements CommonLogMessages, HasDriver {
 
@@ -32,10 +32,10 @@ public class Waiter implements CommonLogMessages, HasDriver {
 	}
 
 	public static boolean isDisplayed(MobileElement e) {
-		return isDisplayed(e, null);
+		return waitDisplayed(e, null);
 	}
 
-	public static boolean isDisplayed(MobileElement e, Duration duration) {
+	public static boolean waitDisplayed(MobileElement e, Duration duration) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
 		wait.duration(duration);
 		wait.calculate(RemoteWebElement::isDisplayed);
@@ -44,18 +44,18 @@ public class Waiter implements CommonLogMessages, HasDriver {
 	}
 
 	public static boolean isDisplayed(By by) {
-		return isDisplayed(by, null, null);
+		return waitDisplayed(by, null, null);
 	}
 
 	public static boolean isDisplayed(By by, WebElement parentElement) {
-		return isDisplayed(by, parentElement, null);
+		return waitDisplayed(by, parentElement, null);
 	}
 
-	public static boolean isDisplayed(By by, Duration duration) {
-		return isDisplayed(by, null, duration);
+	public static boolean waitDisplayed(By by, Duration duration) {
+		return waitDisplayed(by, null, duration);
 	}
 
-	public static boolean isDisplayed(By by, WebElement parentElement, Duration duration) {
+	public static boolean waitDisplayed(By by, WebElement parentElement, Duration duration) {
 		ByWait<Boolean> wait = wait(by, Boolean.class);
 		wait.duration(duration);
 		wait.parent(parentElement);
@@ -167,7 +167,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		ElementWait<Void> wait = wait(e, Void.class);
 		describeSetText(wait, text);
 		wait.when(el -> el.isDisplayed() && el.isEnabled());
-		wait.execute(buildTypeTextOperation(text));
+		wait.execute(buildSetTextOperation(text));
 		wait.go();
 	}
 
@@ -179,7 +179,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		describeSetText(wait, text);
-		wait.findAndExecute(buildTypeTextOperation(text));
+		wait.findAndExecute(buildSetTextOperation(text));
 		wait.go();
 	}
 
@@ -223,7 +223,12 @@ public class Waiter implements CommonLogMessages, HasDriver {
 	}
 
 	public static boolean isAbsent(MobileElement e) {
+		return waitAbsent(e, Duration.ofSeconds(5));
+	}
+
+	public static boolean waitAbsent(MobileElement e, Duration timeout) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
+		wait.duration(timeout);
 		describeIsAbsent(wait);
 		wait.calculate(el -> {
 			boolean result;
@@ -239,13 +244,17 @@ public class Waiter implements CommonLogMessages, HasDriver {
 	}
 
 	public static boolean isAbsent(By by) {
-		return isAbsent(by, null);
+		return waitAbsent(by, null, Duration.ofSeconds(5));
 	}
 
 	public static boolean isAbsent(By by, WebElement parentElement) {
+		return waitAbsent(by, parentElement, Duration.ofSeconds(5));
+	}
+
+	public static boolean waitAbsent(By by, WebElement parentElement, Duration duration) {
 		ByWait<Boolean> wait = new ByWait<>();
 		wait.parent(parentElement).with(by);
-		wait.duration(ofSeconds(5));
+		wait.duration(duration);
 		wait.when(locator->true);
 		wait.calculate(locator -> {
 			List<MobileElement> elements = wait.multiElementSearch.apply(locator);
@@ -394,17 +403,19 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.until(result -> result);
 	}
 
-	private static Consumer<MobileElement> buildTypeTextOperation(String text) {
+	private static Consumer<MobileElement> buildSetTextOperation(String text) {
 		return el -> {
-			el.click();
-			el.clear();
 			if (Configuration.isAndroid()) {
-				el.sendKeys(text);
+				((AndroidElement)el).replaceValue(text);
 			} else {
+				el.click();
+				el.sendKeys("");
 				el.setValue(text);
 			}
 			try {
-				DriverProvider.get().hideKeyboard();
+				if (Configuration.isIOS() || ADBUtils.isKeyboardShown()) {
+					DriverProvider.get().hideKeyboard();
+				}
 			} catch (Exception e) {
 				LogManager.getLogger().warn("Failed to hide keyboard: ", e);
 			}

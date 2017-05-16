@@ -1,4 +1,4 @@
-package screens;
+package ui;
 
 import driver.DriverListener;
 import driver.DriverProvider;
@@ -10,11 +10,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import utils.log.LogProvider;
 
-public abstract class BaseScreen implements DriverListener, LogProvider {
+public abstract class BaseUiModule implements DriverListener, LogProvider {
 
 	private final Logger log = getLogger();
 
-	public BaseScreen() {
+	public BaseUiModule() {
         AppiumDriver<MobileElement> driver = DriverProvider.get();
         initPageElements(driver);
 		subscribeToDriverUpdates();
@@ -27,7 +27,7 @@ public abstract class BaseScreen implements DriverListener, LogProvider {
     }
 
     private void initPageElements(AppiumDriver<MobileElement> driver) {
-	    log.debug("Initializing elements: [START]");
+	    log.debug("Initializing elements on "+this.getClass().getSimpleName()+": [START]");
         FieldDecorator decorator = new AppiumFieldDecorator(driver);
         PageFactory.initElements(decorator, this);
         initDynamicFields(driver);

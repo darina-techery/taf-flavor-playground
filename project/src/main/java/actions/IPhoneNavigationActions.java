@@ -1,10 +1,10 @@
 package actions;
 
-import screens.MenuItem;
-import screens.NavigationMenu;
+import ui.components.NavigationMenu;
 import utils.exceptions.NotImplementedException;
 import utils.runner.Assert;
-import static utils.waiters.Waiter.*;
+
+import static utils.waiters.Waiter.isDisplayed;
 
 public class IPhoneNavigationActions extends NavigationActions{
 
@@ -16,7 +16,17 @@ public class IPhoneNavigationActions extends NavigationActions{
 	}
 
 	@Override
-	public void selectMenuItem(MenuItem menuItem) {
+	public void waitSpinnerGone() {
+
+	}
+
+	@Override
+	public String getPageTitle() {
 		throw new NotImplementedException();
 	}
+
+//	@Override
+//	public void selectMenuItem(MenuItem menuItem) {
+//		throw new NotImplementedException();
+//	}
 }

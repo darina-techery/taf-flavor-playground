@@ -11,7 +11,7 @@ public class IPhoneAlertActions extends AlertActions {
 		By declineButtonLocator = MobileBy.AccessibilityId("Don’t Allow");
 		Duration waitForAlertDuration = Duration.ofSeconds(10);
 		try {
-			if (Waiter.isDisplayed(declineButtonLocator, waitForAlertDuration)) {
+			if (Waiter.waitDisplayed(declineButtonLocator, waitForAlertDuration)) {
 				//close alert 1 out of 2
 				Waiter.find(declineButtonLocator, waitForAlertDuration).tap(1, 5);
 				//close alert 2 out of 2 (if exists)

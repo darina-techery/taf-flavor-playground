@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 public class Configuration {
 
-	public final RunParameters runParameters = new RunParameters();
+	private final RunParameters runParameters = new RunParameters();
 
 	public static final String CONFIG_FILE_NAME = "default_config.json";
 
@@ -32,7 +32,6 @@ public class Configuration {
 		} catch (FileNotFoundException e) {
 			throw new FailedConfigurationException(e, "Failed to locate config file");
 		}
-
 	}
 
 	public static boolean isAndroidPhone() {

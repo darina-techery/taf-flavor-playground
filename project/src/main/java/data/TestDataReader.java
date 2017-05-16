@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import utils.FileUtils;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.File;
@@ -14,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,14 +36,8 @@ public final class TestDataReader<T> {
 	}
 
 	private String getDataFilePath(String fileName) throws FileNotFoundException {
-		ClassLoader classLoader = getClass().getClassLoader();
 		String resourcePath = TEST_DATA_FOLDER + File.separator + fileName;
-		URL resource = classLoader.getResource(resourcePath);
-		if (resource == null) {
-			throw new FileNotFoundException("Resource file was not found by path "+resourcePath);
-		}
-		return resource.getPath();
-
+		return FileUtils.getResourceFilePathString(resourcePath);
 	}
 
 	private boolean testDataObjectContainsExposedFields(Class testDataClass) {

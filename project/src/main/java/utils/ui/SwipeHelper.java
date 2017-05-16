@@ -21,9 +21,16 @@ public class SwipeHelper {
 		swipe.swipe();
 	}
 
-	public static void scrollOneScreenDown() {
+	public static void scrollDown() {
 		Swipe swipe = new Swipe();
 		swipe.withOffsetFromBorderRatio(0.05);
+		swipe.swipe();
+	}
+
+	public static void scrollUp() {
+		Swipe swipe = new Swipe();
+		swipe.withOffsetFromBorderRatio(0.05);
+		swipe.direction(SwipeElementDirection.DOWN);
 		swipe.swipe();
 	}
 
@@ -75,7 +82,6 @@ public class SwipeHelper {
 	}
 
 	private static Swipe buildGenericSwipe(final Object toElement, final Object inContainer) {
-		final String errorTemplate = "%s should be MobileElement or By, but %s found";
 		verifyProvidedObject(toElement, "Target element");
 		verifyProvidedObject(inContainer, "Container");
 		Swipe swipe = new Swipe();

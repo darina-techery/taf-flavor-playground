@@ -1,6 +1,6 @@
 package actions;
 
-import screens.LoginScreen;
+import ui.screens.LoginScreen;
 import utils.runner.Assert;
 
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import static utils.waiters.Waiter.*;
 
 public abstract class LoginActions extends BaseActions {
 
-	LoginScreen loginPage = new LoginScreen();
+	private LoginScreen loginPage = new LoginScreen();
 
 	public void setLogin(String username) {
 		setText(loginPage.fldLogin, username);

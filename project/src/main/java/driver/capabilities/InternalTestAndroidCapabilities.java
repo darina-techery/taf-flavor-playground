@@ -4,7 +4,7 @@ import data.Configuration;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public abstract class BaseAndroidCapabilities extends BaseCapabilities {
+public class InternalTestAndroidCapabilities extends BaseAndroidCapabilities {
 	@Override
 	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = new DesiredCapabilities();

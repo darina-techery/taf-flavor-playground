@@ -12,9 +12,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import screens.LoginScreen;
-import screens.internal.LoginScreenForWaiterTests;
 import steps.DriverSteps;
+import ui.internal.LoginScreenForWaiterTests;
+import ui.screens.LoginScreen;
+import utils.ADBUtils;
 import utils.exceptions.FailedTestException;
 import utils.log.CommonLogMessages;
 import utils.waiters.ByWait;
@@ -25,7 +26,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
-import static screens.internal.LoginScreenForWaiterTests.*;
+import static ui.internal.LoginScreenForWaiterTests.*;
 import static utils.waiters.Waiter.*;
 
 public final class WaiterTests extends BaseTest implements CommonLogMessages {
@@ -35,12 +36,26 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 
 	@BeforeClass
 	public void prepareAppAndTestScreens() {
-		if (Configuration.isAndroid()) {
-			driverSteps.resetApplication();
-		}
+		driverSteps.resetApplication();
 		loginScreen = new LoginScreen();
 		uiTestScreen = new LoginScreenForWaiterTests();
 		driverSteps.readMainAppStrings(Configuration.getParameters().locale);
+	}
+
+	@Test
+//	@RunOn({Platform.ANDROID_PHONE, Platform.ANDROID_TABLET})
+	public void testIsKeyboardShown() {
+		//TODO: add listener
+		if (Configuration.isAndroid()) {
+			try {
+				Assert.assertThat("keyboard is shown", ADBUtils.isKeyboardShown(), is(false));
+				loginScreen.fldLogin.click();
+				loginScreen.fldLogin.clear();
+				Assert.assertThat("keyboard is shown", ADBUtils.isKeyboardShown(), is(true));
+			} finally {
+				DriverProvider.get().hideKeyboard();
+			}
+		}
 	}
 
 	@Test(enabled = true)

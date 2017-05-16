@@ -21,8 +21,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 
 	protected T testableObject;
 
-	protected WaitConfig waitConfig;
-
 	private R result;
 
 	private final String waitClassName;
@@ -143,10 +141,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 	@Nullable
 	public R go() {
 		new WaitValidator().validateConditions();
-		if (waitConfig == null) {
-			waitConfig = WaitConfig.get();
-		}
-
 		result = null;
 		success = false;
 		timer.start();
@@ -314,7 +308,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 
 		private void logFailure() {
 			logWarning();
-			if (waitConfig.failOnTimeout) {
+			if (failOnTimeout) {
 				String errorMessage = waitClassName
 						+ " failed"
 						+ (actionDescription == null ? "" : " to [" + actionDescription + "]")

@@ -3,6 +3,7 @@ package utils.ui;
 import data.Configuration;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 
 public class ElementDescriber {
 	public static final String DEFAULT_ELEMENT_DESCRIPTION = "Element (not present in DOM now)";
@@ -17,13 +18,17 @@ public class ElementDescriber {
 				String tagName = element.getTagName();
 				String[] tagComponents = tagName.split("\\.");
 				tagName = tagComponents[tagComponents.length - 1];
-				if (element.getAttribute("resourceId") == null) {
+				String resourceId = null;
+				try {
+					resourceId = element.getAttribute("resourceId");
+				} catch (WebDriverException e) {
+					//Some elements cause exception when resource-id requested
+					// (uiautomator issue)
+				}
+				if (resourceId == null) {
 					description = String.format("Element <%s>", tagName);
 				} else {
-					String resourceId = element.getAttribute("resourceId");
-					if (resourceId == null) {
-						resourceId = "null";
-					} else if (resourceId.contains("/")) {
+					if (resourceId.contains("/")) {
 						resourceId = resourceId.split("/")[1];
 					}
 					description = String.format("Element <%s[@id=%s]>",

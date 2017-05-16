@@ -1,4 +1,5 @@
 package actions;
 
-public class DreamTripsActions {
+public class DreamTripsActions extends BaseActions {
+
 }

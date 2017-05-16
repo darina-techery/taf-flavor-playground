@@ -1,18 +1,16 @@
 package actions;
 
-import screens.MenuItem;
-import screens.NavigationMenu;
-import utils.waiters.Waiter;
+import ui.components.NavigationMenu;
+import ui.components.Spinner;
 
 public abstract class NavigationActions extends BaseActions {
 
-	private NavigationMenu navigationMenu = new NavigationMenu();
+	protected NavigationMenu navigationMenu = new NavigationMenu();
+	protected Spinner spinner;
 
 	public abstract void assertLandingPageLoaded();
 
-	public abstract void selectMenuItem(MenuItem menuItem);
+	public abstract void waitSpinnerGone();
 
-	public void openMenu() {
-		Waiter.click(navigationMenu.menuButton);
-	}
+	public abstract String getPageTitle();
 }

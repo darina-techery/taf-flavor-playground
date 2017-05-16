@@ -1,9 +1,12 @@
 package actions;
 
 import io.appium.java_client.android.AndroidDriver;
-import screens.MenuItem;
+import org.openqa.selenium.By;
 import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
+import utils.waiters.Waiter;
+
+import java.time.Duration;
 
 public class DroidNavigationActions extends NavigationActions {
 
@@ -21,8 +24,12 @@ public class DroidNavigationActions extends NavigationActions {
 	}
 
 	@Override
-	public void selectMenuItem(MenuItem menuItem) {
-		openMenu();
+	public void waitSpinnerGone() {
+		Waiter.waitAbsent(spinner.spinnerIcon, Duration.ofSeconds(10));
+	}
 
+	@Override
+	public String getPageTitle() {
+		return Waiter.getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
 	}
 }

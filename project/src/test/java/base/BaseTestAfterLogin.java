@@ -2,7 +2,7 @@ package base;
 
 import data.TestData;
 import data.structures.User;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import steps.LoginSteps;
 
 public abstract class BaseTestAfterLogin extends BaseTestWithDriver {
@@ -12,7 +12,7 @@ public abstract class BaseTestAfterLogin extends BaseTestWithDriver {
 	@TestData(file = "user_credentials.json", key = "default_user")
 	User defaultUser;
 
-	@BeforeClass
+	@BeforeMethod
 	public void loginToApplication() {
 		loginSteps.loginIfRequired(defaultUser);
 	}

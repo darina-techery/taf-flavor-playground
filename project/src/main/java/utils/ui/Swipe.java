@@ -110,12 +110,19 @@ public class Swipe {
 			return stopFlag;
 		});
 
-		String elementDescription = ElementDescriber.describe(container);
-		if (elementDescription == null) {
-			elementDescription = ElementDescriber.DEFAULT_ELEMENT_DESCRIPTION;
+		String containerDescription;
+		if (container != null) {
+			containerDescription = ElementDescriber.describe(container);
+			if (containerDescription == null) {
+				containerDescription = ElementDescriber.DEFAULT_ELEMENT_DESCRIPTION;
+			}
+		} else if (containerBy != null) {
+			containerDescription = containerBy.toString();
+		} else {
+			containerDescription = "whole screen area";
 		}
 		StringBuilder description = new StringBuilder().append("Swipe in [")
-				.append(elementDescription).append("]");
+				.append(containerDescription).append("]");
 		if (needToLocateElement) {
 			description.append(" to locate element");
 		}
@@ -128,8 +135,8 @@ public class Swipe {
 
 	private boolean isElementPresent() {
 		return (targetElement != null)
-			? Waiter.isDisplayed(targetElement)
-			: Waiter.isDisplayed(targetElementBy);
+			? Waiter.waitDisplayed(targetElement, Duration.ofSeconds(2))
+			: Waiter.waitDisplayed(targetElementBy, Duration.ofSeconds(2));
 	}
 
 	private void initContainer() {
