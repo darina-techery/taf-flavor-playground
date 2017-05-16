@@ -61,7 +61,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 	@Test(enabled = true)
 	public void testIsDisplayedForVisibleElement() {
 		boolean isDisplayed = isDisplayed(loginScreen.fldLogin);
-		Assert.assertThat("isDisplayed for submitCredentials field returns true", isDisplayed, is(true));
+		Assert.assertThat("isDisplayed for login field returns true", isDisplayed, is(true));
 	}
 
 	@Test(enabled = true)
@@ -74,7 +74,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 	public void testIsDisplayedForVisibleLocator() {
 		By locator = getLoginFieldLocator();
 		boolean isDisplayed = isDisplayed(locator);
-		Assert.assertThat("isDisplayed for submitCredentials field locator returns true", isDisplayed, is(true));
+		Assert.assertThat("isDisplayed for login field locator returns true", isDisplayed, is(true));
 	}
 
 	@Test(enabled = true)
@@ -118,7 +118,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 	public void testSetTextForElement() {
 		String text = getMethodName();
 		setText(loginScreen.fldLogin, text);
-		Assert.assertThat("Text ["+text+"] was entered into submitCredentials field", loginScreen.fldLogin.getText(), is(text));
+		Assert.assertThat("Text ["+text+"] was entered into login field", loginScreen.fldLogin.getText(), is(text));
 	}
 
 	@Test(enabled = true)
@@ -126,7 +126,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		String text = getMethodName();
 		By locator = getLoginFieldLocator();
 		setText(locator, text);
-		Assert.assertThat("Text ["+text+"] was entered into submitCredentials field found by locator", loginScreen.fldLogin.getText(), is(text));
+		Assert.assertThat("Text ["+text+"] was entered into login field found by locator", loginScreen.fldLogin.getText(), is(text));
 	}
 
 	@Test(enabled = true)
@@ -134,7 +134,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		clear(loginScreen.fldLogin);
 		String attributeName = Configuration.isAndroid() ? "text" : "value";
 		String hint = getAttribute(loginScreen.fldLogin, attributeName);
-		Assert.assertThat("'"+attributeName+"' attribute for submitCredentials field contains a hint", hint, is(AppStrings.get().userIdHint));
+		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
 
 	@Test(enabled = true)
@@ -143,7 +143,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		By loginFieldLocator = getLoginFieldLocator();
 		String attributeName = Configuration.isAndroid() ? "text" : "value";
 		String hint = getAttribute(loginFieldLocator, attributeName);
-		Assert.assertThat("'"+attributeName+"' attribute for submitCredentials field contains a hint", hint, is(AppStrings.get().userIdHint));
+		Assert.assertThat("'"+attributeName+"' attribute for login field contains a hint", hint, is(AppStrings.get().userIdHint));
 	}
 
 	@Test(enabled = true)
@@ -177,7 +177,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		String text = getMethodName();
 		setText(loginScreen.fldLogin, text);
 		boolean containsText = anyContainsTextForElements(elements, text);
-		Assert.assertThat("One of fields (submitCredentials, password) contains text ["+text+"]", containsText, is(true));
+		Assert.assertThat("One of fields (login, password) contains text ["+text+"]", containsText, is(true));
 	}
 
 	@Test(enabled = true)
@@ -187,7 +187,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		String expectedText = "No such text is found";
 		setText(loginScreen.fldLogin, actualText);
 		boolean containsText = anyContainsTextForElements(elements, expectedText);
-		Assert.assertThat("Check of fields (submitCredentials, password) contains text ["+expectedText+"]", containsText, is(false));
+		Assert.assertThat("Check of fields (login, password) contains text ["+expectedText+"]", containsText, is(false));
 	}
 
 	@Test(enabled = true)
@@ -196,7 +196,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		String text = getMethodName();
 		setText(loginScreen.fldLogin, text);
 		boolean containsText = anyContainsTextForLocators(locators, text);
-		Assert.assertThat("One of fields (submitCredentials, password) contains text ["+text+"]", containsText, is(true));
+		Assert.assertThat("One of fields (login, password) contains text ["+text+"]", containsText, is(true));
 	}
 
 	@Test(enabled = true)
@@ -206,7 +206,7 @@ public final class WaiterTests extends BaseTest implements CommonLogMessages {
 		String expectedText = "No such text is found";
 		setText(loginScreen.fldLogin, actualText);
 		boolean containsText = anyContainsTextForLocators(locators, expectedText);
-		Assert.assertThat("Check of fields (submitCredentials, password) contains text ["+expectedText+"]", containsText, is(false));
+		Assert.assertThat("Check of fields (login, password) contains text ["+expectedText+"]", containsText, is(false));
 	}
 
 	@Test(enabled = true)
