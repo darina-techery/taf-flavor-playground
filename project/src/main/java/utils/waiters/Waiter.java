@@ -409,6 +409,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 				((AndroidElement)el).replaceValue(text);
 			} else {
 				el.click();
+				el.clear();
 				el.sendKeys("");
 				el.setValue(text);
 			}
