@@ -19,7 +19,7 @@ final class AppiumServiceProvider {
 
 	AppiumDriverLocalService getService(){
 		if (service == null) {
-			String port = getPort();
+			String port = acquirePort();
 			final AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder();
 			appiumServiceBuilder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
 			appiumServiceBuilder.withArgument(GeneralServerFlag.LOG_TIMESTAMP);
@@ -41,7 +41,7 @@ final class AppiumServiceProvider {
 		return service;
 	}
 
-	private String getPort() {
+	private String acquirePort() {
 		try {
 			Runtime.getRuntime().exec("killall node");
 			ServerSocket socket = new ServerSocket(0);
