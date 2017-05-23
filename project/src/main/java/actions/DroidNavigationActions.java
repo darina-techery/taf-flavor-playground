@@ -1,8 +1,10 @@
 package actions;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
 import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
+import utils.waiters.Waiter;
 
 public class DroidNavigationActions extends NavigationActions {
 
@@ -17,5 +19,10 @@ public class DroidNavigationActions extends NavigationActions {
 		if (!activityWait.isSuccess()) {
 			throw new FailedTestException("Cannot load "+expectedActivityName+", "+activityWait.result() + " found instead.");
 		}
+	}
+
+	@Override
+	public String getPageTitle() {
+		return Waiter.getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
 	}
 }

@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
-import utils.waiters.WaitConfig;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,11 +47,9 @@ public final class CMDUtils {
 
 	public static Boolean waitForRuntimeMessageContains(final String command, String expectedResponse, int waitSec) {
 		AnyWait<Void, String> commandRunner = new AnyWait<>();
-		WaitConfig waitConfig = WaitConfig.get()
-				.duration(ofSeconds(waitSec))
-				.retryIn(ofMillis(CMD_RETRY_TIMEOUT_MILLIS));
 		commandRunner
-				.config(waitConfig)
+				.duration(ofSeconds(waitSec))
+				.retryInterval(ofMillis(CMD_RETRY_TIMEOUT_MILLIS))
 				.calculate(() -> {
 					String line = executeCommandAndGetFullResponse(command);
 					log.debug(String.format(COMMAND_RETRY_TEMPLATE, command, expectedResponse, line));
@@ -67,7 +64,7 @@ public final class CMDUtils {
 	public static String executeCommand(String command) {
 		String response;
 		try {
-			BufferedReader buf = getExecutionOutput(command);
+			BufferedReader buf = exec(command);
 			response = buf.readLine();
 		}
 		catch (IOException e) {
@@ -80,7 +77,7 @@ public final class CMDUtils {
 		String response;
 		StringBuffer body = new StringBuffer();
 		try {
-			BufferedReader buf = getExecutionOutput(command);
+			BufferedReader buf = exec(command);
 			response = buf.readLine();
 			while (response != null) {
 				log.trace(response);
@@ -94,16 +91,16 @@ public final class CMDUtils {
 		return body.toString();
 	}
 
-	private static BufferedReader getExecutionOutput(String command) throws IOException {
+	private static BufferedReader exec(String command) throws IOException {
 		log.info("Execute >> "+command+"");
 		Runtime run = Runtime.getRuntime();
-		Process pr = run.exec(command);
+		Process pr = run.exec(new String[]{"/bin/bash", "-c", command});
 		return new BufferedReader(new InputStreamReader(pr.getInputStream()));
 	}
 
 	public static String getDreamTripBundleId(){
-		return executeCommand("fbsimctl list_apps | grep DreamTrip | grep bundle_id | sed -n 's/.*=\\(.*\\)/\\1/p'")
-				.replaceAll("[\";\\s]*","");
+		String bundleId = executeCommandAndGetFullResponse("fbsimctl list_apps | grep DreamTrip | grep bundle_id | sed -n -e 's/.*\"bundle_id\" = \"\\(.*\\)\";/\\1/p'");
+		return bundleId;
 	}
 
 	public static void reInstallAndLaunchIOS(String bundleId, String appPath){

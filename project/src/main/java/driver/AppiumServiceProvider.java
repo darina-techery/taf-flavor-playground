@@ -5,6 +5,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.AndroidServerFlag;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import org.apache.logging.log4j.LogManager;
 
 import javax.inject.Singleton;
 import java.io.File;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 @Singleton
-class AppiumServiceProvider {
+final class AppiumServiceProvider {
 
 	private AppiumDriverLocalService service;
 
@@ -35,8 +36,8 @@ class AppiumServiceProvider {
 
 			service = AppiumDriverLocalService.buildService(appiumServiceBuilder);
 			service.start();
+			LogManager.getLogger().info("Starting Appium service on port {}", service.getUrl().getPort());
 		}
-
 		return service;
 	}
 

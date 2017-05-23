@@ -15,6 +15,10 @@ public abstract class BaseAndroidCapabilities extends BaseCapabilities {
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
 		capabilities.setCapability(MobileCapabilityType.FULL_RESET, false);
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 0);
+
+		//TODO: remove if fails
+		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
+
 		capabilities.setCapability("defaultCapability", true);
 		capabilities.setCapability("CapabilityName", this.getClass().getName());
 		return capabilities;

@@ -14,27 +14,27 @@ import java.util.function.*;
 
 public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 	protected Logger log = getLogger();
-	private WaitTimer timer;
-	private WaitLogger waitLogger;
+	private WaitTimer timer = new WaitTimer();
+	private WaitLogger waitLogger = new WaitLogger();
 
 	private Set<Class<? extends Throwable>> ignoredExceptions;
 
 	protected T testableObject;
 
-	protected WaitConfig waitConfig;
-
 	private R result;
 
 	private final String waitClassName;
 
-//	private boolean failOnTimeout = false;
+	private boolean failOnTimeout = false;
+
 	private Boolean success;
+
+	private String actionDescription;
 
 	private static final String OUTPUT_TEMPLATE = "\n\t- %1$-9s [%2$s]";
 
 	BaseWait() {
 		ignoredExceptions = new HashSet<>();
-		waitLogger = new WaitLogger();
 		waitClassName = this.getClass().getSimpleName();
 	}
 
@@ -67,8 +67,22 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		return this;
 	}
 
-	public BaseWait<T, R> config(WaitConfig config) {
-		this.waitConfig = config;
+	public BaseWait<T, R> duration(Duration maxDuration) {
+		if (maxDuration != null) {
+			this.timer.maxDuration = maxDuration;
+		}
+		return this;
+	}
+
+	public BaseWait<T, R> retryInterval(Duration retryInterval) {
+		if (retryInterval != null) {
+			this.timer.retryInterval = retryInterval;
+		}
+		return this;
+	}
+
+	public BaseWait<T, R> failOnTimeout(boolean failOnTimeout) {
+		this.failOnTimeout = failOnTimeout;
 		return this;
 	}
 
@@ -127,11 +141,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 	@Nullable
 	public R go() {
 		new WaitValidator().validateConditions();
-		if (waitConfig == null) {
-			waitConfig = WaitConfig.get();
-		}
-		timer = new WaitTimer(waitConfig.duration);
-
 		result = null;
 		success = false;
 		timer.start();
@@ -221,9 +230,6 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		return result;
 	}
 
-
-	String actionDescription;
-
 	void setActionDescription(String actionDescription) {
 		this.actionDescription = actionDescription;
 	}
@@ -302,7 +308,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 
 		private void logFailure() {
 			logWarning();
-			if (waitConfig.failOnTimeout) {
+			if (failOnTimeout) {
 				String errorMessage = waitClassName
 						+ " failed"
 						+ (actionDescription == null ? "" : " to [" + actionDescription + "]")
@@ -321,7 +327,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 					operationWithoutReturnWithoutTestableObject, operationWithoutReturnWithTestableObject,
 					operationWithReturnWithoutTestableObject, operationWithReturnWithTestableObject);
 			checkConditionsByType("post-condition",
-					postconditionWithoutResult, postconditionWithoutResult);
+					postconditionWithoutResult, postconditionWithResult);
 			if (totalConditionsProvided == 0) {
 				throw new IllegalArgumentException("No pre- or post-conditions or operations was provided for "
 						+waitClassName);

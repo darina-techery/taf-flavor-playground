@@ -1,13 +1,13 @@
-package screens.internal;
+package ui.internal;
 
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
-import screens.BaseScreen;
+import ui.BaseUiModule;
 
-public class LoginScreenForWaiterTests extends BaseScreen {
+public class LoginScreenForWaiterTests extends BaseUiModule {
 	@iOSFindBy(accessibility = "no_such_element_exists")
 	@AndroidFindBy(id = "no_such_element_exists")
 	public MobileElement invalidElement;
