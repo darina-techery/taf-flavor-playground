@@ -10,14 +10,14 @@ import java.io.FileNotFoundException;
 @Singleton
 public class UserSessionManager {
 	private UserCredentials activeUser;
-	private UserCredentials defaultUser;
-	private SessionTokenHolder sessionTokenHolder;
+	private final UserCredentials defaultUser;
+	private final SessionTokenHolder sessionTokenHolder;
 
 	private UserSessionManager() {
 		try {
 			TestDataReader<UserCredentials> userDataReader = new TestDataReader<>(
 					UserCredentials.DATA_FILE_NAME, UserCredentials.class);
-			this.defaultUser = userDataReader.read();
+			this.defaultUser = userDataReader.readByKey("default_user");
 		} catch (FileNotFoundException e) {
 			throw new FailedConfigurationException(
 					"Cannot read config file with user credentials: "+UserCredentials.DATA_FILE_NAME, e);
@@ -34,20 +34,20 @@ public class UserSessionManager {
 	}
 
 	private static class ActiveUserHolder {
-		private static UserSessionManager HOLDER = new UserSessionManager();
+		private static final UserSessionManager INSTANCE = new UserSessionManager();
 	}
 
 	public static UserCredentials getActiveUser() {
-		return ActiveUserHolder.HOLDER.getUser();
+		return ActiveUserHolder.INSTANCE.getUser();
 	}
 
 	public static void setActiveUser(UserCredentials user) {
-		ActiveUserHolder.HOLDER.setUser(user);
+		ActiveUserHolder.INSTANCE.setUser(user);
 	}
 
 	public static void resetUserData(){
-		ActiveUserHolder.HOLDER.activeUser = null;
-		ActiveUserHolder.HOLDER.sessionTokenHolder.clearSessions();
+		ActiveUserHolder.INSTANCE.activeUser = null;
+		ActiveUserHolder.INSTANCE.sessionTokenHolder.clearSessions();
 	}
 
 	public static String getActiveUserToken() {
@@ -55,7 +55,7 @@ public class UserSessionManager {
 	}
 
 	public static String getUserToken(String username) {
-		return ActiveUserHolder.HOLDER.sessionTokenHolder.getToken(username);
+		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getToken(username);
 	}
 
 	public static String getActiveUserSsoToken() {
@@ -63,11 +63,11 @@ public class UserSessionManager {
 	}
 
 	public static String getActiveUserSsoToken(String username) {
-		return ActiveUserHolder.HOLDER.sessionTokenHolder.getSsoToken(username);
+		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getSsoToken(username);
 	}
 
 	public static void addApiSession(LoginResponse loginResponse) {
-		ActiveUserHolder.HOLDER.sessionTokenHolder.addSession(loginResponse);
+		ActiveUserHolder.INSTANCE.sessionTokenHolder.addSession(loginResponse);
 	}
 
 }

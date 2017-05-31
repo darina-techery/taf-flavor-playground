@@ -24,6 +24,9 @@ public class DreamTripsClientTests extends BaseTest {
 	DreamTripsAPIClient client;
 	DreamTripsAPI apiService;
 
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
+	private UserCredentials defaultUser;
+
 	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "user_with_no_rds")
 	private UserCredentials anotherUser;
 
@@ -33,9 +36,11 @@ public class DreamTripsClientTests extends BaseTest {
 		apiService = client.create(DreamTripsAPI.class);
 	}
 
-	private UserProfile getActiveUserProfileFromService() throws IOException {
-		Response<UserProfile> defaultUserProfileData = apiService.getUserProfile().execute();
-		return defaultUserProfileData.body();
+	@Test
+	public void testDefaultUser() {
+		UserCredentials userCredentials = UserSessionManager.getActiveUser();
+		Assert.assertThat("Default user is active",
+				userCredentials.username, is(defaultUser.username));
 	}
 
 	@Test
@@ -68,22 +73,34 @@ public class DreamTripsClientTests extends BaseTest {
 		String actualUsername = profile.getUsername();
 		Assert.assertThat("Profile request returns valid username for another user",
 				actualUsername, is(anotherUser.username));
-
 	}
 
 	@Test
-	public void testAuthenticationTokenRemainsCommonForTheSameUser() throws IOException {
+	public void testAuthenticationRequest() throws IOException {
 		UserCredentials defaultUser = UserSessionManager.getActiveUser();
 		AuthAPI authService = client.create(AuthAPI.class);
 		LoginRequest request = new LoginRequest(defaultUser);
 		Response<LoginResponse> defaultUserLoginResponse = authService.login(request).execute();
-		String defaultUserToken = UserSessionManager.getUserToken(defaultUser.username);
+		Assert.assertThat("Login request is successful", defaultUserLoginResponse.isSuccessful());
+	}
+
+	@Test
+	public void testAuthenticationTokenRemainsTheSameForOneUser() throws IOException {
+		UserCredentials defaultUser = UserSessionManager.getActiveUser();
+		AuthAPI authService = client.create(AuthAPI.class);
+		LoginRequest request = new LoginRequest(defaultUser);
+		Response<LoginResponse> defaultUserLoginResponse = authService.login(request).execute();
+		String defaultUserToken = defaultUserLoginResponse.body().getToken();
 
 		//send request requiring auth
 		getActiveUserProfileFromService();
 		String currentUserToken = UserSessionManager.getUserToken(defaultUser.username);
 		Assert.assertThat("Authentication token remains the same between requests",
 				currentUserToken, is(defaultUserToken));
+	}
 
+	private UserProfile getActiveUserProfileFromService() throws IOException {
+		Response<UserProfile> defaultUserProfileData = apiService.getUserProfile().execute();
+		return defaultUserProfileData.body();
 	}
 }
