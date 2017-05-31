@@ -24,9 +24,9 @@ public class AuthAPIActions {
 	}
 
 	public Response<LoginResponse> authenticateUser(UserCredentials userCredentials) {
-		LoginRequest request = new LoginRequest(userCredentials);
+		final LoginRequest request = new LoginRequest(userCredentials);
 
-		AnyWait<Void, Response<LoginResponse>> loginOperation = new AnyWait<>();
+		final AnyWait<Void, Response<LoginResponse>> loginOperation = new AnyWait<>();
 		loginOperation.duration(Duration.ofMinutes(1));
 		loginOperation.calculate(() -> {
 			try {
@@ -36,7 +36,7 @@ public class AuthAPIActions {
 			}
 		});
 		loginOperation.until(Response::isSuccessful);
-		Response<LoginResponse> loginResponse = loginOperation.go();
+		final Response<LoginResponse> loginResponse = loginOperation.go();
 		if (loginResponse == null || !loginResponse.isSuccessful()) {
 			String message = new ResponseLogger(loginResponse, "Login via Rest API")
 					.describeFailedResponse();
