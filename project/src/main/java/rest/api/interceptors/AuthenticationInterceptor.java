@@ -1,6 +1,6 @@
 package rest.api.interceptors;
 
-import actions.rest.RestLoginActions;
+import actions.rest.AuthAPIActions;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class AuthenticationInterceptor implements Interceptor {
 	private static final String LOGIN_SERVICE_PATH = "/api/sessions";
-	private RestLoginActions restLoginActions;
+	private AuthAPIActions restLoginActions;
 
 	@Override
 	public Response intercept(Chain chain) throws IOException {
@@ -31,7 +31,7 @@ public class AuthenticationInterceptor implements Interceptor {
 	private String getToken() {
 		if (UserSessionManager.getActiveUserToken() == null) {
 			if (restLoginActions == null) {
-				restLoginActions = new RestLoginActions();
+				restLoginActions = new AuthAPIActions();
 			}
 			restLoginActions.authenticateUser(UserSessionManager.getActiveUser());
 		}

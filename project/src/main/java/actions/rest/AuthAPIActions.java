@@ -15,11 +15,11 @@ import utils.waiters.AnyWait;
 import java.io.IOException;
 import java.time.Duration;
 
-public class RestLoginActions {
+public class AuthAPIActions {
 
 	private final AuthAPI authAPI;
 
-	public RestLoginActions() {
+	public AuthAPIActions() {
 		this.authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
 	}
 
