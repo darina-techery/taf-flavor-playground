@@ -11,7 +11,7 @@ public class FailedTestException extends RuntimeException implements CommonLogMe
 		super(INTERRUPTED_TEST_MESSAGE + "[" + message + "]");
 	}
 
-	public FailedTestException(Throwable t, String message){
+	public FailedTestException(String message, Throwable t){
 		super(INTERRUPTED_BY_EXCEPTION_TEST_MESSAGE + "[" + message + "]", t);
 	}
 }

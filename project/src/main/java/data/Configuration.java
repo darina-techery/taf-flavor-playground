@@ -30,7 +30,7 @@ public class Configuration {
 			TestDataReader<RunParameters> configReader = new TestDataReader<>(CONFIG_FILE_NAME, RunParameters.class);
 			return configReader.read();
 		} catch (FileNotFoundException e) {
-			throw new FailedConfigurationException(e, "Failed to locate config file");
+			throw new FailedConfigurationException("Failed to locate config file ["+CONFIG_FILE_NAME+"]", e);
 		}
 	}
 

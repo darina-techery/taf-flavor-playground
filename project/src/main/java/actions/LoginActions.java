@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import static utils.waiters.Waiter.*;
 
-public abstract class LoginActions extends BaseActions {
+public abstract class LoginActions extends BaseUiActions {
 
 	private LoginScreen loginPage = new LoginScreen();
 

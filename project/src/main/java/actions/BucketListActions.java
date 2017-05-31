@@ -1,5 +1,5 @@
 package actions;
 
-public class BucketListActions extends BaseActions {
+public class BucketListActions extends BaseUiActions {
 
 }
