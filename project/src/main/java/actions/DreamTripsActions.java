@@ -1,5 +1,5 @@
 package actions;
 
-public abstract class DreamTripsActions extends BaseActions {
+public abstract class DreamTripsActions extends BaseUiActions {
 
 }

@@ -2,7 +2,7 @@ package steps;
 
 import actions.AlertActions;
 import actions.LoginActions;
-import data.structures.User;
+import user.UserCredentials;
 import org.apache.logging.log4j.LogManager;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
@@ -19,7 +19,7 @@ public class LoginSteps {
 	}
 
 	@Step("Submit provided login credentials: '{0}' ")
-	public void submitCredentials(User user) {
+	public void submitCredentials(UserCredentials user) {
 		loginActions.waitForScreen();
 		loginActions.setLogin(user.username);
 		loginActions.setPassword(user.password);
@@ -27,13 +27,13 @@ public class LoginSteps {
 	}
 
 	@Step("Login to application with valid credentials: '{0}' / '{1}'")
-	public void loginWithValidCredentials(User user) {
+	public void loginWithValidCredentials(UserCredentials user) {
 		submitCredentials(user);
 		alertActions.declinePermissionRequestAlert();
 	}
 
 	@Step("Login to application if required")
-	public void loginIfRequired(User user) {
+	public void loginIfRequired(UserCredentials user) {
 		if (loginActions.isScreenActive()) {
 			loginWithValidCredentials(user);
 		}

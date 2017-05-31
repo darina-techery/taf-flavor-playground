@@ -1,6 +1,4 @@
 import base.BaseTestWithDriver;
-import data.TestData;
-import data.structures.User;
 import driver.DriverProvider;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterClass;
@@ -20,9 +18,6 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
 	private final Logger log = getLogger();
-
-	@TestData(file = "user_credentials.json", key = "default_user")
-	User defaultUser;
 
 	@Test
 	public void loginToAppAsFirstTimeUser() {

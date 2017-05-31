@@ -2,7 +2,7 @@ package actions;
 
 import ui.components.NavigationMenu;
 
-public abstract class NavigationActions extends BaseActions {
+public abstract class NavigationActions extends BaseUiActions {
 
 	protected NavigationMenu navigationMenu = new NavigationMenu();
 

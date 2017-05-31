@@ -25,6 +25,10 @@ public class RunParameters {
 	@Expose
 	public String apiURL;
 
+	@EnvVar("API_URL")
+	@Expose
+	public String stubUrl;
+
 	@EnvVar("PLATFORM")
 	@Expose
 	String platformName;
@@ -71,7 +75,7 @@ public class RunParameters {
 					}
 				}
 			} catch (IllegalAccessException e) {
-				throw new FailedConfigurationException(e, "Failed to read ["+f.getName()+"] from preferred parameters set.");
+				throw new FailedConfigurationException("Failed to read ["+f.getName()+"] from preferred parameters set.", e);
 			}
 		}
 		this.platform = Platform.byName(platformName);
@@ -111,7 +115,8 @@ public class RunParameters {
 		try {
 			f.set(this, value);
 		} catch (IllegalAccessException e) {
-			throw new FailedConfigurationException(e, "Could not set value ["+value+"] to parameter ["+f.getName()+"]");
+			throw new FailedConfigurationException(
+					"Could not set value ["+value+"] to parameter ["+f.getName()+"]", e);
 		}
 	}
 

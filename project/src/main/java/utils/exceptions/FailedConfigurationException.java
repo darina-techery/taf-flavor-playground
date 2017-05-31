@@ -9,7 +9,7 @@ public class FailedConfigurationException extends RuntimeException {
 		super(INTERRUPTED_TEST_MESSAGE + "[" + message + "]");
 	}
 
-	public FailedConfigurationException(Throwable t, String message){
+	public FailedConfigurationException(String message, Throwable t){
 		super(INTERRUPTED_BY_EXCEPTION_TEST_MESSAGE + "[" + message + "]", t);
 	}
 }

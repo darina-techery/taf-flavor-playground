@@ -1,5 +1,5 @@
 package actions;
 
-public abstract class AlertActions extends BaseActions {
+public abstract class AlertActions extends BaseUiActions {
 	public abstract void declinePermissionRequestAlert();
 }

@@ -348,7 +348,7 @@ public class AppStrings {
 			AppStringsHolder.INSTANCE.addAppStrings(map);
 		}
 		catch (IllegalAccessException e) {
-			throw new FailedConfigurationException(e, "Failed to write values into App Strings map");
+			throw new FailedConfigurationException("Failed to write values into App Strings map", e);
 		}
 	}
 

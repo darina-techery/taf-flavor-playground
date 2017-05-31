@@ -7,13 +7,20 @@ import dagger.ActionsModule;
 import dagger.DaggerStepsComponent;
 import dagger.StepsComponent;
 import data.Configuration;
+import data.TestData;
 import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import org.testng.annotations.AfterTest;
+import user.UserSessionManager;
+import user.UserCredentials;
 import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
+
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
+	protected UserCredentials defaultUser;
 
     private StepsComponent stepsComponent;
 
@@ -25,6 +32,11 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 
 	protected StepsComponent getStepsComponent() {
 		return stepsComponent;
+	}
+
+	@AfterTest
+	public void resetActiveUserCredentials() {
+		UserSessionManager.resetUserData();
 	}
 
     private void initStepsComponent(){

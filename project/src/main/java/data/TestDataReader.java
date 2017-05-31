@@ -93,9 +93,10 @@ public final class TestDataReader<T> {
 								"Failed to read test data object %s in class %s: JSON file [%s] not found.",
 								f.getName(), classWithTestData, filename));
 					} catch (IllegalAccessException e) {
-						throw new FailedConfigurationException(e, String.format(
+						throw new FailedConfigurationException(String.format(
 								"Could not set value for field %s in class %s.",
-								f.getName(), testDataClass));
+								f.getName(), testDataClass),
+								e);
 					}
 				}
 			}

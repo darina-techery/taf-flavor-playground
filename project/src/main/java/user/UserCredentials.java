@@ -1,6 +1,6 @@
-package data.structures;
+package user;
 
-public class User {
+public class UserCredentials {
 	public static final String DATA_FILE_NAME = "user_credentials.json";
 	public String username;
 	public String password;

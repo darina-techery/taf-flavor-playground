@@ -2,6 +2,7 @@ package utils.waiters;
 
 import org.apache.logging.log4j.Logger;
 import utils.exceptions.FailedTestException;
+import utils.exceptions.FailedWaitAttemptException;
 import utils.exceptions.IgnoresExceptions;
 import utils.log.CommonLogMessages;
 import utils.log.LogProvider;
@@ -220,7 +221,9 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 			}
 		}
 		catch(Throwable t) {
-			if (!isIgnorable(t)) {
+			if (t.getClass().equals(FailedWaitAttemptException.class)) {
+				log.error(t.toString());
+			} else if (!isIgnorable(t)) {
 				log.error("Caught an exception not listed in ignored exceptions classes: [{}]", t.getClass());
 				listIgnorableExceptions(log);
 				throw t;

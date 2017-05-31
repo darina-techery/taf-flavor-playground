@@ -1,9 +1,10 @@
 package internal;
 
+import data.Configuration;
 import data.structures.RunParameters;
 import data.TestData;
 import data.TestDataReader;
-import data.structures.User;
+import user.UserCredentials;
 import org.junit.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -17,12 +18,12 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public final class TestDataReaderTests {
 
-	@TestData(file = "user_credentials.json", key = "default_user")
-	User defaultUserFromAnnotation;
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
+	UserCredentials defaultUserFromAnnotation;
 
-	User defaultUserFromDataReader;
+	UserCredentials defaultUserFromDataReader;
 
-	@TestData(file = "default_config.json")
+	@TestData(file = Configuration.CONFIG_FILE_NAME)
 	RunParameters runParametersFromAnnotation;
 
 	RunParameters runParametersFromDataReader;
@@ -37,7 +38,7 @@ public final class TestDataReaderTests {
 
 	@Test
 	public void readTestDataByKeyWithReader() throws FileNotFoundException {
-		defaultUserFromDataReader = new TestDataReader<>(User.DATA_FILE_NAME, User.class).readByKey(DEFAULT_USER_KEY);
+		defaultUserFromDataReader = new TestDataReader<>(UserCredentials.DATA_FILE_NAME, UserCredentials.class).readByKey(DEFAULT_USER_KEY);
 		Assert.assertThat("Default user submitCredentials is read from JSON file using TestDataReader",
 				defaultUserFromDataReader.username, is(EXPECTED_USERNAME));
 	}
@@ -50,11 +51,11 @@ public final class TestDataReaderTests {
 
 	@Test
 	public void readAllValuesWithReader() throws FileNotFoundException {
-		TestDataReader<User> userReader = new TestDataReader<>(User.DATA_FILE_NAME, User.class);
-		Map<String, User> allUserData = userReader.readAllValues();
-		Assert.assertThat("All entries in "+User.DATA_FILE_NAME+" were read", allUserData.entrySet().size(), is(4));
-		Assert.assertThat("All entries in "+User.DATA_FILE_NAME+" were parsed as proper type",
-				allUserData.get(DEFAULT_USER_KEY).getClass(), is(User.class));
+		TestDataReader<UserCredentials> userReader = new TestDataReader<>(UserCredentials.DATA_FILE_NAME, UserCredentials.class);
+		Map<String, UserCredentials> allUserData = userReader.readAllValues();
+		Assert.assertThat("All entries in "+ UserCredentials.DATA_FILE_NAME+" were read", allUserData.entrySet().size(), is(4));
+		Assert.assertThat("All entries in "+ UserCredentials.DATA_FILE_NAME+" were parsed as proper type",
+				allUserData.get(DEFAULT_USER_KEY).getClass(), is(UserCredentials.class));
 	}
 
 	@Test
