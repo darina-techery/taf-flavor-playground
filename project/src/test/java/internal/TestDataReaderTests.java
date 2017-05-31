@@ -1,5 +1,6 @@
 package internal;
 
+import data.Configuration;
 import data.structures.RunParameters;
 import data.TestData;
 import data.TestDataReader;
@@ -17,12 +18,12 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public final class TestDataReaderTests {
 
-	@TestData(file = "user_credentials.json", key = "default_user")
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
 	UserCredentials defaultUserFromAnnotation;
 
 	UserCredentials defaultUserFromDataReader;
 
-	@TestData(file = "default_config.json")
+	@TestData(file = Configuration.CONFIG_FILE_NAME)
 	RunParameters runParametersFromAnnotation;
 
 	RunParameters runParametersFromDataReader;

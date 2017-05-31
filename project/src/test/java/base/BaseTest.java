@@ -19,7 +19,7 @@ import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
 
-	@TestData(file = "user_credentials.json", key = "default_user")
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
 	protected UserCredentials defaultUser;
 
     private StepsComponent stepsComponent;
