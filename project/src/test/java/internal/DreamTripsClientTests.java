@@ -77,7 +77,6 @@ public class DreamTripsClientTests extends BaseTest {
 
 	@Test
 	public void testAuthenticationRequest() throws IOException {
-		UserCredentials defaultUser = UserSessionManager.getActiveUser();
 		AuthAPI authService = client.create(AuthAPI.class);
 		LoginRequest request = new LoginRequest(defaultUser);
 		Response<LoginResponse> defaultUserLoginResponse = authService.login(request).execute();
@@ -86,11 +85,11 @@ public class DreamTripsClientTests extends BaseTest {
 
 	@Test
 	public void testAuthenticationTokenRemainsTheSameForOneUser() throws IOException {
-		UserCredentials defaultUser = UserSessionManager.getActiveUser();
 		AuthAPI authService = client.create(AuthAPI.class);
 		LoginRequest request = new LoginRequest(defaultUser);
-		Response<LoginResponse> defaultUserLoginResponse = authService.login(request).execute();
-		String defaultUserToken = defaultUserLoginResponse.body().getToken();
+		LoginResponse response = authService.login(request).execute().body();
+		String defaultUserToken = response.getToken();
+		UserSessionManager.addApiSession(response);
 
 		//send request requiring auth
 		getActiveUserProfileFromService();
