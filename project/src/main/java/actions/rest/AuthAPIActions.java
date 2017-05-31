@@ -1,6 +1,7 @@
 package actions.rest;
 
 import rest.ResponseLogger;
+import rest.api.clients.DreamTripsAPIClient;
 import rest.api.services.AuthAPI;
 import rest.api.payloads.login.request.LoginRequest;
 import rest.api.payloads.login.response.LoginResponse;
@@ -18,15 +19,11 @@ public class RestLoginActions {
 
 	private final AuthAPI authAPI;
 
-	public RestLoginActions(AuthAPI authAPI) {
-		this.authAPI = authAPI;
+	public RestLoginActions() {
+		this.authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
 	}
 
-//	public boolean isUserLoggedIn(UserCredentials userCredentials) {
-//		return ActiveUserProvider.getApiSessionTokens().isSessionCreated(userCredentials.username);
-//	}
-
-	public void authenticateUser(UserCredentials userCredentials) {
+	public Response<LoginResponse> authenticateUser(UserCredentials userCredentials) {
 		LoginRequest request = new LoginRequest(userCredentials);
 
 		AnyWait<Void, Response<LoginResponse>> loginOperation = new AnyWait<>();
@@ -46,5 +43,6 @@ public class RestLoginActions {
 			throw new FailedConfigurationException(message);
 		}
 		UserSessionManager.addApiSession(loginResponse.body());
+		return loginResponse;
 	}
 }

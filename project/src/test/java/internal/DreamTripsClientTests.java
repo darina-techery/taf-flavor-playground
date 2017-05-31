@@ -1,5 +1,6 @@
 package internal;
 
+import actions.rest.RestLoginActions;
 import base.BaseTest;
 import data.TestData;
 import org.testng.annotations.BeforeClass;
@@ -85,11 +86,9 @@ public class DreamTripsClientTests extends BaseTest {
 
 	@Test
 	public void testAuthenticationTokenRemainsTheSameForOneUser() throws IOException {
-		AuthAPI authService = client.create(AuthAPI.class);
-		LoginRequest request = new LoginRequest(defaultUser);
-		LoginResponse response = authService.login(request).execute().body();
+		RestLoginActions restLoginActions = new RestLoginActions();
+		LoginResponse response = restLoginActions.authenticateUser(defaultUser).body();
 		String defaultUserToken = response.getToken();
-		UserSessionManager.addApiSession(response);
 
 		//send request requiring auth
 		getActiveUserProfileFromService();
