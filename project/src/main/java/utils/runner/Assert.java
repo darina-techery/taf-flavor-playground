@@ -9,8 +9,10 @@ public class Assert {
 	@Step("Verify that ''{0}''")
 	public static <T> void assertThat(String reason, T actual, Matcher<? super T> matcher) {
 		if (!matcher.matches(actual)) {
-			Screenshot.getScreenshotOnFail(reason.replace("\\s", ""));
-			org.junit.Assert.assertThat(reason, actual, matcher);
+			if (Screenshot.isDriverReadyToTakeScreenshots()) {
+				Screenshot.getScreenshotOnFail(reason.replace("\\s", ""));
+			}
+//			org.junit.Assert.assertThat(reason, actual, matcher);
 		}
 	}
 
