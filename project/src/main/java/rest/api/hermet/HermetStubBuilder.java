@@ -12,12 +12,15 @@ import utils.exceptions.FailedConfigurationException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URL;
 
 
 public class HermetStubBuilder {
 	private JsonElement response;
 	private ImposterBuilder imposterBuilder = new ImposterBuilder();
 	private StubBuilder stubBuilder = imposterBuilder.stub();
+
+	public static final String HERMET_JSON_DATA_FOLDER = "hermet";
 
 	public PredicateTypeBuilder addPredicate() {
 		return stubBuilder.predicate();
@@ -32,13 +35,26 @@ public class HermetStubBuilder {
 		response = jsonElement;
 	}
 
-	public void setResponse(File fileName) {
+	public void setResponseAsFile(File dataFile) {
 		try {
 			JsonParser parser = new JsonParser();
-			response = parser.parse(new FileReader(fileName));
+			response = parser.parse(new FileReader(dataFile));
 		} catch (FileNotFoundException e) {
-			throw new FailedConfigurationException("File ["+fileName+"] with response data was not found", e);
+			throw new FailedConfigurationException("File ["+dataFile+"] with response data was not found", e);
 		}
+	}
+
+	public void setResponseAsFile(String resourceFilePath) {
+		ClassLoader classLoader = getClass().getClassLoader();
+		String resourcePath = HERMET_JSON_DATA_FOLDER + File.separator + resourceFilePath;
+		URL resource = classLoader.getResource(resourcePath);
+		if (resource == null) {
+			throw new FailedConfigurationException(String.format(
+					"Data file for Hermet was not found as resource at path %s", resourcePath));
+		}
+		String filePath = resource.getPath();
+		File dataFile = new File(filePath);
+		setResponseAsFile(dataFile);
 	}
 
 	public JsonObject build() {
@@ -62,8 +78,7 @@ public class HermetStubBuilder {
 	private JsonElement buildPredicates() {
 		Imposter imposterWithPredicates = imposterBuilder.build();
 		String predicatesList = imposterWithPredicates.getStub(0).getPredicates().toString();
-		JsonElement result = new JsonParser().parse(predicatesList);
-		return result;
+		return new JsonParser().parse(predicatesList);
 	}
 
 }
