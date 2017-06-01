@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import utils.DelayMeter;
 import utils.log.LogProvider;
+import utils.ui.Screenshot;
 
 import javax.inject.Singleton;
 import java.util.HashSet;
@@ -65,6 +66,7 @@ public class DriverProvider implements LogProvider {
 		if (driver == null) {
 			//No specific Capabilities required at first start
 			driver = driverBuilder.createDriver(null);
+			Screenshot.enableScreenshots();
 		}
 		return driver;
 	}

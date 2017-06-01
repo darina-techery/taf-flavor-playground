@@ -15,6 +15,15 @@ public class Screenshot {
 	private static final Logger log = LogManager.getLogger(Screenshot.class);
 	private static final String SCREENSHOTS_FOLDER = "target/screenshots";
 	private static final String SCREENSHOT_EXTENSION = ".png";
+	private static boolean DRIVER_READY_TO_TAKE_SCREENSHOTS = false;
+
+	public static void enableScreenshots() {
+		DRIVER_READY_TO_TAKE_SCREENSHOTS = true;
+	}
+
+	public static boolean isDriverReadyToTakeScreenshots() {
+		return DRIVER_READY_TO_TAKE_SCREENSHOTS;
+	}
 
 	public static synchronized File getScreenshotOnFail(String testMethodName) {
 		String folderPath = SCREENSHOTS_FOLDER + "/failure/";

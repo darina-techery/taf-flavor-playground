@@ -3,26 +3,24 @@ package rest.api.hermet;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.mbtest.javabank.fluent.ImposterBuilder;
+import org.mbtest.javabank.fluent.PredicateTypeBuilder;
+import org.mbtest.javabank.fluent.StubBuilder;
+import org.mbtest.javabank.http.imposters.Imposter;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 public class HermetStubBuilder {
 	private JsonElement response;
-	private List<StubPredicate> predicates;
+	private ImposterBuilder imposterBuilder = new ImposterBuilder();
+	private StubBuilder stubBuilder = imposterBuilder.stub();
 
-	public HermetStubBuilder() {
-		predicates = new ArrayList<>();
-	}
-
-	public void addPredicate(StubPredicate predicate) {
-		predicates.add(predicate);
+	public PredicateTypeBuilder addPredicate() {
+		return stubBuilder.predicate();
 	}
 
 	public void setResponse(String json) {
@@ -43,10 +41,13 @@ public class HermetStubBuilder {
 		}
 	}
 
-	public String build() {
+	public JsonObject build() {
 		JsonObject stub = new JsonObject();
 		JsonObject responseBody = buildResponse();
+		JsonElement predicates = buildPredicates();
 		stub.add("response", responseBody);
+		stub.add("predicates", predicates);
+		return stub;
 	}
 
 	private JsonObject buildResponse() {
@@ -59,35 +60,10 @@ public class HermetStubBuilder {
 	}
 
 	private JsonElement buildPredicates() {
-//		if (predicates.isEmpty())
-		return null;
+		Imposter imposterWithPredicates = imposterBuilder.build();
+		String predicatesList = imposterWithPredicates.getStub(0).getPredicates().toString();
+		JsonElement result = new JsonParser().parse(predicatesList);
+		return result;
 	}
-}
 
-enum StubPredicate {
-	EQUALS("equals"),
-	CONTAINS("contains"),
-	STARTS_WITH("startsWith"),
-	ENDS_WITH("endsWith"),
-	MATCHES("matches"),
-	NOT("not"),
-	OR("or"),
-	AND("and");
-	StubPredicate(String name) {
-		this.name = name;
-		nestedPredicates = new ArrayList<>();
-		parameters = new HashMap<>();
-	}
-	private Map<String, String> parameters;
-	private List<StubPredicate> nestedPredicates;
-	private String name;
-	void addNestedPredicate(StubPredicate p) {
-		nestedPredicates.add(p);
-	}
-	void addParameter(String key, String value) {
-		parameters.put(key, value);
-	}
-	void addParameters(Map<String, String> parameters) {
-		this.parameters.putAll(parameters);
-	}
 }
