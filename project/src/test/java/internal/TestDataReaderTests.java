@@ -18,6 +18,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public final class TestDataReaderTests {
 
+	static final String DEFAULT_LOCALE = "en-US";
 	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
 	UserCredentials defaultUserFromAnnotation;
 
@@ -62,7 +63,7 @@ public final class TestDataReaderTests {
 	public void testExposedFieldsAreReadWithReader() throws FileNotFoundException {
 		TestDataReader<RunParameters> configReader = new TestDataReader<>(CONFIG_FILE_NAME, RunParameters.class);
 		runParametersFromDataReader = configReader.read();
-		Assert.assertThat("Proper value is read", runParametersFromDataReader.locale, is("en"));
+		Assert.assertThat("Proper value is read", runParametersFromDataReader.locale, is(DEFAULT_LOCALE));
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public final class TestDataReaderTests {
 
 	@Test
 	public void testExposedFieldsAreReadWithAnnotation() {
-		Assert.assertThat("Proper value is read", runParametersFromAnnotation.locale, is("en"));
+		Assert.assertThat("Proper value is read", runParametersFromAnnotation.locale, is(DEFAULT_LOCALE));
 	}
 
 	@Test
