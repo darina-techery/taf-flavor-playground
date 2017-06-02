@@ -2,15 +2,16 @@ package driver.capabilities;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class IPhoneCapabilities extends BaseIOSCapabilities {
+public class DroidTabletCapabilities extends BaseAndroidCapabilities {
+
 	@Override
 	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = super.getCapabilities();
-		capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10.3");
-		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 7 Plus");
-		capabilities.setCapability(MobileCapabilityType.ORIENTATION, ScreenOrientation.PORTRAIT);
+		capabilities.setCapability("avd","nexus9");
+
 		return capabilities;
 	}
 }

@@ -3,6 +3,7 @@ package driver;
 import data.Configuration;
 import driver.capabilities.BaseCapabilities;
 import driver.capabilities.DroidPhoneCapabilities;
+import driver.capabilities.DroidTabletCapabilities;
 import driver.capabilities.IPhoneCapabilities;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -43,6 +44,12 @@ class DriverBuilder {
 				capabilities = new DroidPhoneCapabilities();
 				break;
 			case IPHONE:
+				capabilities = new IPhoneCapabilities();
+				break;
+			case ANDROID_TABLET:
+				capabilities = new DroidTabletCapabilities();
+				break;
+			case IPAD:
 				capabilities = new IPhoneCapabilities();
 				break;
 			default:

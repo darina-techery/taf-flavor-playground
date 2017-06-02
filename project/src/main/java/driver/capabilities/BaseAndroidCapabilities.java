@@ -2,6 +2,8 @@ package driver.capabilities;
 
 import data.Configuration;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public abstract class BaseAndroidCapabilities extends BaseCapabilities {
@@ -10,11 +12,12 @@ public abstract class BaseAndroidCapabilities extends BaseCapabilities {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "");
 		capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android");
-		capabilities.setCapability(MobileCapabilityType.UDID, Configuration.getParameters().device);
 		capabilities.setCapability(MobileCapabilityType.APP, Configuration.getParameters().fullAppPath);
 		capabilities.setCapability(MobileCapabilityType.NO_RESET, false);
 		capabilities.setCapability(MobileCapabilityType.FULL_RESET, false);
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 0);
+		capabilities.setCapability(CapabilityType.VERSION, "6.0");
+		capabilities.setCapability(MobileCapabilityType.ORIENTATION, ScreenOrientation.PORTRAIT);
 
 		//TODO: remove if fails
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");

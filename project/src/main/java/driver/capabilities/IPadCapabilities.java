@@ -4,7 +4,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class IPhoneCapabilities extends BaseIOSCapabilities {
+public class IPadCapabilities extends BaseIOSCapabilities {
 	@Override
 	public DesiredCapabilities getCapabilities() {
 		DesiredCapabilities capabilities = super.getCapabilities();
