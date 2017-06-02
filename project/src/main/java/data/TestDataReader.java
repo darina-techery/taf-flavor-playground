@@ -9,8 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import utils.FileUtils;
 import utils.exceptions.FailedConfigurationException;
+import utils.exceptions.InvalidDataFileException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
@@ -35,8 +35,7 @@ public final class TestDataReader<T> {
 		gson = builder.create();
 	}
 
-	private String getDataFilePath(String fileName) throws FileNotFoundException {
-		String resourcePath = TEST_DATA_FOLDER + File.separator + fileName;
+	private String getDataFilePath(String resourcePath) throws FileNotFoundException {
 		return FileUtils.getResourceFilePathString(resourcePath);
 	}
 
@@ -89,7 +88,7 @@ public final class TestDataReader<T> {
 						f.setAccessible(true);
 						f.set(objectWithTestData, value);
 					} catch (FileNotFoundException e) {
-						throw new FailedConfigurationException(String.format(
+						throw new InvalidDataFileException(String.format(
 								"Failed to read test data object %s in class %s: JSON file [%s] not found.",
 								f.getName(), classWithTestData, filename));
 					} catch (IllegalAccessException e) {

@@ -1,9 +1,18 @@
 package rest.api.payloads.hermet;
 
+import com.google.gson.annotations.Expose;
+
+import java.time.Duration;
+
 public class HermetProxyData {
+	public static final String CONFIG_FILE_NAME = "config/hermet_config.json";
+	@Expose
 	private String name;
-	private String targetUrl;
+	@Expose
 	private String proxyHost;
+	@Expose
+	private long proxyTimeout;
+	private String targetUrl;
 
 	public String getName() {
 		return name;
@@ -32,5 +41,13 @@ public class HermetProxyData {
 	@Override
 	public String toString() {
 		return "name = '"+name+"', targetUrl = '"+targetUrl+"', proxyHost = '"+proxyHost+"'";
+	}
+
+	public long getProxyTimeout() {
+		return proxyTimeout;
+	}
+
+	public void setProxyTimeout(Duration proxyTimeout) {
+		this.proxyTimeout = proxyTimeout.getSeconds();
 	}
 }
