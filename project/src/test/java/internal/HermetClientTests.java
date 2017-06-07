@@ -4,7 +4,6 @@ import actions.rest.HermetStubActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
 import data.Configuration;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import rest.api.clients.HermetAPIClient;
@@ -149,8 +148,4 @@ public class HermetClientTests extends BaseTest {
 		Assert.assertThat("Sessions are deleted", response.body() == null || response.body().isEmpty());
 	}
 
-	@AfterClass(alwaysRun = true)
-	public void cleanup() throws IOException {
-		HermetServiceManager.deleteAllCreatedServices();
-	}
 }
