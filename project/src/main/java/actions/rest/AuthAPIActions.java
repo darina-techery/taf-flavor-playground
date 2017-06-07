@@ -1,6 +1,6 @@
 package actions.rest;
 
-import rest.ResponseLogger;
+import rest.helpers.ResponseLogger;
 import rest.api.clients.DreamTripsAPIClient;
 import rest.api.services.AuthAPI;
 import rest.api.payloads.login.request.LoginRequest;
@@ -38,8 +38,8 @@ public class AuthAPIActions {
 		loginOperation.until(Response::isSuccessful);
 		final Response<LoginResponse> loginResponse = loginOperation.go();
 		if (loginResponse == null || !loginResponse.isSuccessful()) {
-			String message = new ResponseLogger(loginResponse, "Login via Rest API")
-					.describeFailedResponse();
+			String message = new ResponseLogger()
+					.describeFailedResponse(loginResponse, "Login via Rest API");
 			throw new FailedConfigurationException(message);
 		}
 		UserSessionManager.addApiSession(loginResponse.body());
