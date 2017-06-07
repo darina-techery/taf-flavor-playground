@@ -18,8 +18,11 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public final class TestDataReaderTests {
 
-	static final String DEFAULT_LOCALE = "en-US";
-	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
+	private static final String DEFAULT_LOCALE = "en-US";
+	private static final String DEFAULT_USER_KEY = "default_user";
+	private static final String EXPECTED_USERNAME = "65663904";
+
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = DEFAULT_USER_KEY)
 	UserCredentials defaultUserFromAnnotation;
 
 	UserCredentials defaultUserFromDataReader;
@@ -28,9 +31,6 @@ public final class TestDataReaderTests {
 	RunParameters runParametersFromAnnotation;
 
 	RunParameters runParametersFromDataReader;
-
-	private static final String EXPECTED_USERNAME = "65663904";
-	private static final String DEFAULT_USER_KEY = "default_user";
 
 	@BeforeClass
 	public void injectDataMembers() throws FileNotFoundException, IllegalAccessException {

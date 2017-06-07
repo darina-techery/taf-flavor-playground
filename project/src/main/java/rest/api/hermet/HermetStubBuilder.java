@@ -16,7 +16,7 @@ import java.net.URL;
 
 
 public class HermetStubBuilder {
-	private JsonElement response;
+	private JsonObject response;
 	private ImposterBuilder imposterBuilder = new ImposterBuilder();
 	private StubBuilder stubBuilder = imposterBuilder.stub();
 
@@ -28,17 +28,17 @@ public class HermetStubBuilder {
 
 	public void setResponse(String json) {
 		JsonParser parser = new JsonParser();
-		response = parser.parse(json);
+		response = parser.parse(json).getAsJsonObject();
 	}
 
-	public void setResponse(JsonElement jsonElement) {
-		response = jsonElement;
+	public void setResponse(JsonObject jsonObject) {
+		response = jsonObject;
 	}
 
 	public void setResponseAsFile(File dataFile) {
 		try {
 			JsonParser parser = new JsonParser();
-			response = parser.parse(new FileReader(dataFile));
+			response = parser.parse(new FileReader(dataFile)).getAsJsonObject();
 		} catch (FileNotFoundException e) {
 			throw new FailedConfigurationException("File ["+dataFile+"] with response data was not found", e);
 		}
@@ -59,20 +59,10 @@ public class HermetStubBuilder {
 
 	public JsonObject build() {
 		JsonObject stub = new JsonObject();
-		JsonObject responseBody = buildResponse();
 		JsonElement predicates = buildPredicates();
-		stub.add("response", responseBody);
+		stub.add("response", response);
 		stub.add("predicates", predicates);
 		return stub;
-	}
-
-	private JsonObject buildResponse() {
-		if (response == null || response.isJsonNull()) {
-			throw new FailedConfigurationException("Cannot build stub with no response body");
-		}
-		JsonObject responseBody = new JsonObject();
-		responseBody.add("body", response);
-		return responseBody;
 	}
 
 	private JsonElement buildPredicates() {

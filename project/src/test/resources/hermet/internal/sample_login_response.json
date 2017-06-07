@@ -1,16 +1,6 @@
 {
-  "response": {
-    "body": {
+  "body": {
       "token":"test-token",
       "sso_token":"test-sso-token"
-    }
-  },
-  "predicates": [
-    {
-      "equals": {
-        "path": "/api/sessions",
-        "method": "POST"
-      }
-    }
-  ]
+  }
 }

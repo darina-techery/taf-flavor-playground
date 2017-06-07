@@ -49,6 +49,13 @@ public class DriverProvider implements LogProvider {
 		DriverHolder.setDriver(newDriver);
 	}
 
+	public static void stop() {
+		if (DriverHolder.INSTANCE.driver != null) {
+			DriverHolder.INSTANCE.driver.quit();
+			DriverHolder.setDriver(null);
+		}
+	}
+
 	public static void addDriverListener(DriverListener listener) {
 		DriverHolder.INSTANCE.driverListeners.add(listener);
 	}
@@ -77,12 +84,5 @@ public class DriverProvider implements LogProvider {
 		driverListeners.forEach(driverListener -> driverListener.receiveDriverUpdate(driver));
 		log.debug("Notify all listeners about new driver: [ END ]");
 		DelayMeter.stopMeter(INIT_PAGES_OPERATION);
-	}
-
-	public static void stop() {
-		if (DriverHolder.INSTANCE.driver != null) {
-			DriverHolder.INSTANCE.driver.quit();
-			DriverHolder.setDriver(null);
-		}
 	}
 }
