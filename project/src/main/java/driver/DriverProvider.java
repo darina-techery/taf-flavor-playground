@@ -49,6 +49,13 @@ public class DriverProvider implements LogProvider {
 		DriverHolder.setDriver(newDriver);
 	}
 
+	public static void stop() {
+		if (DriverHolder.INSTANCE.driver != null) {
+			DriverHolder.INSTANCE.driver.quit();
+			DriverHolder.setDriver(null);
+		}
+	}
+
 	public static void addDriverListener(DriverListener listener) {
 		DriverHolder.INSTANCE.driverListeners.add(listener);
 	}

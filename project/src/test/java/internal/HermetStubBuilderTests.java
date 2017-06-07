@@ -1,13 +1,12 @@
 package internal;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.testng.annotations.Test;
 import rest.api.hermet.HermetStubBuilder;
 import utils.runner.Assert;
 
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 public class HermetStubBuilderTests {
 	private String expectedStubContentFromConfluencePage = "{\n" +
@@ -30,13 +29,13 @@ public class HermetStubBuilderTests {
 	@Test
 	public void testBuildStub_withResponseAsString() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse("{\"token\":\"test-token\",\"sso_token\":\"test-sso-token\"}");
+		hermetStubBuilder.setResponse("{\"body\":{\"token\":\"test-token\",\"sso_token\":\"test-sso-token\"}}");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
-		JsonElement expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage);
+		JsonObject expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage).getAsJsonObject();
 
 		Assert.assertThat("Hermet stub builder produces expected result with response as String",
-				actualStub, is(expectedStub));
+				actualStub, equalTo(expectedStub));
 	}
 
 	@Test
@@ -45,10 +44,10 @@ public class HermetStubBuilderTests {
 		hermetStubBuilder.setResponseAsFile("internal/sample_login_response.json");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
-		JsonElement expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage);
+		JsonObject expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage).getAsJsonObject();
 
 		Assert.assertThat("Hermet stub builder produces expected result with response as String",
-				actualStub, is(expectedStub));
+				actualStub, equalTo(expectedStub));
 
 	}
 
@@ -62,10 +61,10 @@ public class HermetStubBuilderTests {
 		hermetStubBuilder.setResponse(response);
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
-		JsonElement expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage);
+		JsonObject expectedStub = new JsonParser().parse(expectedStubContentFromConfluencePage).getAsJsonObject();
 
 		Assert.assertThat("Hermet stub builder produces expected result with response as String",
-				actualStub, is(expectedStub));
+				actualStub, equalTo(expectedStub));
 
 	}
 }
