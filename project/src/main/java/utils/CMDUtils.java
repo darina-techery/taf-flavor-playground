@@ -108,4 +108,14 @@ public final class CMDUtils {
 		executeCommand("xcrun simctl install booted "+ appPath);
 		executeCommand("xcrun simctl launch booted "+ bundleId);
 	}
+
+	public static void closeEmulatorAndroid() {
+		executeCommand("adb kill-server");
+		executeCommand("adb emu kill");
+	}
+
+	public static void closeSimulatorIOS(String device){
+		executeCommand("xcrun simctl shutdown "+device);
+		String deviceState = executeCommand("fbsimctl --state=booted list");
+	}
 }

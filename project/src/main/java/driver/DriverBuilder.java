@@ -53,7 +53,7 @@ class DriverBuilder {
 				capabilities = new IPhoneCapabilities();
 				break;
 			default:
-				throw new NotImplementedException("No default capabilities created for Tablets yet.");
+				throw new NotImplementedException("No default capabilities created for this platform yet.");
 		}
 		return capabilities.getCapabilities();
 	}

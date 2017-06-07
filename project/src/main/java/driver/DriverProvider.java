@@ -78,4 +78,11 @@ public class DriverProvider implements LogProvider {
 		log.debug("Notify all listeners about new driver: [ END ]");
 		DelayMeter.stopMeter(INIT_PAGES_OPERATION);
 	}
+
+	public static void stop() {
+		if (DriverHolder.INSTANCE.driver != null) {
+			DriverHolder.INSTANCE.driver.quit();
+			DriverHolder.setDriver(null);
+		}
+	}
 }
