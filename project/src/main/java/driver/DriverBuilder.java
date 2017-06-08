@@ -1,10 +1,7 @@
 package driver;
 
 import data.Configuration;
-import driver.capabilities.BaseCapabilities;
-import driver.capabilities.DroidPhoneCapabilities;
-import driver.capabilities.DroidTabletCapabilities;
-import driver.capabilities.IPhoneCapabilities;
+import driver.capabilities.*;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -50,7 +47,7 @@ class DriverBuilder {
 				capabilities = new DroidTabletCapabilities();
 				break;
 			case IPAD:
-				capabilities = new IPhoneCapabilities();
+				capabilities = new IPadCapabilities();
 				break;
 			default:
 				throw new NotImplementedException("No default capabilities created for this platform yet.");
@@ -70,7 +67,6 @@ class DriverBuilder {
 	}
 
 	private void setupDriver(AppiumDriver<MobileElement> driver) {
-		driver.rotate(ScreenOrientation.PORTRAIT);
 		driver.manage().timeouts().implicitlyWait(BaseCapabilities.DEFAULT_TIME_OUT_IN_SECONDS,
 				TimeUnit.SECONDS);
 	}
