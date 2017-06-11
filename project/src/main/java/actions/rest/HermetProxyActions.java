@@ -15,10 +15,10 @@ import utils.exceptions.FailedConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
-public class HermetStubActions {
+public class HermetProxyActions {
 	private final HermetAPI hermetAPI;
 	private final Logger log = LogManager.getLogger();
-	public HermetStubActions() {
+	public HermetProxyActions() {
 		hermetAPI = new HermetAPIClient().create(HermetAPI.class);
 	}
 

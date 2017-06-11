@@ -81,13 +81,16 @@ public class HermetInterceptor implements Interceptor {
 	}
 
 	private Response buildResponseWithRunningServiceData(Request request, HermetProxyData existingProxyData) {
-		String responseString = new Gson().toJson(existingProxyData);
+//		String responseString = new Gson().toJson(existingProxyData);
+		String locationHeader = String.format("%s/api/services/%s",
+				existingProxyData.getProxyHost(), existingProxyData.getId());
 		Response.Builder builder = new Response.Builder()
 				.code(201)
 				.message("Returning existing service data")
 				.request(request)
 				.protocol(Protocol.HTTP_1_0)
-				.body(ResponseBody.create(MediaType.parse("application/json"), responseString));
+				.body(ResponseBody.create(MediaType.parse("application/json"), ""))
+				.addHeader("Location", locationHeader);
 		RetrofitBuilder.COMMON_HEADERS.forEach(builder::addHeader);
 		return builder.build();
 	}

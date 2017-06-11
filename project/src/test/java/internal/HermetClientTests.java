@@ -1,6 +1,6 @@
 package internal;
 
-import actions.rest.HermetStubActions;
+import actions.rest.HermetProxyActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
 import data.Configuration;
@@ -31,13 +31,13 @@ public class HermetClientTests extends BaseTest {
 	private String mainServiceId;
 	private final String commonApiUrl = Configuration.getParameters().apiURL;
 	private HermetAPI hermetApi;
-	private HermetStubActions actions;
+	private HermetProxyActions actions;
 
 	@BeforeClass
 	public void setupHermetSession() throws IOException {
 		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
-		actions = new HermetStubActions();
+		actions = new HermetProxyActions();
 		actions.deleteAllStubsForService(commonApiUrl);
 	}
 
