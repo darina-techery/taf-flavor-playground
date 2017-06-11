@@ -4,6 +4,7 @@ import actions.rest.HermetProxyActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
 import data.Configuration;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import rest.api.clients.DreamTripsAPIClient;
@@ -30,6 +31,7 @@ public class HermetClientTests extends BaseTest {
 
 	private String mainServiceId;
 	private final String commonApiUrl = Configuration.getParameters().apiURL;
+	private final String mockTargetUrl = "www.sometesturl.com";
 	private HermetAPI hermetApi;
 	private HermetProxyActions actions;
 
@@ -50,8 +52,7 @@ public class HermetClientTests extends BaseTest {
 
 	@Test
 	public void hermetSessionIdIsDifferentForAnotherTargetUrl() {
-		String anotherTargetUrl = "www.sometesturl.com";
-		String anotherServiceId = HermetServiceManager.getServiceId(anotherTargetUrl);
+		String anotherServiceId = HermetServiceManager.getServiceId(mockTargetUrl);
 		Assert.assertThat("Hermet session id should be different for different target URLs",
 				anotherServiceId, is(not(mainServiceId)));
 	}
@@ -74,8 +75,7 @@ public class HermetClientTests extends BaseTest {
 
 	@Test
 	public void test_createStub_andVerifyOnProxyHost() throws IOException {
-		String anotherTargetUrl = "www.sometesturl.com";
-		String anotherServiceId = HermetServiceManager.getServiceId(anotherTargetUrl);
+		String anotherServiceId = HermetServiceManager.getServiceId(mockTargetUrl);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
 		hermetStubBuilder.setResponseAsFile("internal/sample_login_response.json");
@@ -127,6 +127,14 @@ public class HermetClientTests extends BaseTest {
 		}
 		response = hermetApi.getActiveServices().execute();
 		Assert.assertThat("Sessions are deleted", response.body() == null || response.body().isEmpty());
+	}
+
+	@AfterClass(alwaysRun = true)
+	public void deleteAllCreatedStubs() throws IOException {
+//		actions.deleteAllCreatedStubsForService(commonApiUrl);
+//		actions.deleteAllCreatedStubsForService(mockTargetUrl);
+		actions.deleteAllStubsForService(commonApiUrl);
+		actions.deleteAllStubsForService(mockTargetUrl);
 	}
 
 }

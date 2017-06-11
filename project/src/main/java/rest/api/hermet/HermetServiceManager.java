@@ -62,12 +62,14 @@ public class HermetServiceManager {
 		String serviceId = SessionHolder.HOLDER.targetUrlToServiceId.get(targetUrl);
 		if (serviceId != null) {
 			List<String> stubIds = SessionHolder.HOLDER.serviceIdToStubIds.get(serviceId);
-			for (String stubId : stubIds) {
-				try {
-					SessionHolder.HOLDER.hermetAPI.deleteStub(serviceId, stubId).execute();
-				} catch (IOException e) {
-					LogManager.getLogger().error(
-							"Failed to delete stub "+stubId+" for service "+serviceId, e);
+			if (stubIds != null) {
+				for (String stubId : stubIds) {
+					try {
+						SessionHolder.HOLDER.hermetAPI.deleteStub(serviceId, stubId).execute();
+					} catch (IOException e) {
+						LogManager.getLogger().error(
+								"Failed to delete stub " + stubId + " for service " + serviceId, e);
+					}
 				}
 			}
 		}
