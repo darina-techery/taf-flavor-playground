@@ -36,7 +36,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 
 	@BeforeSuite
 	public void setupHermetProxy() {
-    	HermetServiceManager.initService(Configuration.getParameters().apiURL);
+    	HermetServiceManager.getServiceId(Configuration.getParameters().apiURL);
 	}
 
 	@AfterMethod

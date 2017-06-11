@@ -35,7 +35,7 @@ public class HermetClientTests extends BaseTest {
 
 	@BeforeClass
 	public void setupHermetSession() throws IOException {
-		mainServiceId = HermetServiceManager.initService(commonApiUrl);
+		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
 		actions = new HermetStubActions();
 		actions.deleteAllStubsForService(commonApiUrl);
@@ -43,7 +43,7 @@ public class HermetClientTests extends BaseTest {
 
 	@Test
 	public void hermetSessionIdRemainsConstantForTargetUrl() {
-		String sessionId = HermetServiceManager.initService(commonApiUrl);
+		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
 		Assert.assertThat("Hermet session id should remain constant between tests",
 				sessionId, is(mainServiceId));
 	}
@@ -51,14 +51,14 @@ public class HermetClientTests extends BaseTest {
 	@Test
 	public void hermetSessionIdIsDifferentForAnotherTargetUrl() {
 		String anotherTargetUrl = "www.sometesturl.com";
-		String anotherServiceId = HermetServiceManager.initService(anotherTargetUrl);
+		String anotherServiceId = HermetServiceManager.getServiceId(anotherTargetUrl);
 		Assert.assertThat("Hermet session id should be different for different target URLs",
 				anotherServiceId, is(not(mainServiceId)));
 	}
 
 	@Test
 	public void test_getActiveSessions() throws IOException {
-		String sessionId = HermetServiceManager.initService(commonApiUrl);
+		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
 		List<HermetProxyData> activeSessions = response.body();
 
@@ -75,7 +75,7 @@ public class HermetClientTests extends BaseTest {
 	@Test
 	public void test_createStub_andVerifyOnProxyHost() throws IOException {
 		String anotherTargetUrl = "www.sometesturl.com";
-		String anotherServiceId = HermetServiceManager.initService(anotherTargetUrl);
+		String anotherServiceId = HermetServiceManager.getServiceId(anotherTargetUrl);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
 		hermetStubBuilder.setResponseAsFile("internal/sample_login_response.json");

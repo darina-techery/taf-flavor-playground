@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Singleton
 public class HermetServiceManager {
@@ -33,34 +32,9 @@ public class HermetServiceManager {
 	}
 
 	private void createService(HermetProxyData proxyData) throws IOException {
-		String serviceId;
-		HermetProxyData existingService = getExistingService(proxyData.getTargetUrl());
-		if (existingService == null) {
-			Response<Void> proxyResponse = hermetAPI.addService(proxyData).execute();
-			serviceId = HermetResponseParser.getServiceId(proxyResponse.raw());
-			LogManager.getLogger().info("Hermet service created: " +
-					HermetResponseParser.getLocation(proxyResponse.raw()));
-		} else {
-			serviceId = existingService.getId();
-			LogManager.getLogger().info("Hermet service already exists: " +
-					proxyData.toString());
-		}
+		Response<Void> proxyResponse = hermetAPI.addService(proxyData).execute();
+		String serviceId = HermetResponseParser.getServiceId(proxyResponse.raw());
 		targetUrlToServiceId.put(proxyData.getTargetUrl(), serviceId);
-	}
-
-	private HermetProxyData getExistingService(String targetUrl) throws IOException {
-		List<HermetProxyData> existingProxies = hermetAPI.getActiveServices().execute().body();
-		if (existingProxies == null) {
-			return null;
-		}
-		List<HermetProxyData> proxiesWithTargetUrl = existingProxies.stream()
-				.filter(proxy -> proxy.getTargetUrl().equals(targetUrl)).collect(Collectors.toList());
-		if (proxiesWithTargetUrl.size() > 1) {
-			throw new FailedConfigurationException("More than 1 service exists for target url "+targetUrl
-					+"\n\tServices found: "+proxiesWithTargetUrl.stream().map(HermetProxyData::toString)
-					.collect(Collectors.joining("\n")));
-		}
-		return proxiesWithTargetUrl.isEmpty() ? null : proxiesWithTargetUrl.get(0);
 	}
 
 	public static void addStubFromResponse(okhttp3.Response response) {
@@ -72,7 +46,7 @@ public class HermetServiceManager {
 		SessionHolder.HOLDER.serviceIdToStubIds.get(serviceId).add(stubId);
 	}
 
-	public static String initService(String targetUrl) {
+	public static String getServiceId(String targetUrl) {
 		if (!SessionHolder.HOLDER.targetUrlToServiceId.containsKey(targetUrl)) {
 			try {
 				SessionHolder.HOLDER.createService(targetUrl);

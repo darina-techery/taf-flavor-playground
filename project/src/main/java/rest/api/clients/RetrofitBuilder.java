@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitBuilder {
-	static final Map<String,String> COMMON_HEADERS = new HashMap<>();
-	static final Map<String,String> DT_HEADERS = new HashMap<>();
+	public static final Map<String,String> COMMON_HEADERS = new HashMap<>();
+	public static final Map<String,String> DT_HEADERS = new HashMap<>();
 
 	private Map<String, String> headers = new HashMap<>();
 	private List<Interceptor> interceptors = new ArrayList<>();

@@ -23,12 +23,12 @@ public class HermetStubActions {
 	}
 
 	public Response<Void> addStub(String targetUrl, JsonObject stubContent) throws IOException {
-		String serviceId = HermetServiceManager.initService(targetUrl);
+		String serviceId = HermetServiceManager.getServiceId(targetUrl);
 		return hermetAPI.addStub(serviceId, stubContent).execute();
 	}
 
 	public Response<Void> deleteStub(String targetUrl, String stubId) throws IOException {
-		String serviceId = HermetServiceManager.initService(targetUrl);
+		String serviceId = HermetServiceManager.getServiceId(targetUrl);
 		return hermetAPI.deleteStub(serviceId, stubId).execute();
 	}
 
@@ -55,7 +55,7 @@ public class HermetStubActions {
 	}
 
 	public void deleteAllStubsForService(String targetUrl) throws IOException {
-		final String serviceId = HermetServiceManager.initService(targetUrl);
+		final String serviceId = HermetServiceManager.getServiceId(targetUrl);
 		Response<List<HermetStub>> response = hermetAPI.getStubsForService(serviceId).execute();
 		if (response.isSuccessful()) {
 			List<HermetStub> stubs = response.body();

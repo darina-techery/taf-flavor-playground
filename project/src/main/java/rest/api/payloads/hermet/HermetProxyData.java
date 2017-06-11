@@ -64,11 +64,6 @@ public class HermetProxyData {
 		this.targetUrl = targetUrl;
 	}
 
-	@Override
-	public String toString() {
-		return "name = '"+name+"', targetUrl = '"+targetUrl+"', proxyHost = '"+ proxyHost +"'";
-	}
-
 	public long getProxyTimeout() {
 		return proxyTimeout;
 	}

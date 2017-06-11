@@ -1,7 +1,7 @@
 package rest.api.clients;
 
 import rest.api.hermet.HermetProxyDataFactory;
-import rest.api.interceptors.HermetStubInterceptor;
+import rest.api.interceptors.HermetInterceptor;
 
 public class HermetAPIClient extends BaseAPIClient{
 	@Override
@@ -10,7 +10,7 @@ public class HermetAPIClient extends BaseAPIClient{
 		client = new RetrofitBuilder()
 				.setBaseUrl(targetUrl)
 				.addHeaders(RetrofitBuilder.COMMON_HEADERS)
-				.addInterceptor(new HermetStubInterceptor())
+				.addInterceptor(new HermetInterceptor())
 				.build();
 	}
 
