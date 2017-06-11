@@ -12,14 +12,10 @@ import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import rest.api.hermet.HermetServiceManager;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.log.LogProvider;
-
-import java.io.IOException;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
 
@@ -66,10 +62,5 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 	@Override
 	public void receiveDriverUpdate(AppiumDriver<MobileElement> driver) {
 		initStepsComponent();
-	}
-
-	@AfterClass(alwaysRun = true)
-	public void cleanup() throws IOException {
-		HermetServiceManager.deleteAllCreatedServices();
 	}
 }
