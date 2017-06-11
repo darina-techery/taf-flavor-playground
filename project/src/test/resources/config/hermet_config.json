@@ -1,6 +1,6 @@
 {
   "name": "taf-proxy",
-  "proxyHost": "techery-dt-staging.techery.io:5050"
+  "proxyHost": "http://techery-dt-staging.techery.io:5000"
 }
 
 /*

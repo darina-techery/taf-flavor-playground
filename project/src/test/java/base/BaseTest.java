@@ -11,6 +11,8 @@ import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
+import rest.api.hermet.HermetServiceManager;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.log.LogProvider;
@@ -30,6 +32,11 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 
 	protected StepsComponent getStepsComponent() {
 		return stepsComponent;
+	}
+
+	@BeforeSuite
+	public void setupHermetProxy() {
+    	HermetServiceManager.initService(Configuration.getParameters().apiURL);
 	}
 
 	@AfterMethod

@@ -1,12 +1,14 @@
 package actions.rest;
 
 import com.google.gson.JsonObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rest.api.clients.HermetAPIClient;
 import rest.api.hermet.HermetServiceManager;
 import rest.api.payloads.hermet.HermetProxyData;
 import rest.api.payloads.hermet.response.HermetStub;
 import rest.api.services.HermetAPI;
-import rest.helpers.ResponseLogger;
+import rest.helpers.FailedResponseParser;
 import retrofit2.Response;
 import utils.exceptions.FailedConfigurationException;
 
@@ -15,56 +17,69 @@ import java.util.List;
 
 public class HermetStubActions {
 	private final HermetAPI hermetAPI;
+	private final Logger log = LogManager.getLogger();
 	public HermetStubActions() {
 		hermetAPI = new HermetAPIClient().create(HermetAPI.class);
 	}
 
-	public boolean addStub(String targetUrl, JsonObject stubContent) throws IOException {
-		String serviceId = HermetServiceManager.getServiceId(targetUrl);
-		Response<Void> response = hermetAPI.addStub(serviceId, stubContent).execute();
-		return response.code() == 201;
+	public Response<Void> addStub(String targetUrl, JsonObject stubContent) throws IOException {
+		String serviceId = HermetServiceManager.initService(targetUrl);
+		return hermetAPI.addStub(serviceId, stubContent).execute();
 	}
 
-	public boolean deleteStub(String targetUrl, String stubId) throws IOException {
-		String serviceId = HermetServiceManager.getServiceId(targetUrl);
-		Response<Void> response = hermetAPI.deleteStub(serviceId, stubId).execute();
-		return response.code() == 204;
+	public Response<Void> deleteStub(String targetUrl, String stubId) throws IOException {
+		String serviceId = HermetServiceManager.initService(targetUrl);
+		return hermetAPI.deleteStub(serviceId, stubId).execute();
 	}
 
-	public boolean removeService(String targetUrl) throws IOException {
-		String serviceId = HermetServiceManager.getServiceId(targetUrl);
-		Response<Void> response = hermetAPI.deleteService(serviceId).execute();
-		return response.code() == 204;
-	}
-
-	public boolean removeAllServices(String targetUrl) throws IOException {
+	public void deleteAllActiveServices(String targetUrl) throws IOException {
 		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
 		if (response.isSuccessful()) {
 			List<HermetProxyData> services = response.body();
 			if (services == null) {
 				throw new FailedConfigurationException("No data available in response for "
 						+ hermetAPI.getActiveServices().request().url() + "\n"
-						+ new ResponseLogger().describeFailedResponse(response, "Get all active services"));
+						+ new FailedResponseParser().describeFailedResponse(response, "Get all active services"));
 			}
-			services.stream().map(HermetProxyData::getId).forEach(hermetAPI::deleteService);
+			services.stream().map(HermetProxyData::getId).forEach(serviceId -> {
+				try {
+					hermetAPI.deleteService(serviceId).execute();
+				} catch (IOException e) {
+					log.error("Failed to delete service "+serviceId, e);
+				}
+			});
+		} else {
+			log.error(new FailedResponseParser()
+					.describeFailedResponse(response, "Get active Hermet services"));
 		}
-		return response.isSuccessful();
 	}
 
-	public boolean removeAllStubsForService(String targetUrl) throws IOException {
-		final String serviceId = HermetServiceManager.getServiceId(targetUrl);
+	public void deleteAllStubsForService(String targetUrl) throws IOException {
+		final String serviceId = HermetServiceManager.initService(targetUrl);
 		Response<List<HermetStub>> response = hermetAPI.getStubsForService(serviceId).execute();
 		if (response.isSuccessful()) {
 			List<HermetStub> stubs = response.body();
 			if (stubs == null) {
 				throw new FailedConfigurationException("No data available in response for "
 						+ hermetAPI.getActiveServices().request().url() + "\n"
-						+ new ResponseLogger().describeFailedResponse(response,
+						+ new FailedResponseParser().describeFailedResponse(response,
 						"Get all active stubs for "+targetUrl));
 			}
-			stubs.stream().map(HermetStub::getId).forEach(id -> hermetAPI.deleteStub(serviceId, id));
+			stubs.stream().map(HermetStub::getId).forEach(id -> {
+				try {
+					hermetAPI.deleteStub(serviceId, id).execute();
+				} catch (IOException e) {
+					log.error("Failed to delete stub "+id+" for service "+serviceId, e);
+				}
+			});
+		} else {
+			log.error(new FailedResponseParser()
+					.describeFailedResponse(response, "Get stubs for targetUrl "+targetUrl));
 		}
-		return response.isSuccessful();
+	}
+
+	public void deleteAllCreatedStubsForService(String targetUrl) {
+		HermetServiceManager.cleanupCreatedStubsForService(targetUrl);
 	}
 
 }

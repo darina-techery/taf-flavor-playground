@@ -16,7 +16,7 @@ public interface HermetAPI {
 	//Proxy services
 
 	@POST("/api/services")
-	Call<Void> setupService(@Body HermetProxyData proxyData);
+	Call<Void> addService(@Body HermetProxyData proxyData);
 
 	@GET("/api/services")
 	Call<List<HermetProxyData>> getActiveServices();

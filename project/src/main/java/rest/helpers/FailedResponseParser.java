@@ -5,24 +5,14 @@ import retrofit2.Response;
 
 import java.io.IOException;
 
-public class ResponseLogger {
-
-	public String describeFailedResponse(okhttp3.Response response, String purpose) {
-		StringBuilder description;
-		if (response == null) {
-			description = buildEmptyResponseDescription(purpose);
-		} else {
-			description = buildRawResponseDescription(response, purpose);
-		}
-		return description.toString();
-	}
+public class FailedResponseParser {
 
 	public String describeFailedResponse(Response response, String purpose) {
 		StringBuilder description;
 		if (response == null) {
 			description = buildEmptyResponseDescription(purpose);
 		} else {
-			description = buildRawResponseDescription(response.raw(), purpose);
+			description = buildResponseDescription(response, purpose);
 			ResponseBody errorBody = response.errorBody();
 			description.append("\n\tError body: ").append(getResponseBodyDescription(errorBody));
 			description.append("\n\tError code: ").append(response.code());
@@ -46,14 +36,11 @@ public class ResponseLogger {
 		return new StringBuilder("No response for request [").append(purpose).append("]");
 	}
 
-	private StringBuilder buildRawResponseDescription(okhttp3.Response rawResponse, String purpose) {
+	private StringBuilder buildResponseDescription(Response rawResponse, String purpose) {
 		StringBuilder description = new StringBuilder();
 		description.append("Request [").append(purpose)
 				.append("] failed.\n\tDetails: ")
 				.append(rawResponse.message());
-		ResponseBody body = rawResponse.body();
-		description.append("\n\tResponse body: ").append(getResponseBodyDescription(body));
-		description.append("\n\tError code: ").append(rawResponse.code());
 		return description;
 	}
 

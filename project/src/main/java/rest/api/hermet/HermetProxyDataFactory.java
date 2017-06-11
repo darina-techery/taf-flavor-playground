@@ -1,5 +1,6 @@
 package rest.api.hermet;
 
+import data.Configuration;
 import data.TestDataReader;
 import rest.api.payloads.hermet.HermetProxyData;
 import utils.exceptions.InvalidDataFileException;
@@ -8,6 +9,12 @@ import java.io.FileNotFoundException;
 import java.time.Duration;
 
 public final class HermetProxyDataFactory {
+	public HermetProxyData getCommonProxyData() {
+		HermetProxyData data = readDefaultValues();
+		data.setTargetUrl(Configuration.getParameters().apiURL);
+		return data;
+	}
+
 	public HermetProxyData getProxyData(String targetUrl) {
 		HermetProxyData data = readDefaultValues();
 		if (data.getName() == null) {
