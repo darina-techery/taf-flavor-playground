@@ -42,13 +42,4 @@ public final class HermetResponseParser {
 		}
 		return location;
 	}
-
-	public static void main(String[] args) {
-		String location = "http://techery-dt-staging.techery.io:5000/api/services/AVmSbf6y4r4GR1h0I1Qu/stubs/icaiahg";
-		Pattern serviceIdPattern = Pattern.compile(".*/services/\\w*/stubs/(.*)");
-		Matcher matcher = serviceIdPattern.matcher(location);
-		System.out.println(matcher.find());
-		System.out.println(matcher.groupCount());
-		System.out.println(matcher.group(1));
-	}
 }

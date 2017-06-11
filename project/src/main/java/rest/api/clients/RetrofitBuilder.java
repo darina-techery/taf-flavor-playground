@@ -3,7 +3,7 @@ package rest.api.clients;
 import com.google.gson.Gson;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import rest.api.interceptors.CurlLoggingInterceptor;
+import rest.api.interceptors.LoggingInterceptor;
 import rest.api.interceptors.HeadersInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -61,7 +61,7 @@ public class RetrofitBuilder {
 		if (!headers.isEmpty()) {
 			addInterceptor(new HeadersInterceptor(headers));
 		}
-		addInterceptor(new CurlLoggingInterceptor());
+		addInterceptor(new LoggingInterceptor());
 		interceptors.forEach(okHttpClientBuilder::addInterceptor);
 
 		final OkHttpClient client = okHttpClientBuilder.build();

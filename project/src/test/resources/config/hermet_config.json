@@ -9,4 +9,8 @@ optional:
 
 proxy timeout unit = seconds
 default session time: 14400 = 4 hours
+
+
+"proxyHost": "http://techery-dt-staging.techery.io:5000"
+"targetUrl": "http://techery-dt-staging.techery.io:5000"
 */

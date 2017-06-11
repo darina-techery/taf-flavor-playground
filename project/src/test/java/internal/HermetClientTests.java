@@ -16,8 +16,8 @@ import rest.api.payloads.hermet.response.HermetStub;
 import rest.api.payloads.login.response.UserProfile;
 import rest.api.services.DreamTripsAPI;
 import rest.api.services.HermetAPI;
+import rest.api.services.SampleAPI;
 import rest.helpers.HermetResponseParser;
-import retrofit2.Call;
 import retrofit2.Response;
 import user.UserSessionManager;
 import utils.runner.Assert;
@@ -38,15 +38,21 @@ public class HermetClientTests extends BaseTest {
 
 	@BeforeClass
 	public void setupHermetSession() throws IOException {
-		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
 		actions = new HermetProxyActions();
-		actions.deleteAllStubsForService(commonApiUrl);
+		//TODO: remove next 2 lines
+		actions.deleteAllActiveServices(commonApiUrl);
+		actions.deleteAllActiveServices(mockTargetUrl);
+
+		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
+		//TODO: uncomment this line
+//		actions.deleteAllStubsForService(commonApiUrl);
 	}
 
 	@Test
 	public void hermetSessionIdRemainsConstantForTargetUrl() {
 		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
+		Assert.assertThat("Hermet session id is not null", sessionId, is(not(nullValue())));
 		Assert.assertThat("Hermet session id should remain constant between tests",
 				sessionId, is(mainServiceId));
 	}
@@ -78,7 +84,7 @@ public class HermetClientTests extends BaseTest {
 	public void test_createStub_andVerifyResponse() throws IOException {
 		String mockServiceId = HermetServiceManager.getServiceId(mockTargetUrl);
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponseAsFile("internal/sample_login_response.json");
+		hermetStubBuilder.setResponseFromFile("internal/sample_login_response.json");
 		hermetStubBuilder.addPredicate()
 				.equals().path("/api/sessions").method("POST").end()
 				.equals().query("some param", "some value").build();
@@ -117,21 +123,36 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
+	public void test_proxySampleRequest() {
+		UserSessionManager.setMockAuthenticationMode(true);
+		SampleAPI sampleAPI = new DreamTripsAPIClient().create(SampleAPI.class);
+
+		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		hermetStubBuilder.addPredicate()
+				.equals()
+				.path(SampleAPI.SAMPLE_REQUEST_PATH)
+				.method("GET")
+				.build();
+//		hermetStubBuilder.setResponse();
+	}
+
+	@Test
 	//TODO: enable in https://techery.atlassian.net/browse/DTAUT-456
 	public void test_createStub_andVerifyInterceptedRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.addPredicate().equals().path("/api/profile").method("GET").build();
-		hermetStubBuilder.setResponseAsFile("internal/sample_user_profile.json");
+		hermetStubBuilder.addPredicate().endsWith().path("/api/profile").method("GET").build();
+		hermetStubBuilder.setResponseFromFile("internal/sample_user_profile_response.json");
 		JsonObject stub = hermetStubBuilder.build();
 
-		String expectedUsername = stub.get("body").getAsJsonObject().get("username").getAsString();
+		String expectedUsername = stub.get("response").getAsJsonObject()
+				.get("body").getAsJsonObject()
+				.get("username").getAsString();
 
 		actions.addStub(commonApiUrl, stub);
 
 		DreamTripsAPI dreamTripsAPI = new DreamTripsAPIClient().create(DreamTripsAPI.class);
-		Call<UserProfile> call = dreamTripsAPI.getUserProfile();
-		Response<UserProfile> response = call.execute();
+		Response<UserProfile> response = dreamTripsAPI.getUserProfile().execute();
 		System.out.println("call placed");
 //		call.
 //		String testToken = "test-token";

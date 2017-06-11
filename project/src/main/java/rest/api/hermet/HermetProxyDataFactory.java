@@ -12,6 +12,7 @@ public final class HermetProxyDataFactory {
 	public HermetProxyData getCommonProxyData() {
 		HermetProxyData data = readDefaultValues();
 		data.setTargetUrl(Configuration.getParameters().apiURL);
+//		data.setProxyHost(Configuration.getParameters().apiURL);
 		return data;
 	}
 
@@ -21,6 +22,7 @@ public final class HermetProxyDataFactory {
 			String name = targetUrl.replaceAll("\\.", "-");
 			data.setName(name);
 		}
+//		data.setProxyHost(targetUrl);
 		data.setTargetUrl(targetUrl);
 		return data;
 	}

@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class CurlLoggingInterceptor implements Interceptor {
+public class LoggingInterceptor implements Interceptor {
 	private static final Charset UTF8 = Charset.forName("UTF-8");
 	private Logger log = LogManager.getLogger();
 
@@ -44,12 +44,15 @@ public class CurlLoggingInterceptor implements Interceptor {
 
 		curlCmd += ((compressed) ? " --compressed " : " ");
 
-		log.debug("\n\t{}", curlCmd);
+		log.debug("\n< REQUEST:\n{}", curlCmd);
 
 		final Response response = chain.proceed(request);
-		String responseOutput = (response.isSuccessful() ? "\n> SUCCESS" : "\n> FAILURE") +
-				"\n\t" + response.toString() + "\n";
-		log.debug(responseOutput);
+		if (response.isSuccessful()) {
+			log.debug("\n> SUCCESS: \n\t" + response.toString() + "\n");
+		} else {
+			log.debug("\n> FAILURE: \n\t" + response.toString() + "\n"
+					+ (response.body() == null ? "" : "\t" + response.body().string()));
+		}
 		return response;
 	}
 }

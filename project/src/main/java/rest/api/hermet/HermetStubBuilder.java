@@ -1,8 +1,6 @@
 package rest.api.hermet;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.mbtest.javabank.fluent.ImposterBuilder;
 import org.mbtest.javabank.fluent.PredicateTypeBuilder;
 import org.mbtest.javabank.fluent.StubBuilder;
@@ -16,7 +14,7 @@ import java.net.URL;
 
 
 public class HermetStubBuilder {
-	private JsonObject response;
+	private JsonElement response;
 	private ImposterBuilder imposterBuilder = new ImposterBuilder();
 	private StubBuilder stubBuilder = imposterBuilder.stub();
 
@@ -31,11 +29,16 @@ public class HermetStubBuilder {
 		response = parser.parse(json).getAsJsonObject();
 	}
 
-	public void setResponse(JsonObject jsonObject) {
-		response = jsonObject;
+	public <T> void setResponse(T object, Class<T> responseType) {
+		Gson gson = new Gson();
+		response = gson.toJsonTree(object, responseType);
 	}
 
-	public void setResponseAsFile(File dataFile) {
+	public void setResponse(JsonElement jsonElement) {
+		response = jsonElement;
+	}
+
+	public void setResponseFromFile(File dataFile) {
 		try {
 			JsonParser parser = new JsonParser();
 			response = parser.parse(new FileReader(dataFile)).getAsJsonObject();
@@ -44,7 +47,7 @@ public class HermetStubBuilder {
 		}
 	}
 
-	public void setResponseAsFile(String resourceFilePath) {
+	public void setResponseFromFile(String resourceFilePath) {
 		ClassLoader classLoader = getClass().getClassLoader();
 		String resourcePath = HERMET_JSON_DATA_FOLDER + File.separator + resourceFilePath;
 		URL resource = classLoader.getResource(resourcePath);
@@ -54,7 +57,7 @@ public class HermetStubBuilder {
 		}
 		String filePath = resource.getPath();
 		File dataFile = new File(filePath);
-		setResponseAsFile(dataFile);
+		setResponseFromFile(dataFile);
 	}
 
 	public JsonObject build() {
