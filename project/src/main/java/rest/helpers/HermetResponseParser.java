@@ -1,5 +1,6 @@
 package rest.helpers;
 
+import data.Configuration;
 import okhttp3.Response;
 import utils.exceptions.FailedConfigurationException;
 
@@ -11,30 +12,24 @@ public final class HermetResponseParser {
 	private static final ResponseLogger responseLogger = new ResponseLogger();
 
 	public static String getServiceId(Response response) {
-		String location = getLocation(response);
 		Pattern serviceIdPattern = Pattern.compile(".*/services/(\\w*).*");
-		Matcher matcher = serviceIdPattern.matcher(location);
-		if (!matcher.find()) {
-			throw new FailedConfigurationException(
-					"Unexpected response header format: expected " +
-							"[http://techery-dt-staging.techery.io:5000/api/services/{serviceId}], " +
-							"but found "+location);
-		}
-		return matcher.group(1);
-	}
+		return getLocationFragment(response, serviceIdPattern);	}
 
 	public static String getStubId(Response response) {
+		Pattern stubIdPattern = Pattern.compile(".*/services/\\w*/stubs/(\\w*)");
+		return getLocationFragment(response, stubIdPattern);
+	}
+
+	private static final String getLocationFragment(Response response, Pattern pattern) {
 		String location = getLocation(response);
-		Pattern serviceIdPattern = Pattern.compile(".*/services/\\w*/stubs/(\\w*)");
-		Matcher matcher = serviceIdPattern.matcher(location);
+		Matcher matcher = pattern.matcher(location);
 		if (!matcher.find()) {
 			throw new FailedConfigurationException(
 					"Unexpected response header format: expected " +
-							"[http://techery-dt-staging.techery.io:5000/api/services/{serviceId}/stubs/{stubId}], " +
+							"\"http://"+ Configuration.getParameters().apiURL+"/api/services/{serviceId}[/stubs/{stubId}]\", " +
 							"but found "+location);
 		}
 		return matcher.group(1);
-
 	}
 
 	public static String getLocation(Response response) {
