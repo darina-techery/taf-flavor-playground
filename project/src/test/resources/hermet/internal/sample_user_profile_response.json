@@ -1,0 +1,9 @@
+{
+  "body": {
+    "id": 1,
+    "username": "sample_test_user",
+    "email": "serge.s@techery.io",
+    "first_name": "Techery",
+    "last_name": "Test"
+  }
+}

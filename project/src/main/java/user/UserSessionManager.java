@@ -12,6 +12,8 @@ public class UserSessionManager {
 	private UserCredentials activeUser;
 	private final UserCredentials defaultUser;
 	private final SessionTokenHolder sessionTokenHolder;
+	private boolean debugMode = false;
+	private static final String MOCK_TOKEN = "test-token";
 
 	private UserSessionManager() {
 		try {
@@ -50,12 +52,18 @@ public class UserSessionManager {
 		ActiveUserHolder.INSTANCE.sessionTokenHolder.clearSessions();
 	}
 
+	public static void setMockAuthenticationMode(boolean debugMode) {
+		ActiveUserHolder.INSTANCE.debugMode = debugMode;
+	}
+
 	public static String getActiveUserToken() {
 		return getUserToken(getActiveUser().username);
 	}
 
 	public static String getUserToken(String username) {
-		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getToken(username);
+		return ActiveUserHolder.INSTANCE.debugMode
+				? MOCK_TOKEN
+				: ActiveUserHolder.INSTANCE.sessionTokenHolder.getToken(username);
 	}
 
 	public static String getActiveUserSsoToken() {

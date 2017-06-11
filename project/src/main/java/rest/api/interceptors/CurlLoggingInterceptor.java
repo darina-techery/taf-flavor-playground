@@ -16,7 +16,7 @@ public class CurlLoggingInterceptor implements Interceptor {
 	public Response intercept(Chain chain) throws IOException {
 		Request request = chain.request();
 		boolean compressed = false;
-		String curlCmd = "curl -i -X " + request.method();
+		String curlCmd = "curl -i -X " + request.method() + " '" + request.url() + "'";
 
 		Headers headers = request.headers();
 		for (int i = 0, count = headers.size(); i < count; i++) {
@@ -42,11 +42,14 @@ public class CurlLoggingInterceptor implements Interceptor {
 			curlCmd += " --data $'" + buffer.readString(charset).replace("\n", "\\n") + "'";
 		}
 
-		curlCmd += ((compressed) ? " --compressed " : " ") + request.url();
+		curlCmd += ((compressed) ? " --compressed " : " ");
 
-		log.debug("\n\tURL: {}\n\t{}",request.url(), curlCmd);
+		log.debug("\n\t{}", curlCmd);
 
-		return chain.proceed(request);
-
+		final Response response = chain.proceed(request);
+		String responseOutput = (response.isSuccessful() ? "\n> SUCCESS" : "\n> FAILURE") +
+				"\n\t" + response.toString() + "\n";
+		log.debug(responseOutput);
+		return response;
 	}
 }

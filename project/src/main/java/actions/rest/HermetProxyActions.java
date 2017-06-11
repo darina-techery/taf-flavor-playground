@@ -22,14 +22,20 @@ public class HermetProxyActions {
 		hermetAPI = new HermetAPIClient().create(HermetAPI.class);
 	}
 
-	public Response<Void> addStub(String targetUrl, JsonObject stubContent) throws IOException {
+	public void addStub(String targetUrl, JsonObject stubContent) throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(targetUrl);
-		return hermetAPI.addStub(serviceId, stubContent).execute();
+		hermetAPI.addStub(serviceId, stubContent).execute();
 	}
 
-	public Response<Void> deleteStub(String targetUrl, String stubId) throws IOException {
+	public List<HermetStub> getStubsForService(String targetUrl) throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(targetUrl);
-		return hermetAPI.deleteStub(serviceId, stubId).execute();
+		Response<List<HermetStub>> result = hermetAPI.getStubsForService(serviceId).execute();
+		return result.body();
+	}
+
+	public void deleteStub(String targetUrl, String stubId) throws IOException {
+		String serviceId = HermetServiceManager.getServiceId(targetUrl);
+		hermetAPI.deleteStub(serviceId, stubId).execute();
 	}
 
 	public void deleteAllActiveServices(String targetUrl) throws IOException {

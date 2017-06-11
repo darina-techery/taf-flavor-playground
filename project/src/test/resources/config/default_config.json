@@ -1,7 +1,7 @@
 {
     "platformName" : "iPhone",
     "device": "51B46B7C-8415-4517-9B04-21A2045B20A5",
-    "apiURL" : "http://dtapp-qa.worldventures.biz",
+    "apiURL" : "http://techery-dt-staging.techery.io",
     "droidAppName" : "DreamTrips-external-stable-stage-debug.apk",
     "iosAppName" : "DreamTrip.app",
     "locale" : "en-US",
@@ -11,6 +11,8 @@
 /*
 
 "droidAppName" : "DreamTrips.apk",
+
+"apiURL" : "http://dtapp-qa.worldventures.biz",
 
 platform:
 Unknown, iPhone, AndroidPhone, iPad, AndroidTablet, iPhoneDevice
