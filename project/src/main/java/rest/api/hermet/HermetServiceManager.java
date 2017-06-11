@@ -80,14 +80,6 @@ public class HermetServiceManager {
 		}
 	}
 
-	public static void deleteAllCreatedServices() throws IOException {
-		if (!SessionHolder.HOLDER.targetUrlToServiceId.isEmpty()) {
-			for (String serviceId : SessionHolder.HOLDER.targetUrlToServiceId.values()) {
-				SessionHolder.HOLDER.hermetAPI.deleteService(serviceId).execute();
-			}
-		}
-	}
-
 	private static class SessionHolder {
 		private static final HermetServiceManager HOLDER = new HermetServiceManager();
 	}
