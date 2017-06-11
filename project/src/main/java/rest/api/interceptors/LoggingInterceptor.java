@@ -51,7 +51,7 @@ public class LoggingInterceptor implements Interceptor {
 			log.debug("\n> SUCCESS: \n\t" + response.toString() + "\n");
 		} else {
 			log.debug("\n> FAILURE: \n\t" + response.toString() + "\n"
-					+ (response.body() == null ? "" : "\t" + response.body().string()));
+					+ (response.body() == null ? "" : "\tBody: " + response.body().string() + "\n"));
 		}
 		return response;
 	}

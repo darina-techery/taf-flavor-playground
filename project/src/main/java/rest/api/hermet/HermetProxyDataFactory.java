@@ -10,19 +10,15 @@ import java.time.Duration;
 
 public final class HermetProxyDataFactory {
 	public HermetProxyData getCommonProxyData() {
-		HermetProxyData data = readDefaultValues();
-		data.setTargetUrl(Configuration.getParameters().apiURL);
-//		data.setProxyHost(Configuration.getParameters().apiURL);
-		return data;
+		return getProxyData(Configuration.getParameters().apiURL);
 	}
 
 	public HermetProxyData getProxyData(String targetUrl) {
 		HermetProxyData data = readDefaultValues();
 		if (data.getName() == null) {
-			String name = targetUrl.replaceAll("\\.", "-");
+			String name = targetUrl.replaceAll("[\\W]+", "-");
 			data.setName(name);
 		}
-//		data.setProxyHost(targetUrl);
 		data.setTargetUrl(targetUrl);
 		return data;
 	}

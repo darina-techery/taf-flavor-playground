@@ -1,11 +1,12 @@
 {
-  "name": "taf-proxy",
   "proxyHost": "http://techery-dt-staging.techery.io:5000"
 }
 
 /*
 optional:
 "proxyTimeout": 14400
+
+"name": "taf-proxy",
 
 proxy timeout unit = seconds
 default session time: 14400 = 4 hours

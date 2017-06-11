@@ -31,14 +31,18 @@ public class HermetInterceptor implements Interceptor {
 			//check if this service already exists;
 			HermetProxyData activeService = getActiveServiceData(request);
 			//if not, create and return HermetProxyData
-			response = (activeService == null)
-					? chain.proceed(request)
-					//if it exists, return HermetProxyData with its id
-					: buildResponseWithRunningServiceData(request, activeService);
+			if (activeService == null) {
+				response = chain.proceed(request);
+				log.debug("Created a new service: " + response.header("Location"));
+			} else {
+				response = buildResponseWithRunningServiceData(request, activeService);
+				log.debug("Picked up existing service: " + response.header("Location"));
+			}
 		} else {
 			response = chain.proceed(request);
 			if (isAddStubRequest(request)) {
-				addStubToCreatedStubsList(response);
+				log.debug("Created a stub: " + response.header("Location"));
+				HermetServiceManager.addStubFromResponse(response);
 			}
 		}
 		return response;
@@ -86,7 +90,7 @@ public class HermetInterceptor implements Interceptor {
 				existingProxyData.getProxyHost(), existingProxyData.getId());
 		Response.Builder builder = new Response.Builder()
 				.code(201)
-				.message("Returning existing service data")
+				.message("Return existing service data")
 				.request(request)
 				.protocol(Protocol.HTTP_1_0)
 				.body(ResponseBody.create(MediaType.parse("application/json"), ""))
@@ -94,15 +98,4 @@ public class HermetInterceptor implements Interceptor {
 		RetrofitBuilder.COMMON_HEADERS.forEach(builder::addHeader);
 		return builder.build();
 	}
-
-	private void addStubToCreatedStubsList(Response response) throws IOException {
-		log.debug("Created a stub. Message: " + response.message());
-		if (response.body() != null) {
-			log.debug("Body: " + response.body().string());
-		}
-		log.debug("Headers: " + response.headers().toString());
-		HermetServiceManager.addStubFromResponse(response);
-	}
-
-
 }

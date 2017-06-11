@@ -4,6 +4,7 @@ import actions.rest.HermetProxyActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
 import data.Configuration;
+import org.apache.logging.log4j.LogManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,6 +14,7 @@ import rest.api.hermet.HermetServiceManager;
 import rest.api.hermet.HermetStubBuilder;
 import rest.api.payloads.hermet.HermetProxyData;
 import rest.api.payloads.hermet.response.HermetStub;
+import rest.api.payloads.internal.SampleResponse;
 import rest.api.payloads.login.response.UserProfile;
 import rest.api.services.DreamTripsAPI;
 import rest.api.services.HermetAPI;
@@ -41,8 +43,9 @@ public class HermetClientTests extends BaseTest {
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
 		actions = new HermetProxyActions();
 		//TODO: remove next 2 lines
-		actions.deleteAllActiveServices(commonApiUrl);
-		actions.deleteAllActiveServices(mockTargetUrl);
+		actions.deleteAllActiveServices_warning_annihilation();
+//		actions.deleteAllActiveServices(commonApiUrl);
+//		actions.deleteAllActiveServices(mockTargetUrl);
 
 		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
 		//TODO: uncomment this line
@@ -123,17 +126,23 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_proxySampleRequest() {
+	public void test_proxySampleRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		SampleAPI sampleAPI = new DreamTripsAPIClient().create(SampleAPI.class);
+		SampleResponse responseBody = new SampleResponse("test_id");
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
 		hermetStubBuilder.addPredicate()
-				.equals()
+				.endsWith()
 				.path(SampleAPI.SAMPLE_REQUEST_PATH)
 				.method("GET")
 				.build();
-//		hermetStubBuilder.setResponse();
+		hermetStubBuilder.setResponse(responseBody, SampleResponse.class);
+		JsonObject stub = hermetStubBuilder.build();
+		actions.addStub(commonApiUrl, stub);
+
+		Response<SampleResponse> response = sampleAPI.getSampleResponse().execute();
+		LogManager.getLogger().debug(response.message());
 	}
 
 	@Test
