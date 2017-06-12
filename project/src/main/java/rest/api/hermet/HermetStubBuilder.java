@@ -14,7 +14,7 @@ import java.net.URL;
 
 
 public class HermetStubBuilder {
-	private JsonElement response;
+	private JsonObject response;
 	private ImposterBuilder imposterBuilder = new ImposterBuilder();
 	private StubBuilder stubBuilder = imposterBuilder.stub();
 
@@ -27,15 +27,18 @@ public class HermetStubBuilder {
 	public void setResponse(String json) {
 		JsonParser parser = new JsonParser();
 		response = parser.parse(json).getAsJsonObject();
+<<<<<<< HEAD
 	}
 
 	public <T> void setResponse(T object, Class<T> responseType) {
 		Gson gson = new Gson();
 		response = gson.toJsonTree(object, responseType);
+=======
+>>>>>>> master
 	}
 
-	public void setResponse(JsonElement jsonElement) {
-		response = jsonElement;
+	public void setResponse(JsonObject jsonObject) {
+		response = jsonObject;
 	}
 
 	public void setResponseFromFile(File dataFile) {
