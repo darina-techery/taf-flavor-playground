@@ -1,8 +1,6 @@
 package base;
 
-import actions.definitions.ActionsDefinition;
-import actions.definitions.DroidActionsDefinition;
-import actions.definitions.IPhoneActionsDefinition;
+import actions.definitions.*;
 import dagger.ActionsModule;
 import dagger.DaggerStepsComponent;
 import dagger.StepsComponent;
@@ -49,7 +47,11 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 		    	actionDefinitions = new IPhoneActionsDefinition();
 		    	break;
 		    case ANDROID_TABLET:
+				actionDefinitions = new DroidTabletActionsDefinition();
+				break;
 		    case IPAD:
+				actionDefinitions = new IPadActionsDefinition();
+				break;
 		    default:
 		    	throw new RuntimeException("No action definitions created for "+Configuration.getParameters().platform);
 	    }

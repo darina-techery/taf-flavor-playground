@@ -10,6 +10,8 @@ import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.CMDUtils;
+import utils.exceptions.NotImplementedException;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -55,6 +57,21 @@ public abstract class DriverActions implements HasDriver {
 	public abstract void declineAlert(By by);
 
 	public abstract void resetApplication();
+
+	public void closeEmulator() {
+		switch (Configuration.getParameters().platform) {
+			case ANDROID_PHONE: case ANDROID_TABLET:
+				utils.CMDUtils.closeEmulatorAndroid();
+				break;
+
+			case IPHONE: case IPAD:
+				utils.CMDUtils.closeSimulatorIOS(Configuration.getParameters().device);
+				break;
+
+			default:
+				throw new NotImplementedException("No emulator close created for "+Configuration.getParameters().platform);
+		}
+	}
 
 	public Map<String, String> extractAppStrings(@Nonnull String locale) {
 		Preconditions.checkNotNull(locale);
