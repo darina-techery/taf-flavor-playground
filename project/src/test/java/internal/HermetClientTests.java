@@ -42,16 +42,11 @@ public class HermetClientTests extends BaseTest {
 	public void setupHermetSession() throws IOException {
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
 		actions = new HermetProxyActions();
-		//TODO: remove next lines
-		actions.deleteAllActiveServices_removes_everything();
-//		actions.deleteAllActiveServices(commonApiUrl);
-//		actions.deleteAllActiveServices(mockTargetUrl);
-//		actions.deleteAllStubsForService(commonApiUrl);
-//		actions.deleteAllStubsForService(mockTargetUrl);
+
+		actions.deleteAllStubsForService(commonApiUrl);
+		actions.deleteAllStubsForService(mockTargetUrl);
 
 		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
-		//TODO: uncomment this line
-//		actions.deleteAllStubsForService(commonApiUrl);
 	}
 
 	@Test
@@ -164,23 +159,9 @@ public class HermetClientTests extends BaseTest {
 
 		DreamTripsAPI dreamTripsAPI = new DreamTripsAPIClient().create(DreamTripsAPI.class);
 		Response<UserProfile> response = dreamTripsAPI.getUserProfile().execute();
+		Assert.assertThat("Response body is not null", response.body(), is(not(nullValue())));
+		Assert.assertThat("Response body contains valid data: id", response.body().getId(), equalTo(1) );
 		System.out.println("call placed");
-//		call.
-//		String testToken = "test-token";
-//		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-//		hermetStubBuilder.setResponse("{'body':{'token':'"+testToken+"','sso_token':'test-sso-token'}}");
-//		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
-//		JsonObject actualStub = hermetStubBuilder.build();
-//
-//		Response<Void> responseFromAddingStub = hermetApi.addStub(mainServiceId, actualStub).execute();
-//		final String stubId = HermetResponseParser.getStubId(responseFromAddingStub.raw());
-//
-//		AuthAPI authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
-//		LoginRequest loginRequest = new LoginRequest("foo", "bar");
-//		Response<LoginResponse> response = authAPI.login(loginRequest).execute();
-//		Assert.assertThat("Response body is not empty", response.body(), is(not(nullValue())));
-//		Assert.assertThat("Response contains token value from stub", response.body().getToken(),
-//				equalTo(testToken));
 	}
 
 	@Test(enabled = true)
@@ -204,8 +185,6 @@ public class HermetClientTests extends BaseTest {
 	public void deleteAllCreatedStubs() throws IOException {
 		actions.deleteAllCreatedStubsForService(commonApiUrl);
 		actions.deleteAllCreatedStubsForService(mockTargetUrl);
-//		actions.deleteAllStubsForService(commonApiUrl);
-//		actions.deleteAllStubsForService(mockTargetUrl);
 		UserSessionManager.setMockAuthenticationMode(false);
 	}
 

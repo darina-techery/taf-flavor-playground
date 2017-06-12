@@ -1,30 +1,12 @@
 {
-<<<<<<< HEAD
   "proxyUrl": "techery-dt-staging.techery.io",
   "stubsPort": 5000,
   "proxyPort": 5050
-=======
-  "name": "taf-proxy",
-  "proxyHost": "techery-dt-staging.techery.io:5050"
->>>>>>> master
 }
 
 /*
 optional:
 "proxyTimeout": 14400
-
-<<<<<<< HEAD
-"name": "taf-proxy",
-
 proxy timeout unit = seconds
 default session time: 14400 = 4 hours
-
- "proxyHost": "http://techery-dt-staging.techery.io:5000"
-
-"proxyHost": "http://techery-dt-staging.techery.io:5000"
-"targetUrl": "http://techery-dt-staging.techery.io:5000"
-=======
-proxy timeout unit = seconds
-default session time: 14400 = 4 hours
->>>>>>> master
 */
