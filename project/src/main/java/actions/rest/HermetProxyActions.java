@@ -38,7 +38,7 @@ public class HermetProxyActions {
 		hermetAPI.deleteStub(serviceId, stubId).execute();
 	}
 
-	public void deleteAllActiveServices_warning_annihilation() throws IOException {
+	public void deleteAllActiveServices_removes_everything() throws IOException {
 		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
 		if (response.isSuccessful()) {
 			List<HermetProxyData> services = response.body();

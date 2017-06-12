@@ -38,6 +38,7 @@ public final class HermetProxyDataFactory {
 			throw new InvalidDataFileException(
 					String.format("Config file for Hermet not found at %s", HermetProxyData.CONFIG_FILE_NAME), e);
 		}
+		data.initProxyHost();
 		return data;
 	}
 }

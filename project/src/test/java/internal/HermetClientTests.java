@@ -42,10 +42,12 @@ public class HermetClientTests extends BaseTest {
 	public void setupHermetSession() throws IOException {
 		hermetApi = new HermetAPIClient().create(HermetAPI.class);
 		actions = new HermetProxyActions();
-		//TODO: remove next 2 lines
-		actions.deleteAllActiveServices_warning_annihilation();
+		//TODO: remove next lines
+		actions.deleteAllActiveServices_removes_everything();
 //		actions.deleteAllActiveServices(commonApiUrl);
 //		actions.deleteAllActiveServices(mockTargetUrl);
+//		actions.deleteAllStubsForService(commonApiUrl);
+//		actions.deleteAllStubsForService(mockTargetUrl);
 
 		mainServiceId = HermetServiceManager.getServiceId(commonApiUrl);
 		//TODO: uncomment this line
@@ -133,7 +135,7 @@ public class HermetClientTests extends BaseTest {
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
 		hermetStubBuilder.addPredicate()
-				.endsWith()
+				.equals()
 				.path(SampleAPI.SAMPLE_REQUEST_PATH)
 				.method("GET")
 				.build();
@@ -188,9 +190,11 @@ public class HermetClientTests extends BaseTest {
 	public void deleteAllSessions() throws IOException {
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
 		List<HermetProxyData> activeSessions = response.body();
-		for (HermetProxyData proxyData : activeSessions) {
-			String serviceId = proxyData.getId();
-			hermetApi.deleteService(serviceId).execute();
+		if (activeSessions != null) {
+			for (HermetProxyData proxyData : activeSessions) {
+				String serviceId = proxyData.getId();
+				hermetApi.deleteService(serviceId).execute();
+			}
 		}
 		response = hermetApi.getActiveServices().execute();
 		Assert.assertThat("Sessions are deleted", response.body() == null || response.body().isEmpty());

@@ -2,6 +2,7 @@ package rest.api.interceptors;
 
 import okhttp3.*;
 import okio.Buffer;
+import okio.BufferedSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +16,18 @@ public class LoggingInterceptor implements Interceptor {
 	@Override
 	public Response intercept(Chain chain) throws IOException {
 		Request request = chain.request();
+		logRequestAsCurlCommand(request);
+
+		final Response response = chain.proceed(request);
+		logResponse(response);
+		return response;
+	}
+
+	private void logRequestAsCurlCommand(Request request) throws IOException {
 		boolean compressed = false;
-		String curlCmd = "curl -i -X " + request.method() + " '" + request.url() + "'";
+		StringBuilder curlCmd = new StringBuilder("curl -i -X ")
+				.append(request.method()).append(" '")
+				.append(request.url()).append("'");
 
 		Headers headers = request.headers();
 		for (int i = 0, count = headers.size(); i < count; i++) {
@@ -25,10 +36,10 @@ public class LoggingInterceptor implements Interceptor {
 			if ("Accept-Encoding".equalsIgnoreCase(name) && "gzip".equalsIgnoreCase(value)) {
 				compressed = true;
 			}
-			curlCmd += " \\\n -H " + "\"" + name + ": " + value + "\"";
+			curlCmd.append(" \\\n -H ").append("\"").append(name).append(": ").append(value).append("\"");
 		}
 
-		curlCmd += " \\\n";
+		curlCmd.append(" \\\n");
 		RequestBody requestBody = request.body();
 		if (requestBody != null) {
 			Buffer buffer = new Buffer();
@@ -39,20 +50,27 @@ public class LoggingInterceptor implements Interceptor {
 				charset = contentType.charset(UTF8);
 			}
 			// try to keep to a single line and use a subshell to preserve any line breaks
-			curlCmd += " --data $'" + buffer.readString(charset).replace("\n", "\\n") + "'";
+			curlCmd.append(" -d '").append(buffer.readString(charset).replace("\n", "\\n")).append("'");
 		}
 
-		curlCmd += ((compressed) ? " --compressed " : " ");
+		curlCmd.append((compressed) ? " --compressed " : " ");
 
-		log.debug("\n< REQUEST:\n{}", curlCmd);
+		log.debug("\n< {} REQUEST:\n{}", request.method(), curlCmd.toString());
+	}
 
-		final Response response = chain.proceed(request);
-		if (response.isSuccessful()) {
-			log.debug("\n> SUCCESS: \n\t" + response.toString() + "\n");
-		} else {
-			log.debug("\n> FAILURE: \n\t" + response.toString() + "\n"
-					+ (response.body() == null ? "" : "\tBody: " + response.body().string() + "\n"));
+	private void logResponse(Response response) throws IOException {
+		String label = response.isSuccessful() ? "SUCCESS" : "FAILURE";
+		//Copy existing response body, because string() method can only be called once
+		ResponseBody body = response.body();
+		String bodyContent = null;
+		if (body != null) {
+			BufferedSource source = body.source();
+			Buffer bufferedCopy = source.buffer().clone();
+			ResponseBody responseCopy = ResponseBody.create(body.contentType(), body.contentLength(), bufferedCopy);
+			bodyContent = responseCopy.string();
 		}
-		return response;
+
+		log.debug("\n> {}:\n\t{}\n\tBody: {}", label, response.toString(),
+				bodyContent == null || bodyContent.isEmpty() ? "-empty-" : bodyContent);
 	}
 }

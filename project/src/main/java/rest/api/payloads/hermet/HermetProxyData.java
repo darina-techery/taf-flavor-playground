@@ -9,19 +9,61 @@ public class HermetProxyData {
 	@Expose
 	private String name;
 	@Expose
-	private String proxyHost;
+	private String proxyUrl;
 	@Expose
 	private long proxyTimeout;
+	@Expose
+	private int stubsPort;
+	@Expose
+	private int proxyPort;
+
+	public String getProxyUrl() {
+		return proxyUrl;
+	}
+
+	public void setProxyUrl(String proxyUrl) {
+		this.proxyUrl = proxyUrl;
+	}
+
+	public int getStubsPort() {
+		return stubsPort;
+	}
+
+	public void setStubsPort(int stubsPort) {
+		this.stubsPort = stubsPort;
+	}
+
+	public int getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
 
 	/**
 	 * Requests to this URL will be proxied
 	 */
 	private String targetUrl;
+
+	/**
+	 * This is a proxy host = proxy URL, proxy port
+	 */
+	private String proxyHost;
 	private String id;
 	private String description;
 
+	public String getStubsHost() {
+		return proxyUrl + ":" + stubsPort;
+	}
+
 	public String getProxyHost() {
+		initProxyHost();
 		return proxyHost;
+	}
+
+	public void initProxyHost() {
+		proxyHost = proxyUrl + ":" + proxyPort;
 	}
 
 	public void setProxyHost(String proxyHost) {

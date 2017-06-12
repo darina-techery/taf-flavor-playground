@@ -1,5 +1,7 @@
 {
-  "proxyHost": "http://techery-dt-staging.techery.io:5000"
+  "proxyUrl": "techery-dt-staging.techery.io",
+  "stubsPort": 5000,
+  "proxyPort": 5050
 }
 
 /*
@@ -11,6 +13,7 @@ optional:
 proxy timeout unit = seconds
 default session time: 14400 = 4 hours
 
+ "proxyHost": "http://techery-dt-staging.techery.io:5000"
 
 "proxyHost": "http://techery-dt-staging.techery.io:5000"
 "targetUrl": "http://techery-dt-staging.techery.io:5000"

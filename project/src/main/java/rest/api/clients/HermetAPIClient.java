@@ -7,7 +7,7 @@ public class HermetAPIClient extends BaseAPIClient{
 	@Override
 	protected void initClient() {
 //		String targetUrl = new HermetProxyDataFactory().getCommonProxyData().getTargetUrl();
-		String targetUrl = new HermetProxyDataFactory().getCommonProxyData().getProxyHost();
+		String targetUrl = "http://" + new HermetProxyDataFactory().getCommonProxyData().getStubsHost();
 		client = new RetrofitBuilder()
 				.setBaseUrl(targetUrl)
 				.addHeaders(RetrofitBuilder.COMMON_HEADERS)
