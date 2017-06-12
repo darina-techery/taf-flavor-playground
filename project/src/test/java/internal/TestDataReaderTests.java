@@ -18,7 +18,11 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public final class TestDataReaderTests {
 
-	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
+	private static final String DEFAULT_LOCALE = "en-US";
+	private static final String DEFAULT_USER_KEY = "default_user";
+	private static final String EXPECTED_USERNAME = "65663904";
+
+	@TestData(file = UserCredentials.DATA_FILE_NAME, key = DEFAULT_USER_KEY)
 	UserCredentials defaultUserFromAnnotation;
 
 	UserCredentials defaultUserFromDataReader;
@@ -27,9 +31,6 @@ public final class TestDataReaderTests {
 	RunParameters runParametersFromAnnotation;
 
 	RunParameters runParametersFromDataReader;
-
-	private static final String EXPECTED_USERNAME = "65663904";
-	private static final String DEFAULT_USER_KEY = "default_user";
 
 	@BeforeClass
 	public void injectDataMembers() throws FileNotFoundException, IllegalAccessException {
@@ -62,7 +63,7 @@ public final class TestDataReaderTests {
 	public void testExposedFieldsAreReadWithReader() throws FileNotFoundException {
 		TestDataReader<RunParameters> configReader = new TestDataReader<>(CONFIG_FILE_NAME, RunParameters.class);
 		runParametersFromDataReader = configReader.read();
-		Assert.assertThat("Proper value is read", runParametersFromDataReader.locale, is("en"));
+		Assert.assertThat("Proper value is read", runParametersFromDataReader.locale, is(DEFAULT_LOCALE));
 	}
 
 	@Test
@@ -74,7 +75,7 @@ public final class TestDataReaderTests {
 
 	@Test
 	public void testExposedFieldsAreReadWithAnnotation() {
-		Assert.assertThat("Proper value is read", runParametersFromAnnotation.locale, is("en"));
+		Assert.assertThat("Proper value is read", runParametersFromAnnotation.locale, is(DEFAULT_LOCALE));
 	}
 
 	@Test

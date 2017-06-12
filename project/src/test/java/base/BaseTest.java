@@ -10,9 +10,9 @@ import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.testng.annotations.AfterTest;
-import user.UserSessionManager;
+import org.testng.annotations.AfterMethod;
 import user.UserCredentials;
+import user.UserSessionManager;
 import utils.log.LogProvider;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
@@ -32,7 +32,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 		return stepsComponent;
 	}
 
-	@AfterTest
+	@AfterMethod
 	public void resetActiveUserCredentials() {
 		UserSessionManager.resetUserData();
 	}

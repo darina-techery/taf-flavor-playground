@@ -1,7 +1,7 @@
 package data;
 
 import data.structures.RunParameters;
-import utils.exceptions.FailedConfigurationException;
+import utils.exceptions.InvalidDataFileException;
 
 import java.io.FileNotFoundException;
 
@@ -9,7 +9,7 @@ public class Configuration {
 
 	private final RunParameters runParameters = new RunParameters();
 
-	public static final String CONFIG_FILE_NAME = "default_config.json";
+	public static final String CONFIG_FILE_NAME = "config/default_config.json";
 
 	private static class ConfigurationHolder {
 		private static final Configuration INSTANCE = new Configuration();
@@ -30,7 +30,7 @@ public class Configuration {
 			TestDataReader<RunParameters> configReader = new TestDataReader<>(CONFIG_FILE_NAME, RunParameters.class);
 			return configReader.read();
 		} catch (FileNotFoundException e) {
-			throw new FailedConfigurationException("Failed to locate config file ["+CONFIG_FILE_NAME+"]", e);
+			throw new InvalidDataFileException("Failed to locate config file ["+CONFIG_FILE_NAME+"]", e);
 		}
 	}
 
