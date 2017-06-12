@@ -6,7 +6,6 @@ import rest.api.interceptors.AuthenticationInterceptor;
 public class DreamTripsAPIClient extends BaseAPIClient {
 	@Override
 	protected void initClient() {
-//		String targetUrl = new HermetProxyDataFactory().getCommonProxyData().getTargetUrl();
 		String targetUrl = "http://" + new HermetProxyDataFactory().getCommonProxyData().getProxyHost();
 		RetrofitBuilder builder = new RetrofitBuilder()
 				.setBaseUrl(targetUrl)
