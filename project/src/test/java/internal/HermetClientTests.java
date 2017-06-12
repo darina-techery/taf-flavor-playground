@@ -52,7 +52,7 @@ public class HermetClientTests extends BaseTest {
 	@Test
 	public void hermetSessionIdRemainsConstantForTargetUrl() {
 		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
-		Assert.assertThat("Hermet session id is not null", sessionId, is(not(nullValue())));
+		Assert.assertThat("Hermet session id is not null", sessionId, notNullValue());
 		Assert.assertThat("Hermet session id should remain constant between tests",
 				sessionId, is(mainServiceId));
 	}
@@ -70,7 +70,7 @@ public class HermetClientTests extends BaseTest {
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
 		List<HermetProxyData> activeSessions = response.body();
 
-		Assert.assertThat("Active session list exists", activeSessions, is(not(nullValue())));
+		Assert.assertThat("Active session list exists", activeSessions, notNullValue());
 		Assert.assertThat("Active session list is not empty", 0,
 				is(lessThan(activeSessions.size())));
 		HermetProxyData serviceData = activeSessions.stream()
@@ -95,7 +95,7 @@ public class HermetClientTests extends BaseTest {
 		Assert.assertThat("Response has proper message",
 				responseFromAddingStub.message(), equalTo("Created"));
 		Assert.assertThat("Response has Location header",
-				responseFromAddingStub.headers().get("Location"), is(not(nullValue())));
+				responseFromAddingStub.headers().get("Location"), notNullValue());
 	}
 
 	@Test
@@ -112,14 +112,14 @@ public class HermetClientTests extends BaseTest {
 
 		List<HermetStub> response = actions.getStubsForService(mockTargetUrl);
 		Assert.assertThat("Stubs list for "+mockTargetUrl + " is not empty",
-				response, is(not(nullValue())));
+				response, notNullValue());
 
 		HermetStub stubData = response.stream()
 				.filter(stub->stub.getId().equals(stubId)).findAny().orElse(null);
-		Assert.assertThat("Stub was created", stubData, is(not(nullValue())));
+		Assert.assertThat("Stub was created", stubData, notNullValue());
 		Assert.assertThat("Stub response equals predefined one",
-				stubData.getResponse().get("body").getAsJsonObject().get("token"),
-				equalTo(actualStub.get(testToken)));
+				stubData.getResponse().get("body").getAsJsonObject().get("token").getAsString(),
+				is(testToken));
 	}
 
 	@Test
@@ -159,12 +159,12 @@ public class HermetClientTests extends BaseTest {
 
 		DreamTripsAPI dreamTripsAPI = new DreamTripsAPIClient().create(DreamTripsAPI.class);
 		Response<UserProfile> response = dreamTripsAPI.getUserProfile().execute();
-		Assert.assertThat("Response body is not null", response.body(), is(not(nullValue())));
+		Assert.assertThat("Response body is not null", response.body(), notNullValue());
 		Assert.assertThat("Response body contains valid data: id", response.body().getId(), equalTo(1) );
 		System.out.println("call placed");
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	//
 	//ENABLE WITH CAUTION! ALL SESSIONS WILL BE DELETED!
 	//

@@ -63,7 +63,14 @@ public class HermetStubBuilder {
 	public JsonObject build() {
 		JsonObject stub = new JsonObject();
 		JsonElement predicates = buildPredicates();
-		stub.add("response", response);
+
+		if (response.isJsonArray() || response.getAsJsonObject().get("body") == null) {
+			JsonObject responseAsBody = new JsonObject();
+			responseAsBody.add("body", response);
+			stub.add("response", responseAsBody);
+		} else {
+			stub.add("response", response);
+		}
 		stub.add("predicates", predicates);
 		return stub;
 	}

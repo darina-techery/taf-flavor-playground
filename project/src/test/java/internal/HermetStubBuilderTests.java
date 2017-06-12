@@ -36,11 +36,11 @@ public class HermetStubBuilderTests {
 	}
 
 	private void compareStubs(String message, JsonObject actualStub) {
-		Assert.assertThat(message, new Gson().toJson(actualStub), equalTo(new Gson().toJson(expectedStub)));
+		Assert.assertThat(message, new Gson().toJson(actualStub).trim(), equalTo(new Gson().toJson(expectedStub).trim()));
 	}
 
 	private void compareDifferentStubs(String message, JsonObject actualStub) {
-		Assert.assertThat(message, new Gson().toJson(actualStub), not(equalTo(new Gson().toJson(expectedStub))));
+		Assert.assertThat(message, new Gson().toJson(actualStub).trim(), not(equalTo(new Gson().toJson(expectedStub).trim())));
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class HermetStubBuilderTests {
 		JsonObject response = new JsonObject();
 		JsonObject body = new JsonObject();
 		body.addProperty("token", "test-token");
-		body.addProperty("sso-token", "test-sso-token");
+		body.addProperty("sso_token", "test-sso-token");
 		response.add("body", body);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
@@ -122,7 +122,7 @@ public class HermetStubBuilderTests {
 	public void testBuildStub_withResponseAsJsonObject_Failure() {
 		JsonObject response = new JsonObject();
 		JsonObject body = new JsonObject();
-		body.addProperty("sso-token", "test-sso-token");
+		body.addProperty("sso_token", "test-sso-token");
 		response.add("body", body);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
