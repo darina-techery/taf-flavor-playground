@@ -28,7 +28,6 @@ public class HermetStubBuilder {
 		}
 	}
 	private JsonObject responseStub = new JsonObject();
-//	private Map<StubType, JsonElement> response = new HashMap<>();
 	private ImposterBuilder imposterBuilder = new ImposterBuilder();
 
 	private StubBuilder stubBuilder = imposterBuilder.stub();
@@ -89,44 +88,8 @@ public class HermetStubBuilder {
 		JsonObject stubJson = new JsonObject();
 		stubJson.add("response", responseStub);
 		stubJson.add("predicates", buildPredicates());
-//		if (response.containsKey(StubType.HEADERS)) {
-//			JsonObject header = getResponseProperty("headers", response.get(StubType.HEADERS));
-//			responseJson.
-//		}
-//		if (response.containsKey(StubType.HEADERS)) {
-//			JsonElement headerStub = response.get(StubType.HEADERS);
-//			if (headerStub.isJsonArray() || headerStub.getAsJsonObject().get("header") == null) {
-//				JsonObject responseHeader = new JsonObject();
-//				responseHeader.add("header", headerStub);
-//				responseJson.add("response", responseHeader);
-//			} else {
-//				responseJson.add("response", headerStub);
-//			}
-//		}
-//		if (response.containsKey(StubType.BODY)) {
-//			JsonElement bodyStub = response.get(StubType.BODY);
-//			if (bodyStub.isJsonArray() || bodyStub.getAsJsonObject().get("body") == null) {
-//				JsonObject responseBody = new JsonObject();
-//				responseBody.add("header", bodyStub);
-//				responseJson.add("response", responseBody);
-//			} else {
-//				responseJson.add("response", bodyStub);
-//			}
-//		}
-
 		return stubJson;
 	}
-
-//	private JsonObject getResponseProperty(String propertyName, JsonElement responsePart) {
-//		if (responsePart.isJsonArray() || responsePart.getAsJsonObject().get(propertyName) == null) {
-//			JsonObject wrappedResponsePart = new JsonObject();
-//			wrappedResponsePart.add(propertyName, responsePart);
-//			return wrappedResponsePart;
-//		} else {
-//			return responsePart.getAsJsonObject();
-//		}
-//
-//	}
 
 	private JsonElement buildPredicates() {
 		Imposter imposterWithPredicates = imposterBuilder.build();
