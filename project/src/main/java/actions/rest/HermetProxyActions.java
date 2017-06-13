@@ -1,6 +1,7 @@
 package actions.rest;
 
 import com.google.gson.JsonObject;
+import data.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.api.clients.HermetAPIClient;
@@ -18,8 +19,18 @@ import java.util.List;
 public class HermetProxyActions {
 	private final HermetAPI hermetAPI;
 	private final Logger log = LogManager.getLogger();
+	private String mainServiceUrl;
 	public HermetProxyActions() {
 		hermetAPI = new HermetAPIClient().create(HermetAPI.class);
+		mainServiceUrl = Configuration.getParameters().apiURL;
+	}
+
+	public void startMainService() {
+		HermetServiceManager.getServiceId(mainServiceUrl);
+	}
+
+	public void deleteCreatedStubsForMainService() {
+		this.deleteAllCreatedStubsForService(mainServiceUrl);
 	}
 
 	public void addStub(String targetUrl, JsonObject stubContent) throws IOException {
@@ -38,6 +49,11 @@ public class HermetProxyActions {
 		hermetAPI.deleteStub(serviceId, stubId).execute();
 	}
 
+	/**
+	 * Warning: this method will delete all created proxies on Hermet server
+	 * If some concurrent test run uses one of these services, it will cause its failure
+	 * @throws IOException
+	 */
 	public void deleteAllActiveServices() throws IOException {
 		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
 		if (response.isSuccessful()) {
@@ -60,7 +76,7 @@ public class HermetProxyActions {
 		}
 	}
 
-	public void deleteAllActiveServices(String targetUrl) throws IOException {
+	public void deleteAllActiveServicesForTargetUrl(String targetUrl) throws IOException {
 		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
 		if (response.isSuccessful()) {
 			List<HermetProxyData> services = response.body();

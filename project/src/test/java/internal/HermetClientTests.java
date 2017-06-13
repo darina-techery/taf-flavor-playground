@@ -4,7 +4,6 @@ import actions.rest.HermetProxyActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
 import data.Configuration;
-import org.apache.logging.log4j.LogManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -15,14 +14,12 @@ import rest.api.hermet.HermetServiceManager;
 import rest.api.hermet.HermetStubBuilder;
 import rest.api.hermet.HermetStubBuilder.StubType;
 import rest.api.payloads.hermet.HermetProxyData;
-import rest.api.payloads.internal.SampleResponse;
 import rest.api.payloads.login.request.LoginRequest;
 import rest.api.payloads.login.response.LoginResponse;
 import rest.api.payloads.login.response.UserProfile;
 import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
 import rest.api.services.HermetAPI;
-import rest.api.services.SampleAPI;
 import retrofit2.Response;
 import user.UserCredentials;
 import user.UserSessionManager;
@@ -57,7 +54,7 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_hermetServiceIdRemainsConstantForTargetUrl() {
+	public void test_getHermetServiceId_verifyItIsConstantForSameUrl() {
 		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
 		Assert.assertThat("Hermet session id is not null", sessionId, notNullValue());
 		Assert.assertThat("Hermet session id should remain constant between tests",
@@ -65,23 +62,23 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_getActiveSessions() throws IOException {
+	public void test_getActiveServices_verifyServiceId() throws IOException {
 		String sessionId = HermetServiceManager.getServiceId(commonApiUrl);
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
 		List<HermetProxyData> activeSessions = response.body();
 
-		Assert.assertThat("Active session list exists", activeSessions, notNullValue());
-		Assert.assertThat("Active session list is not empty", 0,
+		Assert.assertThat("Active service list exists", activeSessions, notNullValue());
+		Assert.assertThat("Active service list is not empty", 0,
 				is(lessThan(activeSessions.size())));
 		HermetProxyData serviceData = activeSessions.stream()
 				.filter(service -> service.getId().equals(sessionId))
 				.findAny().orElse(null);
-		Assert.assertThat("Active session list contains created session id", serviceData,
-				is(not(nullValue())));
+		Assert.assertThat("Active service list contains active service for common API", serviceData,
+				notNullValue());
 	}
 
 	@Test
-	public void test_sendAddStubRequest_andVerifyResponse() throws IOException {
+	public void test_sendAddStubRequest_verifyResponse() throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(commonApiUrl);
 		stubBuilder.setResponseFromFile(StubType.BODY, "internal/sample_login_response.json");
 		stubBuilder.addPredicate()
@@ -98,7 +95,7 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_stubLoginRequest() throws IOException {
+	public void test_stubLoginRequest_verifyResponseContainsData() throws IOException {
 		String testToken = "test-token";
 		stubBuilder.setResponse(StubType.BODY, "{ 'body':{'token':'"+testToken+"','sso_token':'test-sso-token'}}");
 		stubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
@@ -114,26 +111,7 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_stubSampleRequest() throws IOException {
-		UserSessionManager.setMockAuthenticationMode(true);
-		SampleAPI sampleAPI = new DreamTripsAPIClient().create(SampleAPI.class);
-		SampleResponse responseBody = new SampleResponse(1);
-
-		stubBuilder.addPredicate()
-				.equals()
-				.path(SampleAPI.SAMPLE_REQUEST_PATH)
-				.method("GET")
-				.build();
-		stubBuilder.setResponse(StubType.BODY, responseBody, SampleResponse.class);
-		JsonObject stub = stubBuilder.build();
-		actions.addStub(commonApiUrl, stub);
-
-		Response<SampleResponse> response = sampleAPI.getSampleResponse().execute();
-		LogManager.getLogger().debug(response.message());
-	}
-
-	@Test
-	public void test_createStubForMockAuthenticationMode_andVerifyInterceptedRequest() throws IOException {
+	public void test_createStubInMockAuthenticationMode_verifyInterceptedRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		stubBuilder.addPredicate().endsWith().path("/api/profile").method("GET").build();
 		stubBuilder.setResponseFromFile(StubType.BODY,"internal/sample_user_profile_response.json");
@@ -150,7 +128,6 @@ public class HermetClientTests extends BaseTest {
 		Assert.assertThat("Response body is not null", response.body(), notNullValue());
 		Assert.assertThat("Response body contains valid data: username", response.body().getUsername(),
 				equalTo(expectedUsername) );
-		System.out.println("call placed");
 	}
 
 	@Test(enabled = false)
@@ -164,8 +141,7 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@AfterClass(alwaysRun = true)
-	public void deleteAllCreatedStubs() throws IOException {
-		actions.deleteAllCreatedStubsForService(commonApiUrl);
+	public void restoreDefaultAuthenticationMode() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(false);
 	}
 
