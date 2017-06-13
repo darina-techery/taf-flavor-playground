@@ -133,7 +133,7 @@ public class HermetClientTests extends BaseTest {
 	}
 
 	@Test
-	public void test_createStub_andVerifyInterceptedRequest() throws IOException {
+	public void test_createStubForMockAuthenticationMode_andVerifyInterceptedRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		stubBuilder.addPredicate().endsWith().path("/api/profile").method("GET").build();
 		stubBuilder.setResponseFromFile(StubType.BODY,"internal/sample_user_profile_response.json");
@@ -148,7 +148,8 @@ public class HermetClientTests extends BaseTest {
 		DreamTripsAPI dreamTripsAPI = new DreamTripsAPIClient().create(DreamTripsAPI.class);
 		Response<UserProfile> response = dreamTripsAPI.getUserProfile().execute();
 		Assert.assertThat("Response body is not null", response.body(), notNullValue());
-		Assert.assertThat("Response body contains valid data: id", response.body().getId(), equalTo(1) );
+		Assert.assertThat("Response body contains valid data: username", response.body().getUsername(),
+				equalTo(expectedUsername) );
 		System.out.println("call placed");
 	}
 
@@ -157,15 +158,8 @@ public class HermetClientTests extends BaseTest {
 	//ENABLE WITH CAUTION! ALL SESSIONS WILL BE DELETED!
 	//
 	public void deleteAllSessions() throws IOException {
+		actions.deleteAllActiveServices();
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
-		List<HermetProxyData> activeSessions = response.body();
-		if (activeSessions != null) {
-			for (HermetProxyData proxyData : activeSessions) {
-				String serviceId = proxyData.getId();
-				hermetApi.deleteService(serviceId).execute();
-			}
-		}
-		response = hermetApi.getActiveServices().execute();
 		Assert.assertThat("Sessions are deleted", response.body() == null || response.body().isEmpty());
 	}
 

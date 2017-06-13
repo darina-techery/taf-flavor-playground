@@ -52,6 +52,14 @@ public class UserSessionManager {
 		ActiveUserHolder.INSTANCE.sessionTokenHolder.clearSessions();
 	}
 
+	/**
+	 * This method turns on "no authentication required" mode to speed up test execution
+	 * if all requests are stubbed using Hermet.
+	 * 
+	 * @param debugMode if true, authentication token will not be fetched for the user.
+	 *                 Mock token will be used instead. Caution: non-stubbed DT services
+	 *               will not work with fake token.
+	 */
 	public static void setMockAuthenticationMode(boolean debugMode) {
 		ActiveUserHolder.INSTANCE.debugMode = debugMode;
 	}
