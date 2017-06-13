@@ -21,8 +21,8 @@ public class LoginSteps {
 	@Step("Submit provided login credentials: '{0}' ")
 	public void submitCredentials(UserCredentials user) {
 		loginActions.waitForScreen();
-		loginActions.setLogin(user.username);
-		loginActions.setPassword(user.password);
+		loginActions.setLogin(user.getUsername());
+		loginActions.setPassword(user.getPassword());
 		loginActions.submit();
 	}
 

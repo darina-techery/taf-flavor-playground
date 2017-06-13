@@ -60,14 +60,13 @@ public class LoggingInterceptor implements Interceptor {
 
 	private void logResponse(Response response) throws IOException {
 		String label = response.isSuccessful() ? "SUCCESS" : "FAILURE";
-		//Copy existing response body, because string() method can only be called once
+		//Copy existing response body content, because string() method can only be called once
 		ResponseBody body = response.body();
 		String bodyContent = null;
 		if (body != null) {
 			BufferedSource source = body.source();
-			Buffer bufferedCopy = source.buffer().clone();
-			ResponseBody responseCopy = ResponseBody.create(body.contentType(), body.contentLength(), bufferedCopy);
-			bodyContent = responseCopy.string();
+			source.request(Long.MAX_VALUE); // Buffer the entire body.
+			bodyContent = source.buffer().clone().readString(Charset.forName("UTF-8"));
 		}
 
 		log.debug("\n> {}:\n\t{}\n\tBody: {}", label, response.toString(),

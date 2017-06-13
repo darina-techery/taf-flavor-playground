@@ -9,8 +9,44 @@ import utils.runner.Assert;
 
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static rest.api.hermet.HermetStubBuilder.StubType;
 
 public class HermetStubBuilderTests {
+	private String expectedStubContentWithHeadersAndBody = "{\n" +
+			"  \"response\": {\n" +
+			"    \"headers\": {\n" +
+			"      \"token\":\"test-token\"\n" +
+			"    },\n" +
+			"    \"body\": {\n" +
+			"      \"token\":\"test-token\",\n" +
+			"      \"sso_token\":\"test-sso-token\"\n" +
+			"    }\n" +
+			"  },\n" +
+			"  \"predicates\": [\n" +
+			"    {\n" +
+			"      \"equals\": {\n" +
+			"        \"path\": \"/api/sessions\",\n" +
+			"        \"method\": \"POST\"\n" +
+			"      }\n" +
+			"    }\n" +
+			"  ]\n" +
+			"}".replace("\\n", "").replaceAll("\\s", "");
+
+	private String expectedStubContentWithHeader = "{\n" +
+			"  \"response\": {\n" +
+			"    \"headers\": {\n" +
+			"      \"token\":\"test-token\"\n" +
+			"    }\n" +
+			"  },\n" +
+			"  \"predicates\": [\n" +
+			"    {\n" +
+			"      \"equals\": {\n" +
+			"        \"path\": \"/api/sessions\",\n" +
+			"        \"method\": \"POST\"\n" +
+			"      }\n" +
+			"    }\n" +
+			"  ]\n" +
+			"}".replace("\\n", "").replaceAll("\\s", "");
 
 	private String expectedStubContentFromConfluencePage = "{\n" +
 			"  \"response\": {\n" +
@@ -28,18 +64,22 @@ public class HermetStubBuilderTests {
 			"    }\n" +
 			"  ]\n" +
 			"}".replace("\\n", "").replaceAll("\\s", "");
-	private JsonObject expectedStub = new JsonParser()
+	private JsonObject expectedStubWithBody = new JsonParser()
 			.parse(expectedStubContentFromConfluencePage).getAsJsonObject();
+	private JsonObject expectedStubWithHeader = new JsonParser()
+			.parse(expectedStubContentWithHeader).getAsJsonObject();
+	private JsonObject expectedStubWithHeaderAndBody = new JsonParser()
+			.parse(expectedStubContentWithHeadersAndBody).getAsJsonObject();
 
 	private void addDefaultPredicate(HermetStubBuilder builder) {
 		builder.addPredicate().equals().path("/api/sessions").method("POST").build();
 	}
 
-	private void compareStubs(String message, JsonObject actualStub) {
+	private void compareStubs(String message, JsonObject actualStub, JsonObject expectedStub) {
 		Assert.assertThat(message, new Gson().toJson(actualStub).trim(), equalTo(new Gson().toJson(expectedStub).trim()));
 	}
 
-	private void compareDifferentStubs(String message, JsonObject actualStub) {
+	private void compareDifferentStubs(String message, JsonObject actualStub, JsonObject expectedStub) {
 		Assert.assertThat(message, new Gson().toJson(actualStub).trim(), not(equalTo(new Gson().toJson(expectedStub).trim())));
 	}
 
@@ -48,10 +88,10 @@ public class HermetStubBuilderTests {
 		FakeTokenResponse fakeTokenResponse = new FakeTokenResponse(
 				"test-token", "test-sso-token");
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(fakeTokenResponse, FakeTokenResponse.class);
+		hermetStubBuilder.setResponse(StubType.BODY, fakeTokenResponse, FakeTokenResponse.class);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareStubs("Valid stub built from Object", actualStub);
+		compareStubs("Valid stub built from Object", actualStub, expectedStubWithBody);
 	}
 
 	@Test
@@ -59,46 +99,64 @@ public class HermetStubBuilderTests {
 		FakeTokenResponse fakeTokenResponse = new FakeTokenResponse(
 				"", "test-sso-token");
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(fakeTokenResponse, FakeTokenResponse.class);
+		hermetStubBuilder.setResponse(StubType.BODY, fakeTokenResponse, FakeTokenResponse.class);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareDifferentStubs("Stubs are different", actualStub);
+		compareDifferentStubs("Stubs are different", actualStub, expectedStubWithBody);
+	}
+
+	@Test
+	public void testBuildStub_withHeaderResponseAsString_Success() {
+		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		hermetStubBuilder.setResponse(StubType.HEADERS, "{\"token\":\"test-token\"}");
+		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
+		JsonObject actualStub = hermetStubBuilder.build();
+		compareStubs("Valid stub built from String", actualStub, expectedStubWithHeader);
+	}
+
+	@Test
+	public void testBuildStub_withHeaderResponseAsString_Failure() {
+		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		hermetStubBuilder.setResponse(StubType.HEADERS, "{\"token\":\"foo\"}");
+		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
+		JsonObject actualStub = hermetStubBuilder.build();
+		compareDifferentStubs("Stubs with headers are different", actualStub, expectedStubWithHeader);
 	}
 
 	@Test
 	public void testBuildStub_withResponseAsString_Success() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse("{\"body\":{\"token\":\"test-token\",\"sso_token\":\"test-sso-token\"}}");
+		hermetStubBuilder.setResponse(StubType.BODY, "{\"body\":{\"token\":\"test-token\",\"sso_token\":\"test-sso-token\"}}");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareStubs("Valid stub built from String", actualStub);
+		compareStubs("Valid stub built from String", actualStub, expectedStubWithBody);
 	}
 
 	@Test
 	public void testBuildStub_withResponseAsString_Failure() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse("{\"body\":{\"sso_token\":\"test-sso-token\"}}");
+		hermetStubBuilder.setResponse(StubType.BODY, "{\"body\":{\"sso_token\":\"test-sso-token\"}}");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareDifferentStubs("Stubs are different", actualStub);
+		compareDifferentStubs("Stubs are different", actualStub, expectedStubWithBody);
 	}
 
 	@Test
 	public void testBuildStub_withResponseAsFile_Success() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponseFromFile("internal/sample_login_response.json");
+		hermetStubBuilder.setResponseFromFile(StubType.BODY, "internal/sample_login_response.json");
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareStubs("Valid stub built from file", actualStub);
+		compareStubs("Valid stub built from file", actualStub, expectedStubWithBody);
 	}
 
 	@Test
 	public void testBuildStub_withResponseAsFile_Failure() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponseFromFile("internal/sample_login_response_invalid.json");
+		hermetStubBuilder.setResponseFromFile(StubType.BODY, "internal/sample_login_response_invalid.json");
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
-		compareDifferentStubs("Stubs are different", actualStub);
+		compareDifferentStubs("Stubs are different", actualStub, expectedStubWithBody);
 
 	}
 
@@ -111,11 +169,11 @@ public class HermetStubBuilderTests {
 		response.add("body", body);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(response);
+		hermetStubBuilder.setResponse(StubType.BODY, response);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
 
-		compareStubs("Valid stub built from JsonObject", actualStub);
+		compareStubs("Valid stub built from JsonObject", actualStub, expectedStubWithBody);
 	}
 
 	@Test
@@ -126,11 +184,48 @@ public class HermetStubBuilderTests {
 		response.add("body", body);
 
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(response);
+		hermetStubBuilder.setResponse(StubType.BODY, response);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
 
-		compareDifferentStubs("Stubs are different", actualStub);
+		compareDifferentStubs("Stubs are different", actualStub, expectedStubWithBody);
+	}
+
+	@Test
+	public void testBuildStub_WithHeaderAndBody_Success() {
+		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+
+		JsonObject headers = new JsonObject();
+		headers.addProperty("token", "test-token");
+		hermetStubBuilder.setResponse(StubType.HEADERS, headers);
+
+		JsonObject body = new JsonObject();
+		body.addProperty("token", "test-token");
+		body.addProperty("sso_token", "test-sso-token");
+		hermetStubBuilder.setResponse(StubType.BODY, body);
+
+		addDefaultPredicate(hermetStubBuilder);
+		JsonObject actualStub = hermetStubBuilder.build();
+		compareStubs("Stubs with headers and body are equal", actualStub, expectedStubWithHeaderAndBody);
+	}
+
+	@Test
+	public void testBuildStub_WithHeaderAndBody_Failure() {
+		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+
+		JsonObject headers = new JsonObject();
+		headers.addProperty("token", "foo");
+		hermetStubBuilder.setResponse(StubType.HEADERS, headers);
+
+		JsonObject body = new JsonObject();
+		body.addProperty("token", "test-token");
+		body.addProperty("sso_token", "test-sso-token");
+		hermetStubBuilder.setResponse(StubType.BODY, body);
+
+		addDefaultPredicate(hermetStubBuilder);
+		JsonObject actualStub = hermetStubBuilder.build();
+		compareDifferentStubs("Stubs with headers and body are different",
+				actualStub, expectedStubWithHeaderAndBody);
 	}
 
 	class FakeTokenResponse {

@@ -57,35 +57,34 @@ public class HermetInterceptor implements Interceptor {
 	}
 
 	private HermetProxyData getActiveServiceData(Request newProxyRequest) throws IOException {
-		String requestedTargetUrl = getTargetUrlFromAddServiceRequest(newProxyRequest);
+		String requestedProxyHost = getProxyHostFromNewProxyRequest(newProxyRequest);
 		List<HermetProxyData> existingProxies = hermetAPI.getActiveServices().execute().body();
 		if (existingProxies == null || existingProxies.isEmpty()) {
 			return null;
 		} else {
-			List<HermetProxyData> proxiesWithTargetUrl = existingProxies.stream()
-					.filter(proxy -> proxy.getTargetUrl().equals(requestedTargetUrl))
+			List<HermetProxyData> proxiesWithProxyHost = existingProxies.stream()
+					.filter(proxy -> proxy.getProxyHost().equals(requestedProxyHost))
 					.collect(Collectors.toList());
-			if (proxiesWithTargetUrl.size() > 1) {
+			if (proxiesWithProxyHost.size() > 1) {
 				throw new FailedConfigurationException(
-						"More than 1 service exists for target url "+requestedTargetUrl
+						"More than 1 service exists for proxy host "+requestedProxyHost
 								+ "\n\tActive services found: "
-								+ proxiesWithTargetUrl.stream().map(HermetProxyData::toString)
+								+ proxiesWithProxyHost.stream().map(HermetProxyData::toString)
 								.collect(Collectors.joining("\n")));
 			}
-			return proxiesWithTargetUrl.isEmpty() ? null : proxiesWithTargetUrl.get(0);
+			return proxiesWithProxyHost.isEmpty() ? null : proxiesWithProxyHost.get(0);
 		}
 	}
 
-	private String getTargetUrlFromAddServiceRequest(Request newProxyRequest) throws IOException {
+	private String getProxyHostFromNewProxyRequest(Request newProxyRequest) throws IOException {
 		final Request copy = newProxyRequest.newBuilder().build();
 		final Buffer buffer = new Buffer();
 		copy.body().writeTo(buffer);
 		HermetProxyData requestedProxy = new Gson().fromJson(buffer.readUtf8(), HermetProxyData.class);
-		return requestedProxy.getTargetUrl();
+		return requestedProxy.getProxyHost();
 	}
 
 	private Response buildResponseWithRunningServiceData(Request request, HermetProxyData existingProxyData) {
-//		String responseString = new Gson().toJson(existingProxyData);
 		String locationHeader = String.format("%s/api/services/%s",
 				existingProxyData.getProxyHost(), existingProxyData.getId());
 		Response.Builder builder = new Response.Builder()

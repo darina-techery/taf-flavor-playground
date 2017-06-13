@@ -12,8 +12,8 @@ public class LoginRequest {
 	}
 
 	public LoginRequest(UserCredentials user) {
-		this.username = user.username;
-		this.password = user.password;
+		this.username = user.getUsername();
+		this.password = user.getPassword();
 	}
 
 	public String getUsername() {

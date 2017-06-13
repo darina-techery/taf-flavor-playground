@@ -11,7 +11,7 @@ public class DreamTripsAPIClient extends BaseAPIClient {
 				.setBaseUrl(targetUrl)
 				.addHeaders(RetrofitBuilder.COMMON_HEADERS)
 				.addHeaders(RetrofitBuilder.DT_HEADERS)
-				.addGsonConverterFactory(new NullOrEmptyGsonConverterFactory())
+//				.addGsonConverterFactory(new NullOrEmptyGsonConverterFactory())
 				.addInterceptor(new AuthenticationInterceptor());
 		client = builder.build();
 	}

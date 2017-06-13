@@ -38,14 +38,14 @@ public class DreamTripsClientTests extends BaseTest {
 	public void testDefaultUser() {
 		UserCredentials userCredentials = UserSessionManager.getActiveUser();
 		Assert.assertThat("Default user is active",
-				userCredentials.username, is(defaultUser.username));
+				userCredentials.getUsername(), is(defaultUser.getUsername()));
 	}
 
 	@Test
 	public void testSetActiveUser() {
 		UserSessionManager.setActiveUser(anotherUser);
 		Assert.assertThat("Active user is changed",
-				UserSessionManager.getActiveUser().username, is(anotherUser.username));
+				UserSessionManager.getActiveUser().getUsername(), is(anotherUser.getUsername()));
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class DreamTripsClientTests extends BaseTest {
 		UserProfile profile = getActiveUserProfileFromService();
 		String actualUsername = profile.getUsername();
 		Assert.assertThat("Profile request returns valid username",
-				actualUsername, is(UserSessionManager.getActiveUser().username));
+				actualUsername, is(UserSessionManager.getActiveUser().getUsername()));
 
 	}
 
@@ -70,7 +70,7 @@ public class DreamTripsClientTests extends BaseTest {
 		UserProfile profile = getActiveUserProfileFromService();
 		String actualUsername = profile.getUsername();
 		Assert.assertThat("Profile request returns valid username for another user",
-				actualUsername, is(anotherUser.username));
+				actualUsername, is(anotherUser.getUsername()));
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class DreamTripsClientTests extends BaseTest {
 
 		//send request requiring auth
 		getActiveUserProfileFromService();
-		String currentUserToken = UserSessionManager.getUserToken(defaultUser.username);
+		String currentUserToken = UserSessionManager.getUserToken(defaultUser.getUsername());
 		Assert.assertThat("Authentication token remains the same between requests",
 				currentUserToken, is(defaultUserToken));
 	}

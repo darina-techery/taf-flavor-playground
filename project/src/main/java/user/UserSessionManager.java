@@ -57,7 +57,7 @@ public class UserSessionManager {
 	}
 
 	public static String getActiveUserToken() {
-		return getUserToken(getActiveUser().username);
+		return getUserToken(getActiveUser().getUsername());
 	}
 
 	public static String getUserToken(String username) {
@@ -67,7 +67,7 @@ public class UserSessionManager {
 	}
 
 	public static String getActiveUserSsoToken() {
-		return getActiveUserSsoToken(getActiveUser().username);
+		return getActiveUserSsoToken(getActiveUser().getUsername());
 	}
 
 	public static String getActiveUserSsoToken(String username) {
