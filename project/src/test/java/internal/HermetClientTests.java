@@ -3,6 +3,8 @@ package internal;
 import actions.rest.HermetProxyActions;
 import base.BaseTest;
 import com.google.gson.JsonObject;
+import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
+import com.worldventures.dreamtrips.api.session.model.Session;
 import data.Configuration;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,11 +14,9 @@ import rest.api.clients.DreamTripsAPIClient;
 import rest.api.clients.HermetAPIClient;
 import rest.api.hermet.HermetServiceManager;
 import rest.api.hermet.HermetStubBuilder;
-import rest.api.hermet.HermetStubBuilder.StubType;
-import rest.api.payloads.hermet.HermetProxyData;
-import rest.api.payloads.login.request.LoginRequest;
-import rest.api.payloads.login.response.LoginResponse;
-import rest.api.payloads.login.response.UserProfile;
+import rest.api.hermet.HermetStubBuilder.ResponsePart;
+import rest.api.model.hermet.HermetProxyData;
+import rest.api.model.login.request.LoginRequest;
 import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
 import rest.api.services.HermetAPI;
@@ -80,7 +80,7 @@ public class HermetClientTests extends BaseTest {
 	@Test
 	public void test_sendAddStubRequest_verifyResponse() throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(commonApiUrl);
-		stubBuilder.setResponseFromFile(StubType.BODY, "internal/sample_login_response.json");
+		stubBuilder.setResponseFromFile(ResponsePart.BODY, "internal/sample_login_response.json");
 		stubBuilder.addPredicate()
 				.equals().path("/api/sessions").method("POST").end()
 				.equals().query("some param", "some value").build();
@@ -96,25 +96,28 @@ public class HermetClientTests extends BaseTest {
 
 	@Test
 	public void test_stubLoginRequest_verifyResponseContainsData() throws IOException {
-		String testToken = "test-token";
-		stubBuilder.setResponse(StubType.BODY, "{ 'body':{'token':'"+testToken+"','sso_token':'test-sso-token'}}");
+		stubBuilder.setResponseFromFile(ResponsePart.BODY, "login_response.json");
 		stubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = stubBuilder.build();
+		String testToken = actualStub
+				.get("response").getAsJsonObject()
+				.get("body").getAsJsonObject()
+				.get("token").getAsString();
 
 		actions.addStub(commonApiUrl, actualStub);
 
 		AuthAPI authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
 		LoginRequest loginRequest = new LoginRequest(new UserCredentials("user", "pass"));
-		Response<LoginResponse> response = authAPI.login(loginRequest).execute();
+		Response<Session> response = authAPI.login(loginRequest).execute();
 
-		Assert.assertThat("Response contains token as in stub", response.body().getToken(), is(testToken));
+		Assert.assertThat("Response contains token as in stub", response.body().token(), is(testToken));
 	}
 
 	@Test
 	public void test_createStubInMockAuthenticationMode_verifyInterceptedRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		stubBuilder.addPredicate().endsWith().path("/api/profile").method("GET").build();
-		stubBuilder.setResponseFromFile(StubType.BODY,"internal/sample_user_profile_response.json");
+		stubBuilder.setResponseFromFile(ResponsePart.BODY,"user_profile_response.json");
 		JsonObject stub = stubBuilder.build();
 
 		String expectedUsername = stub.get("response").getAsJsonObject()
@@ -124,9 +127,9 @@ public class HermetClientTests extends BaseTest {
 		actions.addStub(commonApiUrl, stub);
 
 		DreamTripsAPI dreamTripsAPI = new DreamTripsAPIClient().create(DreamTripsAPI.class);
-		Response<UserProfile> response = dreamTripsAPI.getUserProfile().execute();
+		Response<PrivateUserProfile> response = dreamTripsAPI.getCurrentUserProfile().execute();
 		Assert.assertThat("Response body is not null", response.body(), notNullValue());
-		Assert.assertThat("Response body contains valid data: username", response.body().getUsername(),
+		Assert.assertThat("Response body contains valid data: username", response.body().username(),
 				equalTo(expectedUsername) );
 	}
 

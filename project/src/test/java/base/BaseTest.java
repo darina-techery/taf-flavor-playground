@@ -33,7 +33,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 	    hermetProxyActions = new HermetProxyActions();
     }
 
-	protected StepsComponent getStepsComponent() {
+	protected StepsComponent getUiStepsComponent() {
 		return stepsComponent;
 	}
 

@@ -2,7 +2,7 @@ package rest.api.hermet;
 
 import data.Configuration;
 import data.TestDataReader;
-import rest.api.payloads.hermet.HermetProxyData;
+import rest.api.model.hermet.HermetProxyData;
 import utils.exceptions.InvalidDataFileException;
 
 import java.io.FileNotFoundException;

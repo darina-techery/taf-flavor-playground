@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import rest.api.clients.HermetAPIClient;
 import rest.api.clients.RetrofitBuilder;
 import rest.api.hermet.HermetServiceManager;
-import rest.api.payloads.hermet.HermetProxyData;
+import rest.api.model.hermet.HermetProxyData;
 import rest.api.services.HermetAPI;
 import utils.exceptions.FailedConfigurationException;
 
@@ -43,6 +43,9 @@ public class HermetInterceptor implements Interceptor {
 			if (isAddStubRequest(request)) {
 				log.debug("Created a stub: " + response.header("Location"));
 				HermetServiceManager.addStubFromResponse(response);
+			} else if (isDeleteStubRequest(request)) {
+//				String stubId = request.url()
+				System.out.println("implement delete from HermetServiceManager");
 			}
 		}
 		return response;
@@ -54,6 +57,10 @@ public class HermetInterceptor implements Interceptor {
 
 	private boolean isAddStubRequest(Request request) {
 		return request.method().equals("POST") && request.url().encodedPath().endsWith("stubs");
+	}
+
+	private boolean isDeleteStubRequest(Request request) {
+		return request.method().equals("DELETE") && request.url().encodedPath().contains("stubs");
 	}
 
 	private HermetProxyData getActiveServiceData(Request newProxyRequest) throws IOException {

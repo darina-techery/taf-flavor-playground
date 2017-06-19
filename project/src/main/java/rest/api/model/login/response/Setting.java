@@ -1,4 +1,4 @@
-package rest.api.payloads.login.response;
+package rest.api.model.login.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

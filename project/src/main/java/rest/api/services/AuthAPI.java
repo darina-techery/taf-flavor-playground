@@ -1,12 +1,12 @@
 package rest.api.services;
 
-import rest.api.payloads.login.request.LoginRequest;
-import rest.api.payloads.login.response.LoginResponse;
+import com.worldventures.dreamtrips.api.session.model.Session;
+import rest.api.model.login.request.LoginRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AuthAPI {
 	@POST("/api/sessions")
-	Call<LoginResponse> login(@Body LoginRequest login);
+	Call<Session> login(@Body LoginRequest login);
 }

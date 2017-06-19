@@ -1,13 +1,11 @@
 package rest.api.clients;
 
-import com.google.gson.Gson;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rest.api.interceptors.HeadersInterceptor;
 import rest.api.interceptors.LoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import utils.exceptions.FailedConfigurationException;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class RetrofitBuilder {
 	static {
 		COMMON_HEADERS.put("Content-Type", "application/json");
 		DT_HEADERS.put("Accept","application/com.dreamtrips.api+json;version=2");
-		DT_HEADERS.put("DT-App-Version","1.14.0-2");
+		DT_HEADERS.put("DT-App-Version","1.19.0");
 	}
 
 	RetrofitBuilder addHeader(String key, String value) {
@@ -72,8 +70,6 @@ public class RetrofitBuilder {
 		interceptors.forEach(okHttpClientBuilder::addInterceptor);
 
 		final OkHttpClient client = okHttpClientBuilder.build();
-		converterFactories.add(GsonConverterFactory.create(new Gson()));
-
 		final Retrofit.Builder restAdapterBuilder = new Retrofit.Builder()
 				.client(client)
 				.baseUrl(baseUrl);

@@ -1,6 +1,6 @@
 package rest.api.services;
 
-import rest.api.payloads.internal.SampleResponse;
+import rest.api.model.internal.SampleResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 

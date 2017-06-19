@@ -6,8 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rest.api.clients.HermetAPIClient;
 import rest.api.hermet.HermetServiceManager;
-import rest.api.payloads.hermet.HermetProxyData;
-import rest.api.payloads.hermet.response.HermetStub;
+import rest.api.model.hermet.HermetProxyData;
+import rest.api.model.hermet.response.HermetStub;
 import rest.api.services.HermetAPI;
 import rest.helpers.FailedResponseParser;
 import retrofit2.Response;
@@ -25,13 +25,28 @@ public class HermetProxyActions {
 		mainServiceUrl = Configuration.getParameters().apiURL;
 	}
 
+	/*
+	- Actions for main service
+	 */
 	public void startMainService() {
 		HermetServiceManager.getServiceId(mainServiceUrl);
 	}
 
 	public void deleteCreatedStubsForMainService() {
-		this.deleteAllCreatedStubsForService(mainServiceUrl);
+		deleteAllCreatedStubsForService(mainServiceUrl);
 	}
+
+	public void addStubForMainService(JsonObject stub) throws IOException {
+		addStub(mainServiceUrl, stub);
+	}
+
+	public List<HermetStub> getStubsForMainService() throws IOException {
+		return getStubsForService(mainServiceUrl);
+	}
+
+	/*
+	- Actions for all services
+	 */
 
 	public void addStub(String targetUrl, JsonObject stubContent) throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(targetUrl);

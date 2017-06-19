@@ -1,10 +1,11 @@
 package actions.rest;
 
+import com.worldventures.dreamtrips.api.session.model.Session;
 import rest.helpers.FailedResponseParser;
 import rest.api.clients.DreamTripsAPIClient;
 import rest.api.services.AuthAPI;
-import rest.api.payloads.login.request.LoginRequest;
-import rest.api.payloads.login.response.LoginResponse;
+import rest.api.model.login.request.LoginRequest;
+import rest.api.model.login.response.LoginResponse;
 import retrofit2.Response;
 import user.UserSessionManager;
 import user.UserCredentials;
@@ -23,10 +24,10 @@ public class AuthAPIActions {
 		this.authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
 	}
 
-	public Response<LoginResponse> authenticateUser(UserCredentials userCredentials) {
+	public Response<Session> authenticateUser(UserCredentials userCredentials) {
 		final LoginRequest request = new LoginRequest(userCredentials);
 
-		final AnyWait<Void, Response<LoginResponse>> loginOperation = new AnyWait<>();
+		final AnyWait<Void, Response<Session>> loginOperation = new AnyWait<>();
 		loginOperation.duration(Duration.ofMinutes(1));
 		loginOperation.calculate(() -> {
 			try {
@@ -36,7 +37,7 @@ public class AuthAPIActions {
 			}
 		});
 		loginOperation.until(Response::isSuccessful);
-		final Response<LoginResponse> loginResponse = loginOperation.go();
+		final Response<Session> loginResponse = loginOperation.go();
 		if (loginResponse == null || !loginResponse.isSuccessful()) {
 			String message = new FailedResponseParser()
 					.describeFailedResponse(loginResponse, "Login via Rest API");

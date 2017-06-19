@@ -32,6 +32,11 @@ public class LoginSteps {
 		alertActions.declinePermissionRequestAlert();
 	}
 
+	@Step("Login to application with invalid credentials: '{0}' / '{1}'")
+	public void loginWithInvalidCredentials(UserCredentials user) {
+		submitCredentials(user);
+	}
+
 	@Step("Login to application if required")
 	public void loginIfRequired(UserCredentials user) {
 		if (loginActions.isScreenActive()) {

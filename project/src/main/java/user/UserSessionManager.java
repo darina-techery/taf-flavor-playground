@@ -1,7 +1,7 @@
 package user;
 
+import com.worldventures.dreamtrips.api.session.model.Session;
 import data.TestDataReader;
-import rest.api.payloads.login.response.LoginResponse;
 import utils.exceptions.FailedConfigurationException;
 
 import javax.inject.Singleton;
@@ -82,7 +82,7 @@ public class UserSessionManager {
 		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getSsoToken(username);
 	}
 
-	public static void addApiSession(LoginResponse loginResponse) {
+	public static void addApiSession(Session loginResponse) {
 		ActiveUserHolder.INSTANCE.sessionTokenHolder.addSession(loginResponse);
 	}
 

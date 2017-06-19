@@ -2,13 +2,14 @@ package internal;
 
 import actions.rest.AuthAPIActions;
 import base.BaseTest;
+import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
+import com.worldventures.dreamtrips.api.profile.model.UserProfile;
+import com.worldventures.dreamtrips.api.session.model.Session;
 import data.TestData;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import rest.api.clients.DreamTripsAPIClient;
-import rest.api.payloads.login.request.LoginRequest;
-import rest.api.payloads.login.response.LoginResponse;
-import rest.api.payloads.login.response.UserProfile;
+import rest.api.model.login.request.LoginRequest;
 import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
 import retrofit2.Response;
@@ -20,7 +21,7 @@ import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
 
-public class DreamTripsClientTests extends BaseTest {
+public class UserSessionManagerTests extends BaseTest {
 
 	DreamTripsAPIClient client;
 	DreamTripsAPI apiService;
@@ -50,7 +51,7 @@ public class DreamTripsClientTests extends BaseTest {
 
 	@Test
 	public void testGetDefaultUserProfileRequestIsExecuted() throws IOException {
-		Response<UserProfile> defaultUserProfileData = apiService.getUserProfile().execute();
+		Response<PrivateUserProfile> defaultUserProfileData = apiService.getCurrentUserProfile().execute();
 		Assert.assertThat("Profile request is successful",
 				defaultUserProfileData.isSuccessful());
 	}
@@ -58,7 +59,7 @@ public class DreamTripsClientTests extends BaseTest {
 	@Test
 	public void testGetDefaultUserProfileRequestContainsData() throws IOException {
 		UserProfile profile = getActiveUserProfileFromService();
-		String actualUsername = profile.getUsername();
+		String actualUsername = profile.username();
 		Assert.assertThat("Profile request returns valid username",
 				actualUsername, is(UserSessionManager.getActiveUser().getUsername()));
 
@@ -68,7 +69,7 @@ public class DreamTripsClientTests extends BaseTest {
 	public void testGetAnotherUserProfileRequestContainsData() throws IOException {
 		UserSessionManager.setActiveUser(anotherUser);
 		UserProfile profile = getActiveUserProfileFromService();
-		String actualUsername = profile.getUsername();
+		String actualUsername = profile.username();
 		Assert.assertThat("Profile request returns valid username for another user",
 				actualUsername, is(anotherUser.getUsername()));
 	}
@@ -77,15 +78,15 @@ public class DreamTripsClientTests extends BaseTest {
 	public void testAuthenticationRequest() throws IOException {
 		AuthAPI authService = client.create(AuthAPI.class);
 		LoginRequest request = new LoginRequest(defaultUser);
-		Response<LoginResponse> defaultUserLoginResponse = authService.login(request).execute();
+		Response<Session> defaultUserLoginResponse = authService.login(request).execute();
 		Assert.assertThat("Login request is successful", defaultUserLoginResponse.isSuccessful());
 	}
 
 	@Test
 	public void testAuthenticationTokenRemainsTheSameForOneUser() throws IOException {
 		AuthAPIActions restLoginActions = new AuthAPIActions();
-		LoginResponse response = restLoginActions.authenticateUser(defaultUser).body();
-		String defaultUserToken = response.getToken();
+		Session response = restLoginActions.authenticateUser(defaultUser).body();
+		String defaultUserToken = response.token();
 
 		//send request requiring auth
 		getActiveUserProfileFromService();
@@ -95,7 +96,7 @@ public class DreamTripsClientTests extends BaseTest {
 	}
 
 	private UserProfile getActiveUserProfileFromService() throws IOException {
-		Response<UserProfile> defaultUserProfileData = apiService.getUserProfile().execute();
+		Response<PrivateUserProfile> defaultUserProfileData = apiService.getCurrentUserProfile().execute();
 		return defaultUserProfileData.body();
 	}
 }

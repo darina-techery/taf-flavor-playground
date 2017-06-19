@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 public final class LoginTests extends BaseTestWithDriver implements LogProvider {
 
-	private LoginSteps loginSteps = getStepsComponent().loginSteps();
-	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
-	private DriverSteps driverSteps = getStepsComponent().driverSteps();
+	private LoginSteps loginSteps = getUiStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getUiStepsComponent().navigationSteps();
+	private DriverSteps driverSteps = getUiStepsComponent().driverSteps();
 
 	private final Logger log = getLogger();
 

@@ -2,8 +2,7 @@
     "platformName" : "AndroidPhone",
     "device": "emulator-5554",
     "apiURL" : "http://techery-dt-staging.techery.io",
-    "stubUrl" : "http://techery-dt-staging.techery.io:5000",
-    "droidAppName" : "DreamTrips.apk",
+    "droidAppName" : "DreamTrips-external-stable-integration-debug.apk",
     "iosAppName" : "DreamTrip.app",
     "locale" : "en-US",
     "runOnCI": "y"

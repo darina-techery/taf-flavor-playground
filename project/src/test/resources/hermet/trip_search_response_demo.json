@@ -1,0 +1,276 @@
+[
+  {
+    "trip_id": "9223fb2a-2690-4e14-97cd-070b0034db46",
+    "name": "Hermet Test Demo Package",
+    "description": "",
+    "images": [],
+    "available": true,
+    "featured": false,
+    "platinum": false,
+    "price": {
+      "amount": 122.1,
+      "currency": "USD"
+    },
+    "sold_out": false,
+    "rewarded": true,
+    "rewards_limit": 120,
+    "rewards_rules": {},
+    "location": {
+      "name": "Dallas, Texas, United States",
+      "lat": 32.78306,
+      "lng": -96.80667
+    },
+    "region": {
+      "name": "North America",
+      "id": 214
+    },
+    "activities": [
+      {
+        "name": "Arts \u0026 Culture",
+        "parent_id": 0,
+        "position": 2,
+        "id": 2206
+      }
+    ],
+    "duration": 3,
+    "dates": {
+      "start_on": "2017-07-01T00:00:00Z",
+      "end_on": "2017-07-04T00:00:00Z"
+    },
+    "has_multiple_dates": false,
+    "recent": true,
+    "in_bucket_list": false,
+    "created_at": "2017-06-15T13:49:36Z",
+    "updated_at": "2017-06-19T09:26:34Z",
+    "location_id": 9921,
+    "regions": [
+      {
+        "name": "North America",
+        "id": 214
+      }
+    ],
+    "id": 7648,
+    "uid": "M0alM6QUaC",
+    "liked": false,
+    "likes_count": 0
+  },
+  {
+    "trip_id": "3d93ebc1-15da-4145-bbd2-320a31d89b82",
+    "name": "Sail the Aegean Sea-Test New",
+    "description": "",
+    "images": [],
+    "available": true,
+    "featured": false,
+    "platinum": false,
+    "price": {
+      "amount": 122.1,
+      "currency": "USD"
+    },
+    "sold_out": false,
+    "rewarded": true,
+    "rewards_limit": 180,
+    "rewards_rules": {},
+    "location": {
+      "name": "New York, New York, United States",
+      "lat": 43.00035,
+      "lng": -75.4999
+    },
+    "region": {
+      "name": "North America",
+      "id": 214
+    },
+    "activities": [
+      {
+        "name": "Active Sports",
+        "parent_id": 0,
+        "position": 1,
+        "id": 2192
+      }
+    ],
+    "duration": 3,
+    "dates": {
+      "start_on": "2017-07-09T00:00:00Z",
+      "end_on": "2017-07-12T00:00:00Z"
+    },
+    "has_multiple_dates": false,
+    "recent": false,
+    "in_bucket_list": false,
+    "created_at": "2017-06-07T16:37:42Z",
+    "updated_at": "2017-06-19T09:17:36Z",
+    "location_id": 578,
+    "regions": [
+      {
+        "name": "North America",
+        "id": 214
+      }
+    ],
+    "id": 7487,
+    "uid": "LzZUK9Byxx",
+    "liked": false,
+    "likes_count": 0
+  },
+  {
+    "trip_id": "5efe17d9-6ad3-4552-a770-156ab3909b45",
+    "name": "Culture \u0026 Cuisine in Romania",
+    "description": "Visit a historic monastery and UNESCO World Heritage site and immerse yourself in the rich culture of Romania.",
+    "images": [
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/82296a18944100bef8c727bb195f2af55ca87e38",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452314_GuraHumorului_1706RO5711_LN_Detail1.jpg",
+        "type": "NORMAL",
+        "description": "",
+        "id": "82296a18944100bef8c727bb195f2af55ca87e38"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/17282d1166fbcfd51fe23c1c98e62313bb14881c",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452470_GuraHumorului_1706RO5711_LN_Detail2.jpg",
+        "type": "NORMAL",
+        "description": "",
+        "id": "17282d1166fbcfd51fe23c1c98e62313bb14881c"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/87667533a6c2efb634ef1660da5431c984437b16",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452595_GuraHumorului_1706RO5711_LN_Detail3.jpg",
+        "type": "NORMAL",
+        "description": "",
+        "id": "87667533a6c2efb634ef1660da5431c984437b16"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/6ea61749c5b94359dbf78f808033be7376009060",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452782_GuraHumorului_1706RO5711_LN_Detail4.jpg",
+        "type": "NORMAL",
+        "description": "",
+        "id": "6ea61749c5b94359dbf78f808033be7376009060"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/f5461360b093da564c79923ba4831887afd884a6",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452939_GuraHumorului_1706RO5711_LN_Detail5.jpg",
+        "type": "NORMAL",
+        "description": "",
+        "id": "f5461360b093da564c79923ba4831887afd884a6"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+        "type": "RETINA",
+        "description": "",
+        "id": "7f612859bc90e644c82f0075fc81a21d88b47a5b"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/68ec9a06a2886f01fd6b28a10abec904ac526501",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145515345_GuraHumorului_1706RO5711_HR_Detail2.jpg",
+        "type": "RETINA",
+        "description": "",
+        "id": "68ec9a06a2886f01fd6b28a10abec904ac526501"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/435a60314ed7a432d033e87877c17a68fc84e0b1",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145515876_GuraHumorului_1706RO5711_HR_Detail3.jpg",
+        "type": "RETINA",
+        "description": "",
+        "id": "435a60314ed7a432d033e87877c17a68fc84e0b1"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/bb51f28425cc66221817c3b22a098d748467219a",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145516454_GuraHumorului_1706RO5711_HR_Detail4.jpg",
+        "type": "RETINA",
+        "description": "",
+        "id": "bb51f28425cc66221817c3b22a098d748467219a"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145516876_GuraHumorului_1706RO5711_HR_Detail5.jpg",
+        "type": "RETINA",
+        "description": "",
+        "id": "7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+        "type": "THUMB",
+        "description": "",
+        "id": "7f612859bc90e644c82f0075fc81a21d88b47a5b"
+      },
+      {
+        "url": "http://techery-dt-staging-imagery.techery.io/trips/7062/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+        "origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+        "type": "THUMB|RETINA",
+        "description": "",
+        "id": "7f612859bc90e644c82f0075fc81a21d88b47a5b"
+      }
+    ],
+    "available": true,
+    "featured": true,
+    "platinum": false,
+    "price": {
+      "amount": 169.0,
+      "currency": "USD"
+    },
+    "sold_out": false,
+    "rewarded": true,
+    "rewards_limit": 60,
+    "rewards_rules": {},
+    "location": {
+      "name": "Gura Humorului, Suceava, Romania",
+      "lat": 47.55,
+      "lng": 25.9
+    },
+    "region": {
+      "name": "Europe \u0026 Middle East",
+      "id": 213
+    },
+    "activities": [
+      {
+        "name": "Active Sports",
+        "parent_id": 0,
+        "position": 1,
+        "id": 2192
+      },
+      {
+        "name": "Arts \u0026 Culture",
+        "parent_id": 0,
+        "position": 2,
+        "id": 2206
+      },
+      {
+        "name": "Health \u0026 Wellness",
+        "parent_id": 0,
+        "position": 7,
+        "id": 2236
+      },
+      {
+        "name": "Platinum Experiences",
+        "parent_id": 0,
+        "position": 8,
+        "id": 2243
+      },
+      {
+        "name": "Points of Interest",
+        "parent_id": 0,
+        "position": 9,
+        "id": 2246
+      }
+    ],
+    "duration": 4,
+    "dates": {
+      "start_on": "2017-07-20T00:00:00Z",
+      "end_on": "2017-07-24T00:00:00Z"
+    },
+    "has_multiple_dates": false,
+    "recent": false,
+    "in_bucket_list": false,
+    "created_at": "2017-05-25T07:16:21Z",
+    "updated_at": "2017-06-19T08:55:44Z",
+    "location_id": 50449,
+    "regions": [
+      {
+        "name": "Europe \u0026 Middle East",
+        "id": 213
+      }
+    ],
+    "id": 7062,
+    "uid": "KRyboGXupo",
+    "liked": false,
+    "likes_count": 0
+  }
+]

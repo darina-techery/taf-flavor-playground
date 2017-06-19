@@ -7,8 +7,8 @@ import utils.exceptions.FailedConfigurationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class HermetResponseParser {
-	private HermetResponseParser() {}
+public final class HermetLocationParser {
+	private HermetLocationParser() {}
 	private static final FailedResponseParser responseLogger = new FailedResponseParser();
 
 	public static String getServiceId(Response response) {

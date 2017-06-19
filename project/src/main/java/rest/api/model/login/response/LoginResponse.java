@@ -1,7 +1,8 @@
-package rest.api.payloads.login.response;
+package rest.api.model.login.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.worldventures.dreamtrips.api.profile.model.UserProfile;
 
 import javax.annotation.Generated;
 import java.util.ArrayList;

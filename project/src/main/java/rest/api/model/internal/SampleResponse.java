@@ -1,4 +1,4 @@
-package rest.api.payloads.internal;
+package rest.api.model.internal;
 
 public class SampleResponse {
 	private Integer id;

@@ -1,4 +1,4 @@
-package rest.api.payloads.login.response;
+package rest.api.model.login.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Generated("org.jsonschema2pojo")
-public class UserProfile {
+public class UserProfileOld {
 
 	@SerializedName("id")
 	@Expose

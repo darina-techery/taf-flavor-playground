@@ -1,0 +1,31 @@
+{
+  "dream_trips_points": 0.0,
+  "rovia_bucks": 0.0,
+  "friends_count": 3,
+  "trip_images_count": 7,
+  "bucket_list_items_count": 51,
+  "username": "65663904",
+  "email": "serge.s@techery.io",
+  "company": "",
+  "avatar": {
+    "original": "http://s3-us-west-2.amazonaws.com/dtappstg/avatars/143243/original/1465896816_QRCode2455962164648392215.png",
+    "medium": "http://s3-us-west-2.amazonaws.com/dtappstg/avatars/143243/medium/1465896816_QRCode2455962164648392215.png",
+    "thumb": "http://s3-us-west-2.amazonaws.com/dtappstg/avatars/143243/thumb/1465896816_QRCode2455962164648392215.png"
+  },
+  "first_name": "Techery",
+  "last_name": "Test",
+  "locale": "en-us",
+  "background_photo_url": "http://techery-dt-staging-imagery.techery.io/user_images/117613",
+  "country_code": "us",
+  "enroll_date": "2015-09-25T00:00:00Z",
+  "terms_accepted": true,
+  "subscriptions": [
+    "RBS",
+    "DTP",
+    "unknown"
+  ],
+  "badges": [],
+  "sponsor_username": "3285301",
+  "rank_id": 5,
+  "id": 143243
+}

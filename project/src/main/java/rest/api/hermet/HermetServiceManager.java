@@ -2,9 +2,9 @@ package rest.api.hermet;
 
 import org.apache.logging.log4j.LogManager;
 import rest.api.clients.HermetAPIClient;
-import rest.api.payloads.hermet.HermetProxyData;
+import rest.api.model.hermet.HermetProxyData;
 import rest.api.services.HermetAPI;
-import rest.helpers.HermetResponseParser;
+import rest.helpers.HermetLocationParser;
 import retrofit2.Response;
 import utils.exceptions.FailedConfigurationException;
 
@@ -33,13 +33,13 @@ public class HermetServiceManager {
 
 	private void createService(HermetProxyData proxyData) throws IOException {
 		Response<Void> proxyResponse = hermetAPI.addService(proxyData).execute();
-		String serviceId = HermetResponseParser.getServiceId(proxyResponse.raw());
+		String serviceId = HermetLocationParser.getServiceId(proxyResponse.raw());
 		targetUrlToServiceId.put(proxyData.getTargetUrl(), serviceId);
 	}
 
 	public static void addStubFromResponse(okhttp3.Response response) {
-		String serviceId = HermetResponseParser.getServiceId(response);
-		String stubId = HermetResponseParser.getStubId(response);
+		String serviceId = HermetLocationParser.getServiceId(response);
+		String stubId = HermetLocationParser.getStubId(response);
 		if (!SessionHolder.HOLDER.serviceIdToStubIds.containsKey(serviceId)) {
 			SessionHolder.HOLDER.serviceIdToStubIds.put(serviceId, new ArrayList<>());
 		}

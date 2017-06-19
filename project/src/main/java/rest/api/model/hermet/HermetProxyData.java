@@ -1,4 +1,4 @@
-package rest.api.payloads.hermet;
+package rest.api.model.hermet;
 
 import com.google.gson.annotations.Expose;
 
