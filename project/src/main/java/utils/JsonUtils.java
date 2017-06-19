@@ -90,6 +90,14 @@ public final class JsonUtils {
 		return converter.gson.fromJson(getFileReader(file), nonGenericClass);
 	}
 
+	/**
+	 * Use for generics (e.g. List&lt;TripData&gt;)
+	 * @param file
+	 * @param genericType
+	 * @param converter
+	 * @param <T>
+	 * @return
+	 */
 	public static <T> T toObject(File file, Type genericType, Converter converter) {
 		return converter.gson.fromJson(getFileReader(file), genericType);
 	}
