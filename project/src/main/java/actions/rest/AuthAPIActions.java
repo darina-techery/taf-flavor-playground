@@ -5,7 +5,6 @@ import rest.helpers.FailedResponseParser;
 import rest.api.clients.DreamTripsAPIClient;
 import rest.api.services.AuthAPI;
 import rest.api.model.login.request.LoginRequest;
-import rest.api.model.login.response.LoginResponse;
 import retrofit2.Response;
 import user.UserSessionManager;
 import user.UserCredentials;
