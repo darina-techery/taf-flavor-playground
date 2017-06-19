@@ -43,9 +43,6 @@ public class HermetInterceptor implements Interceptor {
 			if (isAddStubRequest(request)) {
 				log.debug("Created a stub: " + response.header("Location"));
 				HermetServiceManager.addStubFromResponse(response);
-			} else if (isDeleteStubRequest(request)) {
-//				String stubId = request.url()
-				System.out.println("implement delete from HermetServiceManager");
 			}
 		}
 		return response;

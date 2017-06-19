@@ -33,7 +33,7 @@ public class HermetProxyActions {
 	}
 
 	public void deleteCreatedStubsForMainService() {
-		deleteAllCreatedStubsForService(mainServiceUrl);
+		deleteCreatedStubsForService(mainServiceUrl);
 	}
 
 	public void addStubForMainService(JsonObject stub) throws IOException {
@@ -69,7 +69,7 @@ public class HermetProxyActions {
 	 * If some concurrent test run uses one of these services, it will cause its failure
 	 * @throws IOException
 	 */
-	public void deleteAllActiveServices() throws IOException {
+	public void deleteAllServices() throws IOException {
 		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
 		if (response.isSuccessful()) {
 			List<HermetProxyData> services = response.body();
@@ -83,30 +83,6 @@ public class HermetProxyActions {
 					hermetAPI.deleteService(serviceId).execute();
 				} catch (IOException e) {
 					log.error("Failed to delete service "+serviceId, e);
-				}
-			});
-		} else {
-			log.error(new FailedResponseParser()
-					.describeFailedResponse(response, "Get active Hermet services"));
-		}
-	}
-
-	public void deleteAllActiveServicesForTargetUrl(String targetUrl) throws IOException {
-		Response<List<HermetProxyData>> response = hermetAPI.getActiveServices().execute();
-		if (response.isSuccessful()) {
-			List<HermetProxyData> services = response.body();
-			if (services == null) {
-				throw new FailedConfigurationException("No data available in response for "
-						+ hermetAPI.getActiveServices().request().url() + "\n"
-						+ new FailedResponseParser().describeFailedResponse(response, "Get all active services"));
-			}
-			services.stream().forEach(serviceData -> {
-				if (serviceData.getTargetUrl().equals(targetUrl)) {
-					try {
-						hermetAPI.deleteService(serviceData.getId()).execute();
-					} catch (IOException e) {
-						log.error("Failed to delete service " + serviceData.getId(), e);
-					}
 				}
 			});
 		} else {
@@ -139,7 +115,7 @@ public class HermetProxyActions {
 		}
 	}
 
-	public void deleteAllCreatedStubsForService(String targetUrl) {
+	public void deleteCreatedStubsForService(String targetUrl) {
 		HermetServiceManager.cleanupCreatedStubsForService(targetUrl);
 	}
 

@@ -138,7 +138,7 @@ public class HermetClientTests extends BaseTest {
 	//ENABLE WITH CAUTION! ALL SESSIONS WILL BE DELETED!
 	//
 	public void deleteAllSessions() throws IOException {
-		actions.deleteAllActiveServices();
+		actions.deleteAllServices();
 		Response<List<HermetProxyData>> response = hermetApi.getActiveServices().execute();
 		Assert.assertThat("Sessions are deleted", response.body() == null || response.body().isEmpty());
 	}
