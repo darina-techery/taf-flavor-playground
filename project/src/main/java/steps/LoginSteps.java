@@ -29,6 +29,7 @@ public class LoginSteps {
 	@Step("Login to application with valid credentials: '{0}' / '{1}'")
 	public void loginWithValidCredentials(UserCredentials user) {
 		submitCredentials(user);
+		loginActions.waitUntilLoginScreenGone();
 		alertActions.declinePermissionRequestAlert();
 	}
 

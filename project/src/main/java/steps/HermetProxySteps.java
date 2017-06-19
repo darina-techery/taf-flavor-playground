@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import data.Configuration;
 import rest.api.hermet.HermetStubBuilder;
 import ru.yandex.qatools.allure.annotations.Step;
+import utils.FileUtils;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class HermetProxySteps {
 	@Step("Create Hermet stub for login")
 	public void createLoginStub() throws IOException {
 		HermetStubBuilder stubBuilder = new HermetStubBuilder();
-		stubBuilder.setResponseFromFile(BODY, "login_response.json");
+		stubBuilder.setResponse(BODY, FileUtils.getResourceFile("hermet/login_response.json"));
 		stubBuilder.addPredicate().equals().method("POST").path("/api/sessions").build();
 		JsonObject loginStub = stubBuilder.build();
 		hermetProxyActions.addStub(Configuration.getParameters().apiURL, loginStub);
@@ -29,7 +30,7 @@ public class HermetProxySteps {
 	@Step("Create stub for trips search")
 	public void createStubForTripsList() throws IOException {
 		HermetStubBuilder stubBuilder = new HermetStubBuilder();
-		stubBuilder.setResponseFromFile(BODY, "trip_search_response.json");
+		stubBuilder.setResponse(BODY, FileUtils.getResourceFile("hermet/trip_search_response.json"));
 		stubBuilder.addPredicate()
 				.equals().method("GET").end()
 				.equals().path("/api/trips").build();
@@ -40,7 +41,7 @@ public class HermetProxySteps {
 	@Step("Create stub for trips search with demo content")
 	public void createDemoStubForTripsList() throws IOException {
 		HermetStubBuilder stubBuilder = new HermetStubBuilder();
-		stubBuilder.setResponseFromFile(BODY, "trip_search_response_demo.json");
+		stubBuilder.setResponse(BODY, FileUtils.getResourceFile("hermet/trip_search_response_demo.json"));
 		stubBuilder.addPredicate()
 				.equals().method("GET").end()
 				.equals().path("/api/trips").build();

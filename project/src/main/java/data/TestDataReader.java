@@ -36,7 +36,7 @@ public final class TestDataReader<T> {
 	}
 
 	private String getDataFilePath(String resourcePath) throws FileNotFoundException {
-		return FileUtils.getResourceFilePathString(resourcePath);
+		return FileUtils.getResourceFilePath(resourcePath);
 	}
 
 	private boolean testDataObjectContainsExposedFields(Class testDataClass) {

@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import org.testng.annotations.Test;
 import rest.api.hermet.HermetStubBuilder;
+import utils.FileUtils;
 import utils.runner.Assert;
 
 import static org.hamcrest.Matchers.not;
@@ -145,7 +146,8 @@ public class HermetStubBuilderTests {
 	@Test
 	public void testBuildStub_withResponseAsFile_Success() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponseFromFile(ResponsePart.BODY, "internal/sample_login_response.json");
+		hermetStubBuilder.setResponse(ResponsePart.BODY,
+				FileUtils.getResourceFile("hermet/internal/sample_login_response.json"));
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
 		compareStubs("Valid stub built from file", actualStub, expectedStubWithBody);
@@ -154,7 +156,8 @@ public class HermetStubBuilderTests {
 	@Test
 	public void testBuildStub_withResponseAsFile_Failure() {
 		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponseFromFile(ResponsePart.BODY, "internal/sample_login_response_invalid.json");
+		hermetStubBuilder.setResponse(ResponsePart.BODY,
+				FileUtils.getResourceFile("hermet/internal/sample_login_response_invalid.json"));
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
 		compareDifferentStubs("Stubs are different", actualStub, expectedStubWithBody);

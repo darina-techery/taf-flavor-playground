@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
-import java.net.URL;
 
 
 public class HermetStubBuilder {
@@ -89,7 +88,7 @@ public class HermetStubBuilder {
 		addResponsePart(part, content);
 	}
 
-	public void setResponseFromFile(ResponsePart part, File dataFile) {
+	public void setResponse(ResponsePart part, File dataFile) {
 		try {
 			JsonParser parser = new JsonParser();
 			JsonElement content = parser.parse(new FileReader(dataFile));
@@ -97,19 +96,6 @@ public class HermetStubBuilder {
 		} catch (FileNotFoundException e) {
 			throw new FailedConfigurationException("File ["+dataFile+"] with response data was not found", e);
 		}
-	}
-
-	public void setResponseFromFile(ResponsePart part, String resourceFilePath) {
-		ClassLoader classLoader = getClass().getClassLoader();
-		String resourcePath = HERMET_JSON_DATA_FOLDER + File.separator + resourceFilePath;
-		URL resource = classLoader.getResource(resourcePath);
-		if (resource == null) {
-			throw new FailedConfigurationException(String.format(
-					"Data file for Hermet was not found as resource at path %s", resourcePath));
-		}
-		String filePath = resource.getPath();
-		File dataFile = new File(filePath);
-		setResponseFromFile(part, dataFile);
 	}
 
 	public JsonObject build() {

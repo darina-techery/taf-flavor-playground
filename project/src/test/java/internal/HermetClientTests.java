@@ -23,6 +23,7 @@ import rest.api.services.HermetAPI;
 import retrofit2.Response;
 import user.UserCredentials;
 import user.UserSessionManager;
+import utils.FileUtils;
 import utils.runner.Assert;
 
 import java.io.IOException;
@@ -80,7 +81,8 @@ public class HermetClientTests extends BaseTest {
 	@Test
 	public void test_sendAddStubRequest_verifyResponse() throws IOException {
 		String serviceId = HermetServiceManager.getServiceId(commonApiUrl);
-		stubBuilder.setResponseFromFile(ResponsePart.BODY, "internal/sample_login_response.json");
+		stubBuilder.setResponse(ResponsePart.BODY,
+				FileUtils.getResourceFile("hermet/internal/sample_login_response.json"));
 		stubBuilder.addPredicate()
 				.equals().path("/api/sessions").method("POST").end()
 				.equals().query("some param", "some value").build();
@@ -96,7 +98,8 @@ public class HermetClientTests extends BaseTest {
 
 	@Test
 	public void test_stubLoginRequest_verifyResponseContainsData() throws IOException {
-		stubBuilder.setResponseFromFile(ResponsePart.BODY, "login_response.json");
+		stubBuilder.setResponse(ResponsePart.BODY,
+				FileUtils.getResourceFile("hermet/login_response.json"));
 		stubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = stubBuilder.build();
 		String testToken = actualStub
@@ -117,7 +120,8 @@ public class HermetClientTests extends BaseTest {
 	public void test_createStubInMockAuthenticationMode_verifyInterceptedRequest() throws IOException {
 		UserSessionManager.setMockAuthenticationMode(true);
 		stubBuilder.addPredicate().endsWith().path("/api/profile").method("GET").build();
-		stubBuilder.setResponseFromFile(ResponsePart.BODY,"user_profile_response.json");
+		stubBuilder.setResponse(ResponsePart.BODY,
+				FileUtils.getResourceFile("hermet/user_profile_response.json"));
 		JsonObject stub = stubBuilder.build();
 
 		String expectedUsername = stub.get("response").getAsJsonObject()
