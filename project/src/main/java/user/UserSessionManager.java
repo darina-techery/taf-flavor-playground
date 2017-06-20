@@ -1,7 +1,7 @@
 package user;
 
+import com.worldventures.dreamtrips.api.session.model.Session;
 import data.TestDataReader;
-import rest.api.payloads.login.response.LoginResponse;
 import utils.exceptions.FailedConfigurationException;
 
 import javax.inject.Singleton;
@@ -12,6 +12,8 @@ public class UserSessionManager {
 	private UserCredentials activeUser;
 	private final UserCredentials defaultUser;
 	private final SessionTokenHolder sessionTokenHolder;
+	private boolean debugMode = false;
+	private static final String MOCK_TOKEN = "test-token";
 
 	private UserSessionManager() {
 		try {
@@ -50,23 +52,37 @@ public class UserSessionManager {
 		ActiveUserHolder.INSTANCE.sessionTokenHolder.clearSessions();
 	}
 
+	/**
+	 * This method turns on "no authentication required" mode to speed up test execution
+	 * if all requests are stubbed using Hermet.
+	 * 
+	 * @param debugMode if true, authentication token will not be fetched for the user.
+	 *                 Mock token will be used instead. Caution: non-stubbed DT services
+	 *               will not work with fake token.
+	 */
+	public static void setMockAuthenticationMode(boolean debugMode) {
+		ActiveUserHolder.INSTANCE.debugMode = debugMode;
+	}
+
 	public static String getActiveUserToken() {
-		return getUserToken(getActiveUser().username);
+		return getUserToken(getActiveUser().getUsername());
 	}
 
 	public static String getUserToken(String username) {
-		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getToken(username);
+		return ActiveUserHolder.INSTANCE.debugMode
+				? MOCK_TOKEN
+				: ActiveUserHolder.INSTANCE.sessionTokenHolder.getToken(username);
 	}
 
 	public static String getActiveUserSsoToken() {
-		return getActiveUserSsoToken(getActiveUser().username);
+		return getActiveUserSsoToken(getActiveUser().getUsername());
 	}
 
 	public static String getActiveUserSsoToken(String username) {
 		return ActiveUserHolder.INSTANCE.sessionTokenHolder.getSsoToken(username);
 	}
 
-	public static void addApiSession(LoginResponse loginResponse) {
+	public static void addApiSession(Session loginResponse) {
 		ActiveUserHolder.INSTANCE.sessionTokenHolder.addSession(loginResponse);
 	}
 

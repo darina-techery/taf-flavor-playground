@@ -22,7 +22,6 @@ public abstract class BaseUiModule implements DriverListener, LogProvider {
 
 	@Override
     public void receiveDriverUpdate(AppiumDriver<MobileElement> driver) {
-		log.debug(this.getClass().getSimpleName() + " received a driver update.");
 		initPageElements(driver);
     }
 

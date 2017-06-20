@@ -2,10 +2,9 @@ package rest.api.hermet;
 
 import org.apache.logging.log4j.LogManager;
 import rest.api.clients.HermetAPIClient;
-import rest.api.payloads.hermet.HermetProxyData;
+import rest.api.model.hermet.HermetProxyData;
 import rest.api.services.HermetAPI;
-import rest.helpers.HermetResponseParser;
-import retrofit2.Call;
+import rest.helpers.HermetLocationParser;
 import retrofit2.Response;
 import utils.exceptions.FailedConfigurationException;
 
@@ -27,31 +26,20 @@ public class HermetServiceManager {
 		hermetAPI = new HermetAPIClient().create(HermetAPI.class);
 	}
 
-	private void createService(String targetUrl) {
+	private void createService(String targetUrl) throws IOException {
 		HermetProxyData proxyData = new HermetProxyDataFactory().getProxyData(targetUrl);
 		createService(proxyData);
 	}
 
-	private void createService(HermetProxyData proxyData) {
-		Call<Void> proxyCall;
-		Response<Void> proxyResponse;
-		try {
-			proxyCall = hermetAPI.setupService(proxyData);
-			proxyResponse = proxyCall.execute();
-			String serviceId = HermetResponseParser.getServiceId(proxyResponse.raw());
-			targetUrlToServiceId.put(proxyData.getTargetUrl(), serviceId);
-			LogManager.getLogger().info("Hermet service: " +
-					HermetResponseParser.getLocation(proxyResponse.raw()));
-		} catch (IOException e) {
-			throw new FailedConfigurationException(
-					String.format("Failed to send request to setup proxy with parameters\n%s",
-							proxyData.toString()), e);
-		}
+	private void createService(HermetProxyData proxyData) throws IOException {
+		Response<Void> proxyResponse = hermetAPI.addService(proxyData).execute();
+		String serviceId = HermetLocationParser.getServiceId(proxyResponse.raw());
+		targetUrlToServiceId.put(proxyData.getTargetUrl(), serviceId);
 	}
 
 	public static void addStubFromResponse(okhttp3.Response response) {
-		String serviceId = HermetResponseParser.getServiceId(response);
-		String stubId = HermetResponseParser.getStubId(response);
+		String serviceId = HermetLocationParser.getServiceId(response);
+		String stubId = HermetLocationParser.getStubId(response);
 		if (!SessionHolder.HOLDER.serviceIdToStubIds.containsKey(serviceId)) {
 			SessionHolder.HOLDER.serviceIdToStubIds.put(serviceId, new ArrayList<>());
 		}
@@ -60,9 +48,31 @@ public class HermetServiceManager {
 
 	public static String getServiceId(String targetUrl) {
 		if (!SessionHolder.HOLDER.targetUrlToServiceId.containsKey(targetUrl)) {
-			SessionHolder.HOLDER.createService(targetUrl);
+			try {
+				SessionHolder.HOLDER.createService(targetUrl);
+			} catch (IOException e) {
+				throw new FailedConfigurationException(
+						"Could not create or find existing Hermet service for "+targetUrl, e);
+			}
 		}
 		return SessionHolder.HOLDER.targetUrlToServiceId.get(targetUrl);
+	}
+
+	public static void cleanupCreatedStubsForService(String targetUrl) {
+		String serviceId = SessionHolder.HOLDER.targetUrlToServiceId.get(targetUrl);
+		if (serviceId != null) {
+			List<String> stubIds = SessionHolder.HOLDER.serviceIdToStubIds.get(serviceId);
+			if (stubIds != null) {
+				for (String stubId : stubIds) {
+					try {
+						SessionHolder.HOLDER.hermetAPI.deleteStub(serviceId, stubId).execute();
+					} catch (IOException e) {
+						LogManager.getLogger().error(
+								"Failed to delete stub " + stubId + " for service " + serviceId, e);
+					}
+				}
+			}
+		}
 	}
 
 	public static List<String> getStubIdsByUrl(String targetUrl) {

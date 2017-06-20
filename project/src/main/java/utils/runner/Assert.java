@@ -8,11 +8,16 @@ import static org.hamcrest.core.Is.is;
 public class Assert {
 	@Step("Verify that ''{0}''")
 	public static <T> void assertThat(String reason, T actual, Matcher<? super T> matcher) {
-		if (!matcher.matches(actual)) {
-			if (Screenshot.isDriverReadyToTakeScreenshots()) {
+		boolean failure = false;
+		try {
+			org.junit.Assert.assertThat(reason, actual, matcher);
+		} catch (AssertionError e) {
+			failure = true;
+			throw e;
+		} finally {
+			if (failure && Screenshot.isDriverReadyToTakeScreenshots()) {
 				Screenshot.getScreenshotOnFail(reason.replace("\\s", ""));
 			}
-//			org.junit.Assert.assertThat(reason, actual, matcher);
 		}
 	}
 

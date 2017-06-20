@@ -1,4 +1,4 @@
-package rest.api.payloads.hermet;
+package rest.api.model.hermet;
 
 import com.google.gson.annotations.Expose;
 
@@ -9,12 +9,66 @@ public class HermetProxyData {
 	@Expose
 	private String name;
 	@Expose
-	private String proxyHost;
+	private String proxyUrl;
 	@Expose
 	private long proxyTimeout;
+	@Expose
+	private int stubsPort;
+	@Expose
+	private int proxyPort;
+
+	public String getProxyUrl() {
+		return proxyUrl;
+	}
+
+	public void setProxyUrl(String proxyUrl) {
+		this.proxyUrl = proxyUrl;
+	}
+
+	public int getStubsPort() {
+		return stubsPort;
+	}
+
+	public void setStubsPort(int stubsPort) {
+		this.stubsPort = stubsPort;
+	}
+
+	public int getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(int proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	/**
+	 * Requests to this URL will be proxied
+	 */
 	private String targetUrl;
+
+	/**
+	 * This is a proxy host = proxy URL, proxy port
+	 */
+	private String proxyHost;
 	private String id;
 	private String description;
+
+	public String getStubsHost() {
+		return proxyUrl + ":" + stubsPort;
+	}
+
+	public String getProxyHost() {
+		initProxyHost();
+		return proxyHost;
+	}
+
+	public void initProxyHost() {
+		proxyHost = proxyUrl + ":" + proxyPort;
+	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
+	}
 
 	public void setProxyTimeout(long proxyTimeoutInSeconds) {
 		this.proxyTimeout = proxyTimeoutInSeconds;
@@ -50,19 +104,6 @@ public class HermetProxyData {
 
 	public void setTargetUrl(String targetUrl) {
 		this.targetUrl = targetUrl;
-	}
-
-	public String getProxyHost() {
-		return proxyHost;
-	}
-
-	public void setProxyHost(String proxyHost) {
-		this.proxyHost = proxyHost;
-	}
-
-	@Override
-	public String toString() {
-		return "name = '"+name+"', targetUrl = '"+targetUrl+"', proxyHost = '"+proxyHost+"'";
 	}
 
 	public long getProxyTimeout() {

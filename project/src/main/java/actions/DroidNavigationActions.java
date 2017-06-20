@@ -6,12 +6,15 @@ import utils.exceptions.FailedTestException;
 import utils.waiters.AnyWait;
 import utils.waiters.Waiter;
 
+import java.time.Duration;
+
 public class DroidNavigationActions extends NavigationActions {
 
 	@Override
 	public void assertLandingPageLoaded() {
 		String expectedActivityName = "MainActivity";
 		AnyWait<Void, String> activityWait = new AnyWait<>();
+		activityWait.duration(Duration.ofMinutes(1));
 		activityWait.calculate(()->((AndroidDriver) getDriver()).currentActivity());
 		activityWait.until(activityName -> activityName.contains(expectedActivityName));
 		activityWait.describe("Get current activity name and compare to ["+expectedActivityName+"]");

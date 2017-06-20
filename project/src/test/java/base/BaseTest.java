@@ -1,6 +1,7 @@
 package base;
 
 import actions.definitions.*;
+import actions.rest.HermetProxyActions;
 import dagger.ActionsModule;
 import dagger.DaggerStepsComponent;
 import dagger.StepsComponent;
@@ -10,7 +11,9 @@ import data.TestDataReader;
 import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.log.LogProvider;
@@ -21,15 +24,22 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 	protected UserCredentials defaultUser;
 
     private StepsComponent stepsComponent;
+    private HermetProxyActions hermetProxyActions;
 
     public BaseTest() {
 	    TestDataReader.readDataMembers(this);
     	initStepsComponent();
     	subscribeToDriverUpdates();
+	    hermetProxyActions = new HermetProxyActions();
     }
 
-	protected StepsComponent getStepsComponent() {
+	protected StepsComponent getUiStepsComponent() {
 		return stepsComponent;
+	}
+
+	@BeforeClass
+	public void startHermetServiceIfNotPresent() {
+		hermetProxyActions.startMainService();
 	}
 
 	@AfterMethod
@@ -59,6 +69,11 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 			    .actionsModule(
 					    new ActionsModule(actionDefinitions))
 			    .build();
+    }
+
+    @AfterClass
+    public void cleanupCreatedStubs(){
+    	hermetProxyActions.deleteCreatedStubsForMainService();
     }
 
 	@Override

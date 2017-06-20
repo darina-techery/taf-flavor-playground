@@ -25,10 +25,6 @@ public class RunParameters {
 	@Expose
 	public String apiURL;
 
-	@EnvVar("API_URL")
-	@Expose
-	public String stubUrl;
-
 	@EnvVar("PLATFORM")
 	@Expose
 	String platformName;

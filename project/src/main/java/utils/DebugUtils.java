@@ -40,7 +40,7 @@ public class DebugUtils {
 	}
 
 	private static void rewriteDefaultConfig(Map<String, String> parameters) {
-		Path config = new File("project/src/test/resources/fixtures/" + Configuration.CONFIG_FILE_NAME).toPath();
+		Path config = new File("project/src/test/resources/" + Configuration.CONFIG_FILE_NAME).toPath();
 		List<String> content = new ArrayList<>();
 		String replacementPattern = ":\\s*\"[^\"]+";
 		try (BufferedReader reader = Files.newBufferedReader(config)) {

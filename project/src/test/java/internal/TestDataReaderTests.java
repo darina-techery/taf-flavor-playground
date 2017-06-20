@@ -41,13 +41,13 @@ public final class TestDataReaderTests {
 	public void readTestDataByKeyWithReader() throws FileNotFoundException {
 		defaultUserFromDataReader = new TestDataReader<>(UserCredentials.DATA_FILE_NAME, UserCredentials.class).readByKey(DEFAULT_USER_KEY);
 		Assert.assertThat("Default user submitCredentials is read from JSON file using TestDataReader",
-				defaultUserFromDataReader.username, is(EXPECTED_USERNAME));
+				defaultUserFromDataReader.getUsername(), is(EXPECTED_USERNAME));
 	}
 
 	@Test
 	public void readTestDataByKeyWithAnnotation() {
 		Assert.assertThat("Default user submitCredentials is read from JSON file using annotation",
-				defaultUserFromAnnotation.username, is(EXPECTED_USERNAME));
+				defaultUserFromAnnotation.getUsername(), is(EXPECTED_USERNAME));
 	}
 
 	@Test

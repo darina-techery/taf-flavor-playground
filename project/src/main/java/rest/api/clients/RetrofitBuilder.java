@@ -1,12 +1,11 @@
 package rest.api.clients;
 
-import com.google.gson.Gson;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import rest.api.interceptors.CurlLoggingInterceptor;
 import rest.api.interceptors.HeadersInterceptor;
+import rest.api.interceptors.APILoggingInterceptor;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import utils.exceptions.FailedConfigurationException;
 
 import java.util.ArrayList;
@@ -16,17 +15,18 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitBuilder {
-	static final Map<String,String> COMMON_HEADERS = new HashMap<>();
-	static final Map<String,String> DT_HEADERS = new HashMap<>();
+	public static final Map<String,String> COMMON_HEADERS = new HashMap<>();
+	public static final Map<String,String> DT_HEADERS = new HashMap<>();
 
 	private Map<String, String> headers = new HashMap<>();
 	private List<Interceptor> interceptors = new ArrayList<>();
+	private List<Converter.Factory> converterFactories = new ArrayList<>();
 	private String baseUrl;
 
 	static {
 		COMMON_HEADERS.put("Content-Type", "application/json");
 		DT_HEADERS.put("Accept","application/com.dreamtrips.api+json;version=2");
-		DT_HEADERS.put("DT-App-Version","1.14.0-2");
+		DT_HEADERS.put("DT-App-Version","1.19.0");
 	}
 
 	RetrofitBuilder addHeader(String key, String value) {
@@ -41,6 +41,11 @@ public class RetrofitBuilder {
 
 	RetrofitBuilder addInterceptor(Interceptor interceptor) {
 		interceptors.add(interceptor);
+		return this;
+	}
+
+	RetrofitBuilder addGsonConverterFactory(Converter.Factory factory) {
+		converterFactories.add(factory);
 		return this;
 	}
 
@@ -61,14 +66,14 @@ public class RetrofitBuilder {
 		if (!headers.isEmpty()) {
 			addInterceptor(new HeadersInterceptor(headers));
 		}
-		addInterceptor(new CurlLoggingInterceptor());
+		addInterceptor(new APILoggingInterceptor());
 		interceptors.forEach(okHttpClientBuilder::addInterceptor);
 
 		final OkHttpClient client = okHttpClientBuilder.build();
 		final Retrofit.Builder restAdapterBuilder = new Retrofit.Builder()
 				.client(client)
-				.addConverterFactory(GsonConverterFactory.create(new Gson()))
 				.baseUrl(baseUrl);
+		converterFactories.forEach(restAdapterBuilder::addConverterFactory);
 		return restAdapterBuilder.build();
 	}
 }
