@@ -30,7 +30,7 @@ import static ui.internal.LoginScreenForWaiterTests.*;
 import static utils.waiters.Waiter.*;
 
 public final class WaiterTests extends BaseTest implements CommonLogMessages {
-	private final DriverSteps driverSteps = getStepsComponent().driverSteps();
+	private final DriverSteps driverSteps = getUiStepsComponent().driverSteps();
 	private LoginScreen loginScreen;
 	private LoginScreenForWaiterTests uiTestScreen;
 

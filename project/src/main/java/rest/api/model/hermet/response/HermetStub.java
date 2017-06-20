@@ -1,4 +1,4 @@
-package rest.api.payloads.hermet.response;
+package rest.api.model.hermet.response;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

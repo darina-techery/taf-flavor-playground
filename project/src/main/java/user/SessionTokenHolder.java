@@ -1,6 +1,6 @@
 package user;
 
-import rest.api.payloads.login.response.LoginResponse;
+import com.worldventures.dreamtrips.api.session.model.Session;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,9 +9,9 @@ public class SessionTokenHolder {
 
 	private final Set<SessionData> userSessions = new HashSet<>();
 
-	public void addSession(LoginResponse loginResponse) {
+	public void addSession(Session loginResponse) {
 		userSessions.removeIf(
-				sessionData -> sessionData.username.equals(loginResponse.getUser().getUsername()));
+				sessionData -> sessionData.username.equals(loginResponse.user().username()));
 		userSessions.add(new SessionData(loginResponse));
 	}
 
@@ -44,10 +44,10 @@ public class SessionTokenHolder {
 		private String username;
 		private String token;
 		private String ssoToken;
-		SessionData(LoginResponse loginResponse) {
-			this.username = loginResponse.getUser().getUsername();
-			this.token = loginResponse.getToken();
-			this.ssoToken = loginResponse.getSsoToken();
+		SessionData(Session loginResponse) {
+			this.username = loginResponse.user().username();
+			this.token = loginResponse.token();
+			this.ssoToken = loginResponse.ssoToken();
 		}
 	}
 }

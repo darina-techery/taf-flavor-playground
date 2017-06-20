@@ -1,9 +1,12 @@
-package rest.api.payloads.login.request;
+package rest.api.model.login.request;
 
+import com.google.gson.annotations.SerializedName;
 import user.UserCredentials;
 
 public class LoginRequest {
+	@SerializedName("username")
 	private String username;
+	@SerializedName("password")
 	private String password;
 
 	public LoginRequest(String login, String password) {
@@ -12,8 +15,8 @@ public class LoginRequest {
 	}
 
 	public LoginRequest(UserCredentials user) {
-		this.username = user.username;
-		this.password = user.password;
+		this.username = user.getUsername();
+		this.password = user.getPassword();
 	}
 
 	public String getUsername() {

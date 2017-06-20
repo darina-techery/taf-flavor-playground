@@ -21,15 +21,21 @@ public class LoginSteps {
 	@Step("Submit provided login credentials: '{0}' ")
 	public void submitCredentials(UserCredentials user) {
 		loginActions.waitForScreen();
-		loginActions.setLogin(user.username);
-		loginActions.setPassword(user.password);
+		loginActions.setLogin(user.getUsername());
+		loginActions.setPassword(user.getPassword());
 		loginActions.submit();
 	}
 
 	@Step("Login to application with valid credentials: '{0}' / '{1}'")
 	public void loginWithValidCredentials(UserCredentials user) {
 		submitCredentials(user);
+		loginActions.waitUntilLoginScreenGone();
 		alertActions.declinePermissionRequestAlert();
+	}
+
+	@Step("Login to application with invalid credentials: '{0}' / '{1}'")
+	public void loginWithInvalidCredentials(UserCredentials user) {
+		submitCredentials(user);
 	}
 
 	@Step("Login to application if required")

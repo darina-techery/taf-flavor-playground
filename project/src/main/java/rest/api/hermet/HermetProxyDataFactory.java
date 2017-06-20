@@ -1,17 +1,22 @@
 package rest.api.hermet;
 
+import data.Configuration;
 import data.TestDataReader;
-import rest.api.payloads.hermet.HermetProxyData;
+import rest.api.model.hermet.HermetProxyData;
 import utils.exceptions.InvalidDataFileException;
 
 import java.io.FileNotFoundException;
 import java.time.Duration;
 
 public final class HermetProxyDataFactory {
+	public HermetProxyData getCommonProxyData() {
+		return getProxyData(Configuration.getParameters().apiURL);
+	}
+
 	public HermetProxyData getProxyData(String targetUrl) {
 		HermetProxyData data = readDefaultValues();
 		if (data.getName() == null) {
-			String name = targetUrl.replaceAll("\\.", "-");
+			String name = targetUrl.replaceAll("[\\W]+", "-");
 			data.setName(name);
 		}
 		data.setTargetUrl(targetUrl);
@@ -33,6 +38,7 @@ public final class HermetProxyDataFactory {
 			throw new InvalidDataFileException(
 					String.format("Config file for Hermet not found at %s", HermetProxyData.CONFIG_FILE_NAME), e);
 		}
+		data.initProxyHost();
 		return data;
 	}
 }

@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class DreamTripsTests extends BaseTestAfterLogin {
 
-	private DreamTripsSteps dreamTripsSteps = getStepsComponent().dreamTripsSteps();
+	private DreamTripsSteps dreamTripsSteps = getUiStepsComponent().dreamTripsSteps();
 
 	@Test
 	public void openDreamTripsScreen(){

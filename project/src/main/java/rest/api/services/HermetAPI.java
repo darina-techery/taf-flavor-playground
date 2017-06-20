@@ -1,8 +1,8 @@
 package rest.api.services;
 
 import com.google.gson.JsonObject;
-import rest.api.payloads.hermet.HermetProxyData;
-import rest.api.payloads.hermet.response.HermetStub;
+import rest.api.model.hermet.HermetProxyData;
+import rest.api.model.hermet.response.HermetStub;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -16,7 +16,7 @@ public interface HermetAPI {
 	//Proxy services
 
 	@POST("/api/services")
-	Call<Void> setupService(@Body HermetProxyData proxyData);
+	Call<Void> addService(@Body HermetProxyData proxyData);
 
 	@GET("/api/services")
 	Call<List<HermetProxyData>> getActiveServices();
