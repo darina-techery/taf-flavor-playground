@@ -22,7 +22,8 @@ public class HermetProxySteps {
 	public void createLoginStub() throws IOException {
 		HermetStubBuilder stubBuilder = new HermetStubBuilder();
 		stubBuilder.setResponse(BODY, FileUtils.getResourceFile("hermet/login_response.json"));
-		stubBuilder.addPredicate().equals().method("POST").path("/api/sessions").build();
+		stubBuilder.addPredicate()
+				.equals().method("POST").path("/api/sessions").build();
 		JsonObject loginStub = stubBuilder.build();
 		hermetProxyActions.addStub(Configuration.getParameters().apiURL, loginStub);
 	}

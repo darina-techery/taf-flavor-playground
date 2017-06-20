@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class LoggingInterceptor implements Interceptor {
+public class APILoggingInterceptor implements Interceptor {
 	private static final Charset UTF8 = Charset.forName("UTF-8");
 	private Logger log = LogManager.getLogger();
 

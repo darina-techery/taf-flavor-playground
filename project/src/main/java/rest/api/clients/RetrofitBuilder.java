@@ -3,7 +3,7 @@ package rest.api.clients;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import rest.api.interceptors.HeadersInterceptor;
-import rest.api.interceptors.LoggingInterceptor;
+import rest.api.interceptors.APILoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import utils.exceptions.FailedConfigurationException;
@@ -66,7 +66,7 @@ public class RetrofitBuilder {
 		if (!headers.isEmpty()) {
 			addInterceptor(new HeadersInterceptor(headers));
 		}
-		addInterceptor(new LoggingInterceptor());
+		addInterceptor(new APILoggingInterceptor());
 		interceptors.forEach(okHttpClientBuilder::addInterceptor);
 
 		final OkHttpClient client = okHttpClientBuilder.build();
