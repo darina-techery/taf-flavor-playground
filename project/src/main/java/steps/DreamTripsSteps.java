@@ -26,5 +26,16 @@ public class DreamTripsSteps {
 		menuActions.selectMenuItem(MenuItem.DREAM_TRIPS);
 	}
 
+	@Step("Open Trip with specified name")
+	public void openTripWithSpecificName(String tripName) {
+		dreamTripsActions.searchTrip(tripName);
+		dreamTripsActions.openFirstTripInList();
+	}
+
+	@Step("Getting all texts from opened Trip")
+	public void getAllTextsFromOpenedTripDetails() {
+		dreamTripsActions.getAllExpandableTexts();
+	}
+
 
 }
