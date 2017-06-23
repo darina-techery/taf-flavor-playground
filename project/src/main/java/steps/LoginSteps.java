@@ -30,7 +30,7 @@ public class LoginSteps {
 	public void loginWithValidCredentials(UserCredentials user) {
 		submitCredentials(user);
 		loginActions.waitUntilLoginScreenGone();
-		alertActions.declinePermissionRequestAlert();
+//		alertActions.declinePermissionRequestAlert();
 	}
 
 	@Step("Login to application with invalid credentials: '{0}' / '{1}'")

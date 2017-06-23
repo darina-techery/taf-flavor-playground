@@ -1,12 +1,13 @@
 package actions;
 
-import org.openqa.selenium.By;
+import io.appium.java_client.MobileElement;
 import ru.yandex.qatools.allure.annotations.Step;
 import ui.screens.DreamTripsListScreen;
-import utils.ui.ByHelper;
+import utils.exceptions.FailedTestException;
+import utils.exceptions.NotImplementedException;
 import utils.waiters.Waiter;
 
-public class DroidDreamTripsActions extends DreamTripsActions {
+public class IPhoneDreamTripsActions extends DreamTripsActions {
     @Override
     @Step("Search trip by name ''{0}''")
     public void searchTrip(String tripName) {
@@ -23,14 +24,17 @@ public class DroidDreamTripsActions extends DreamTripsActions {
 
 	@Override
 	public void openTripByName(String name) {
-		By tripNameLocator = ByHelper.getLocatorByText(name);
-		Waiter.click(tripNameLocator);
-		Waiter.isDisplayed(dreamTripsDetailsScreen.imgPicOfTrip);
+		for (MobileElement tripItem: dreamTripsScreen.tripCards) {
+			if (Waiter.getText(DreamTripsListScreen.TRIP_NAME_BY, tripItem).equals(name)) {
+				Waiter.click(DreamTripsListScreen.TRIP_NAME_BY, tripItem);
+			}
+		}
+		throw new FailedTestException("Trip with name "+name+" was not found in trips list.");
 	}
 
 	@Override
 	public boolean isCardListShown() {
-		return Waiter.isDisplayed(DreamTripsListScreen.CARD_LOCATOR);
+		throw new NotImplementedException();
 	}
 
 }

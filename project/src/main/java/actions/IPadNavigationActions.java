@@ -1,5 +1,6 @@
 package actions;
 
+import data.ui.MenuItem;
 import ui.components.NavigationMenu;
 import utils.exceptions.NotImplementedException;
 import utils.runner.Assert;
@@ -17,6 +18,16 @@ public class IPadNavigationActions extends NavigationActions {
 
 	@Override
 	public String getPageTitle() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void openMenu() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void selectMenuItem(MenuItem menuItem) {
 		throw new NotImplementedException();
 	}
 }

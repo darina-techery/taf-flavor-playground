@@ -1,0 +1,307 @@
+{
+	"type": "Trip",
+	"item": {
+		"id": 5961,
+		"uid": "KSVlckwzbx",
+		"trip_id": "5efe17d9-6ad3-4552-a770-156ab3909b45",
+		"name": "Hermet Provided: Culture & Cuisine in Romania",
+		"duration": 4,
+		"rewards_limit": 60,
+		"dates": {
+			"start_on": "2017-07-30",
+			"end_on": "2017-08-03"
+		},
+		"featured": true,
+		"rewarded": true,
+		"platinum": true,
+		"available": true,
+		"sold_out": false,
+		"description": "Visit a historic monastery and UNESCO World Heritage site and immerse yourself in the rich culture of Romania.",
+		"liked": false,
+		"likes_count": 0,
+		"regions": [{
+			"id": 213,
+			"name": "Europe & Middle East"
+		}],
+		"activities": [{
+			"id": 2193,
+			"name": "Active Sports",
+			"parent_id": 0,
+			"position": 2,
+			"icon": null
+		}, {
+			"id": 2207,
+			"name": "Arts & Culture",
+			"parent_id": 0,
+			"position": 3,
+			"icon": null
+		}, {
+			"id": 2237,
+			"name": "Health & Wellness",
+			"parent_id": 0,
+			"position": 8,
+			"icon": null
+		}, {
+			"id": 2244,
+			"name": "Platinum Experiences",
+			"parent_id": 0,
+			"position": 9,
+			"icon": null
+		}, {
+			"id": 2247,
+			"name": "Points of Interest",
+			"parent_id": 0,
+			"position": 10,
+			"icon": null
+		}],
+		"region": {
+			"id": 213,
+			"name": "Europe & Middle East"
+		},
+		"rewards_rules": null,
+		"images": [{
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/82296a18944100bef8c727bb195f2af55ca87e38",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452314_GuraHumorului_1706RO5711_LN_Detail1.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/82296a18944100bef8c727bb195f2af55ca87e38"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/82296a18944100bef8c727bb195f2af55ca87e38?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/82296a18944100bef8c727bb195f2af55ca87e38?width=500&height=500"
+			},
+			"id": "82296a18944100bef8c727bb195f2af55ca87e38",
+			"description": "",
+			"type": "NORMAL"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/17282d1166fbcfd51fe23c1c98e62313bb14881c",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452470_GuraHumorului_1706RO5711_LN_Detail2.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/17282d1166fbcfd51fe23c1c98e62313bb14881c"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/17282d1166fbcfd51fe23c1c98e62313bb14881c?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/17282d1166fbcfd51fe23c1c98e62313bb14881c?width=500&height=500"
+			},
+			"id": "17282d1166fbcfd51fe23c1c98e62313bb14881c",
+			"description": "",
+			"type": "NORMAL"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/87667533a6c2efb634ef1660da5431c984437b16",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452595_GuraHumorului_1706RO5711_LN_Detail3.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/87667533a6c2efb634ef1660da5431c984437b16"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/87667533a6c2efb634ef1660da5431c984437b16?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/87667533a6c2efb634ef1660da5431c984437b16?width=500&height=500"
+			},
+			"id": "87667533a6c2efb634ef1660da5431c984437b16",
+			"description": "",
+			"type": "NORMAL"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/6ea61749c5b94359dbf78f808033be7376009060",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452782_GuraHumorului_1706RO5711_LN_Detail4.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/6ea61749c5b94359dbf78f808033be7376009060"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/6ea61749c5b94359dbf78f808033be7376009060?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/6ea61749c5b94359dbf78f808033be7376009060?width=500&height=500"
+			},
+			"id": "6ea61749c5b94359dbf78f808033be7376009060",
+			"description": "",
+			"type": "NORMAL"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/f5461360b093da564c79923ba4831887afd884a6",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/a12e7236-ef17-40f0-8d85-a9909958ee54/o_20170314145452939_GuraHumorului_1706RO5711_LN_Detail5.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/f5461360b093da564c79923ba4831887afd884a6"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/f5461360b093da564c79923ba4831887afd884a6?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/f5461360b093da564c79923ba4831887afd884a6?width=500&height=500"
+			},
+			"id": "f5461360b093da564c79923ba4831887afd884a6",
+			"description": "",
+			"type": "NORMAL"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=500&height=500"
+			},
+			"id": "7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"description": "",
+			"type": "RETINA"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/68ec9a06a2886f01fd6b28a10abec904ac526501",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145515345_GuraHumorului_1706RO5711_HR_Detail2.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/68ec9a06a2886f01fd6b28a10abec904ac526501"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/68ec9a06a2886f01fd6b28a10abec904ac526501?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/68ec9a06a2886f01fd6b28a10abec904ac526501?width=500&height=500"
+			},
+			"id": "68ec9a06a2886f01fd6b28a10abec904ac526501",
+			"description": "",
+			"type": "RETINA"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/435a60314ed7a432d033e87877c17a68fc84e0b1",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145515876_GuraHumorului_1706RO5711_HR_Detail3.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/435a60314ed7a432d033e87877c17a68fc84e0b1"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/435a60314ed7a432d033e87877c17a68fc84e0b1?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/435a60314ed7a432d033e87877c17a68fc84e0b1?width=500&height=500"
+			},
+			"id": "435a60314ed7a432d033e87877c17a68fc84e0b1",
+			"description": "",
+			"type": "RETINA"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/bb51f28425cc66221817c3b22a098d748467219a",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145516454_GuraHumorului_1706RO5711_HR_Detail4.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/bb51f28425cc66221817c3b22a098d748467219a"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/bb51f28425cc66221817c3b22a098d748467219a?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/bb51f28425cc66221817c3b22a098d748467219a?width=500&height=500"
+			},
+			"id": "bb51f28425cc66221817c3b22a098d748467219a",
+			"description": "",
+			"type": "RETINA"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145516876_GuraHumorului_1706RO5711_HR_Detail5.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b?width=500&height=500"
+			},
+			"id": "7de9d21e37ce8bf2b1a97c23dc70fc9b73a75c8b",
+			"description": "",
+			"type": "RETINA"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=500&height=500"
+			},
+			"id": "7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"description": "",
+			"type": "THUMB"
+		}, {
+			"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"origin_url": "http://qafortius-media.wvhservices.com/worldventures/Albums/e8acb32e-dfaa-4f49-a722-d650b479ff0d/o_20170314145514720_GuraHumorului_1706RO5711_HR_Detail1.jpg",
+			"original": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b"
+			},
+			"medium": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=1920&height=1080"
+			},
+			"thumb": {
+				"url": "http://techery-dt-preprod-imagery.techery.io/trips/5961/images/7f612859bc90e644c82f0075fc81a21d88b47a5b?width=500&height=500"
+			},
+			"id": "7f612859bc90e644c82f0075fc81a21d88b47a5b",
+			"description": "",
+			"type": "THUMB|RETINA"
+		}],
+		"price": {
+			"amount": 169,
+			"currency": "USD"
+		},
+		"in_bucket_list": false,
+		"created_at": "2017-05-25T17:12:11Z",
+		"updated_at": "2017-06-19T12:58:18Z",
+		"location_id": 36863,
+		"recent": false,
+		"location": {
+			"name": "Gura Humorului, Suceava, Romania",
+			"lat": 47.55,
+			"lng": 25.9
+		},
+		"has_multiple_dates": false,
+		"comments_count": 0,
+		"content": [{
+			"description": "Visit a historic monastery and UNESCO World Heritage site and immerse yourself in the rich culture of Romania.",
+			"language": "en-us",
+			"name": "Short Description",
+			"tags": []
+		}, {
+			"description": "Explore traditional culture and cuisine on this family-friendly DreamTrip to Gura Humorului. Board a carriage and transfer to the Voronet River valley for your visit to Voronet Monastery, a revered Medieval site. Referred to as the \u201cSistine Chapel of the East,\u201d the church was built in 1488 and is decorated with elaborate frescoes featuring shades of striking Voronet blue. This UNESCO World Heritage site was commissioned by Stephen the Great and is among the country\u2019s most famous places of worship. See the pastoral side of Romania on your carriage ride to a shepherd\u2019s house, where you will enjoy a traditional lunch before you return to the hotel.<br><br>During ample leisure time, take advantage of discounted spa services at the hotel and a complimentary 3-hour pass for the Arinis recreation complex and adventure park. There, you can play paintball games, ice skate or roller skate, swim, hike and more.<br><br><strong>What we love:</strong><br>\u2022\tDuring leisure time, explore the nearby Humor Monastery to view beautiful red frescoes.<br>\u2022\tYour visit to Voronet Monastery includes a carriage ride to a \u201csheep cot\u201d (shepherd\u2019s house) for a traditional Romanian lunch.<br>\u2022\t10% discount on your paid spa services.<br>",
+			"language": "en-us",
+			"name": "Long Description",
+			"tags": []
+		}, {
+			"description": "Your DreamTrip includes 5 days and 4 nights in Gura Humorului, Romania, as well as:<br>\u2022\tHalf-day visit to Voronet Monastery; includes tour guide and transportation.<br>\u2022\t3-hour admission to Arinis recreation complex and adventure park, with 2 complimentary rides at Mega Tirolina.<br>\u2022\tAccess to the hotel spa and 10% discount on paid services.<br>\u2022\tAccess to billiards and table tennis at the hotel.<br>\u2022\tAccess to the kids\u2019 club at the hotel.<br>\u2022\tEnglish- and Romanian-speaking tour guide.<br>\u2022\tWelcome reception including traditional drinks, snacks and cocktails.<br>\u2022\tFarewell party including traditional drinks and a campfire.<br>\u2022\t4 breakfasts, 1 lunch and 4 dinners.<br>\u2022\tAn In-destination Support team member will be provided on this trip. Their goal is to ensure you have a great DreamTrips\u2122 experience from landing to liftoff. They host a welcome reception on arrival day, attend scheduled activities throughout the trip, notify the group of itinerary updates and more.<br><br><hr><br><strong>Transportation</strong><br><br>Airfare is not included in the trip price! The closest commercial airport to the hotel is Suceava International Airport (SCV), approximately 28 miles (45 kilometers) away, a drive of about 40 minutes. We highly recommend that you purchase travel insurance for any trip.<br><br><strong>Please note:</strong> Airport transfers are not included in this trip. Make sure to arrange your own transfers between the airport and your hotel.<br><br><hr><br><strong>This trip will close by June 12.</strong><br><br>Check out this DreamTrip on <strong><a href=\"https://www.facebook.com/events/714875042025135/\" target=\"_blank\">Facebook</a></strong>.<br><br><br>",
+			"language": "en-us",
+			"name": "What Is Included",
+			"tags": []
+		}, {
+			"description": "<p><strong>Cancellation Policy*:</strong> Once booked, this trip is non-refundable, non-exchangeable and non-transferable. No cancellation or amendment is allowed. <br><br><em>*This cancellation policy is subject to rules and regulations in applicable jurisdictions in which our travel supplier is based. Therefore, in the event of conflict between the cancellation policy displayed here and cancellation terms in supplier booking terms, the provisions of the booking terms will prevail. </em><br><br><strong>Name Change Policy:</strong> Name changes are not allowed on this trip.<br><br>Members can\u2019t combine DreamTrips Points. Your membership level determines the maximum amount of DreamTrips Points you can use. If you have more than 50 Rovia Bucks, you can apply them in the checkout process.<br><br><a href=\"http://assets.wvholdings.com/1/PDF/DT_1600401_01_DreamTrips_Travel_Support_List_Update_FINAL.pdf\" target=\"_blank\"><strong>Contact Travel Support</strong></a> if you have special requests regarding bedding, meals or medical needs, or any other questions about this trip.<br><br>At the time of booking, you will see a page with your order number and trip cost. This is your confirmation. Please retain and bring this information with you on your trip.<br><br>Hotel/resort credits and/or discounts cannot be converted to cash, and any not used during your stay will expire immediately upon your departure. Member is responsible for paying any taxes that may be added to items purchased with hotel/resort credit. <br><br>In the unfortunate event that an activity or excursion is no longer available, we will substitute a similar activity of equal or greater value.<br><br>Make sure that your passport and visa, if applicable, are up-to-date before you leave! It\u2019s important to double check that you have all the identification and other documentation required by the specific country you\u2019re traveling to. In many countries, passports and visas must be valid for 6 months or longer after the trip end date. If you are unable to obtain the required identification and other documentation, the Cancellation Policy for this DreamTrip will apply.<br><br>Please note: Due to contractual supplier policies, we may not be able to confirm requested name or room changes to existing bookings for trips that are scheduled to travel within 30 days of your request.<br><br>Members with additional people in the room, not booked prior to travel, will be charged the hotel\u2019s prevailing rate, not the trip price.<br><br>Pricing shown is for each person, and is based on 2 adults per room.<br><br>Please don\u2019t consider your change requests official until you receive a confirmation email from us.<br><br></p>",
+			"language": "en-us",
+			"name": "Policies",
+			"tags": []
+		}, {
+			"description": "Adult and children\u2019s pricing may vary depending on the travel date. Click BOOK IT for detailed pricing information. <br><br>We base children\u2019s pricing on their age at the time of travel. Their reservation has to be booked and paid for in order for you to check them in.<br><br>Please remember to book a reservation for everyone you\u2019re bringing along on your DreamTrip before you travel. Otherwise, they\u2019ll be charged the hotel\u2019s prevailing rate, not the trip price.<br>",
+			"language": "en-us",
+			"name": "Additional Information",
+			"tags": []
+		}, {
+			"description": "The Best Western Bucovina blends all the reliability of a chain hotel with the unexpected grace of a countryside inn. The staff is happy to assist, accommodations are furnished with comfort in mind, and the rejuvenating treatments at the hotel\u2019s on-site spa are waiting to help you refresh and revitalize.<br><br><strong>Hotel features:</strong><br>\u2022\t2 restaurants and 1 bar.<br>\u2022\tSpa and fitness center.<br>\u2022\tHammam and dry sauna.<br>\u2022\tComplimentary access to billiards and table tennis.<br>\u2022\tKids\u2019 club.<br>\u2022\tComplimentary self-parking.<br><br><strong>Queen Double Room or Twin Room accommodations with:</strong><br>\u2022\t1 queen bed or 2 twin beds.<br>\u2022\tMaximum occupancy 3 adults, or 2 adults and 1 child.<em> Extra bed available upon request.</em><br>\u2022\tDesk with direct-dial telephone.<br>\u2022\tHairdryer.<br>\u2022\tComplimentary guest-room refrigerator.<br>\u2022\tMinibar (consumption at an additional cost). <br>\u2022\tCable television with HBO.<br>\u2022\tComplimentary Wi-Fi. <br><br>Check-in: 2 p.m.<br>Checkout: noon.<br>Minimum check-in age is 18.<br><br>Best Western Bucovina<br>18 Piata Republicii<br>Gura Humorului 725300, Romania<br>",
+			"language": "en-us",
+			"name": "Hotel Details",
+			"tags": []
+		}, {
+			"description": "<strong>Day 1</strong><br><br>Check into the hotel at any time after 2 p.m.<br>Noon: Visit the welcome table in the hotel lobby.<br>7-9 p.m.: Welcome buffet dinner at the hotel restaurant, Casa cu Pridvor.<br>9-11 p.m.: Welcome reception at the hotel bar, including traditional drinks, snacks and cocktails.<br><br><strong>Day 2</strong><br><br>7-10 a.m.: Buffet breakfast at the hotel restaurant, Casa cu Pridvor.<br>A day at your leisure. Use your admission ticket to Arinis recreation complex and adventure park, or take advantage of the 10% discount on spa services at the hotel.<br>7-9 p.m.: Buffet dinner with water, coffee and 1 glass of wine per person at the hotel restaurant, Casa cu Pridvor.<br><br><strong>Day 3</strong><br><br>7-10 a.m.: Buffet breakfast at the hotel restaurant, Casa cu Pridvor.<br>11:30 a.m. \u2013 3 p.m.: Half-day visit to Voronet Monastery; includes lunch, tour guide and transportation.<br>\u2022\t11:30 a.m.: Pickup from the hotel and transfer by carriage to Voronet Monastery.<br>\u2022\tTour Voronet Monastery.<br>\u2022\tTransfer to the sheep cot (shepherd\u2019s house).<br>\u2022\tTraditional lunch at the sheep cot, including water.<br>\u2022\t3 p.m.: Return by carriage to the hotel.<br>7-9 p.m.: Buffet dinner with water, coffee and 1 glass of wine per person at the hotel restaurant, Casa cu Pridvor.<br><br><strong>Day 4</strong><br><br>7-10 a.m.: Buffet breakfast at the hotel restaurant, Casa cu Pridvor.<br>A day at your leisure. Use your admission ticket to Arinis recreation complex and adventure park, or take advantage of the 10% discount on spa services at the hotel.<br>8-11 p.m.: Farewell party and barbecue dinner, including drinks and a campfire.<br><br><strong>Day 5</strong><br><br>7-10 a.m.: Buffet breakfast at the hotel restaurant, Casa cu Pridvor.<br>Check out of the hotel by noon.<br><br><em>Itinerary subject to change.</em><br>",
+			"language": "en-us",
+			"name": "Itinerary",
+			"tags": []
+		}, {
+			"description": "The Moldova and Humor rivers converge in northeastern Romania, where the quiet town of Gura Humorului is situated. Previously under the rule of the Austro-Hungarian Empire, and later the Soviet Union, Gura Humorului now thrives in the European democracy. The architecture of the historic buildings represents the town\u2019s storied past, including the Baroque-style ornamentations in the old Jewish cemetery and elaborate Byzantine frescoes decorating the walls of the old monasteries. Today, Gura Humorului welcomes travelers who come to see the Voronet and Humor monasteries, as well as those who want to learn more about the many folk art and music traditions of the region.",
+			"language": "en-us",
+			"name": "Destination",
+			"tags": []
+		}, {
+			"description": "Platinum Members will be treated to plenty of perks on this DreamTrip to Gura Humorului, starting with a hotel room upgrade to a Double Room with a balcony. Platinum Members will also receive 1 complimentary relaxation massage per room, a 20% discount on additional services at the hotel spa and a later checkout time of 2 p.m. Life is great when you\u2019re a Platinum Member!",
+			"language": "en-us",
+			"name": "Platinum Inclusions",
+			"tags": []
+		}],
+		"comments": []
+	}
+}

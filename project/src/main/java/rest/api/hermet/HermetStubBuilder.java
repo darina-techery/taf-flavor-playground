@@ -9,6 +9,7 @@ import org.mbtest.javabank.fluent.ImposterBuilder;
 import org.mbtest.javabank.fluent.PredicateTypeBuilder;
 import org.mbtest.javabank.fluent.StubBuilder;
 import org.mbtest.javabank.http.imposters.Imposter;
+import utils.JsonUtils;
 import utils.exceptions.FailedConfigurationException;
 
 import java.io.File;
@@ -36,16 +37,6 @@ public class HermetStubBuilder {
 
 	public PredicateTypeBuilder addPredicate() {
 		return stubBuilder.predicate();
-	}
-
-	private void addResponsePart(ResponsePart part, JsonElement json) {
-		String propertyName = part.propertyName;
-		if (json.isJsonArray() || json.getAsJsonObject().get(propertyName) == null) {
-			responseStub.add(propertyName, json);
-		} else {
-			JsonElement content = json.getAsJsonObject().get(propertyName);
-			responseStub.add(propertyName, content);
-		}
 	}
 
 	public void setResponse(ResponsePart part, String json) {
@@ -98,11 +89,35 @@ public class HermetStubBuilder {
 		}
 	}
 
+	private void addResponsePart(ResponsePart part, JsonElement json) {
+		String propertyName = part.propertyName;
+		if (json.isJsonArray() || json.getAsJsonObject().get(propertyName) == null) {
+			responseStub.add(propertyName, json);
+		} else {
+			JsonElement content = json.getAsJsonObject().get(propertyName);
+			responseStub.add(propertyName, content);
+		}
+	}
+
 	public JsonObject build() {
 		JsonObject stubJson = new JsonObject();
 		stubJson.add("response", responseStub);
 		stubJson.add("predicates", buildPredicates());
 		return stubJson;
+	}
+
+	public JsonElement getExpectedResponseAsJson(ResponsePart part) {
+		return responseStub.get(part.propertyName);
+	}
+
+	public <T> T getExpectedResponse(Class<T> responseClass) {
+		return JsonUtils.toObject(responseStub.get(ResponsePart.BODY.propertyName),
+				responseClass, JsonUtils.Converter.DREAM_TRIPS);
+	}
+
+	public <T> T getExpectedResponse(Type responseType) {
+		return JsonUtils.toObject(responseStub.get(ResponsePart.BODY.propertyName),
+				responseType, JsonUtils.Converter.DREAM_TRIPS);
 	}
 
 	private JsonElement buildPredicates() {

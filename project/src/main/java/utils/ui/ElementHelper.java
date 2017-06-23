@@ -14,4 +14,26 @@ public final class ElementHelper {
 		String attributeName = getTextAttributeName();
 		return e.getAttribute(attributeName);
 	}
+
+	public static String describeElement(MobileElement e) {
+		String result = "";
+		if (Configuration.isIOS()) {
+			String[] attributes = {"accessibilityContainer",
+					"accessible",
+					"enabled",
+					"frame",
+					"label",
+					"name",
+					"rect",
+					"type",
+					"value",
+					"visible"};
+			for (String s : attributes) {
+				result += s + ": " + e.getAttribute(s) + "\n";
+			}
+		} else {
+			result = "Not implemented for Android yet";
+		}
+		return result;
+	}
 }

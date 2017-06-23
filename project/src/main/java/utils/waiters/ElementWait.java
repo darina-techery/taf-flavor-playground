@@ -3,6 +3,7 @@ package utils.waiters;
 import driver.HasDriver;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import utils.ui.ElementDescriber;
 
 public class ElementWait<R> extends BaseWait<MobileElement, R>
@@ -15,6 +16,7 @@ public class ElementWait<R> extends BaseWait<MobileElement, R>
 	public ElementWait() {
 		super();
 		addIgnorableException(NoSuchElementException.class);
+		addIgnorableException(StaleElementReferenceException.class);
 	}
 
 	@Override

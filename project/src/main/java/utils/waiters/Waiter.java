@@ -8,6 +8,7 @@ import io.appium.java_client.android.AndroidElement;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import utils.ADBUtils;
@@ -234,7 +235,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 			boolean result;
 			try {
 				result = !el.isDisplayed();
-			} catch (NoSuchElementException ex) {
+			} catch (NoSuchElementException | StaleElementReferenceException ex) {
 				result = true;
 			}
 			return result;

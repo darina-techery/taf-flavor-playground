@@ -22,6 +22,7 @@ final class AppiumServiceProvider {
 			String port = acquirePort();
 			final AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder();
 			appiumServiceBuilder.withArgument(GeneralServerFlag.LOG_LEVEL, "error");
+//			appiumServiceBuilder.withArgument(GeneralServerFlag.LOG_LEVEL, "debug");
 			appiumServiceBuilder.withArgument(GeneralServerFlag.LOG_TIMESTAMP);
 			appiumServiceBuilder.withArgument(GeneralServerFlag.LOCAL_TIMEZONE);
 			appiumServiceBuilder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);

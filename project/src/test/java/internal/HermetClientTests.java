@@ -5,6 +5,7 @@ import base.BaseTest;
 import com.google.gson.JsonObject;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.session.model.Session;
+import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import data.Configuration;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,6 +22,8 @@ import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
 import rest.api.services.HermetAPI;
 import retrofit2.Response;
+import steps.HermetProxySteps;
+import steps.TripsAPISteps;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.FileUtils;
@@ -39,6 +42,7 @@ public class HermetClientTests extends BaseTest {
 	private HermetAPI hermetApi;
 	private HermetProxyActions actions;
 	private HermetStubBuilder stubBuilder;
+	private HermetProxySteps hermetSteps = new HermetProxySteps();
 
 	@BeforeClass
 	public void setupHermetSession() throws IOException {
@@ -135,6 +139,16 @@ public class HermetClientTests extends BaseTest {
 		Assert.assertThat("Response body is not null", response.body(), notNullValue());
 		Assert.assertThat("Response body contains valid data: username", response.body().username(),
 				equalTo(expectedUsername) );
+	}
+
+	@Test
+	public void test_stubTripDetails_verifyResponseCanBeParsedByModel() throws IOException {
+		String tripUid = "platinum-recent";
+		TripWithDetails expectedTrip = hermetSteps.createStubForPlatinumRecentTrip(tripUid);
+
+		TripsAPISteps tripsAPISteps = new TripsAPISteps();
+		TripWithDetails tripDetails = tripsAPISteps.getTripDetailsByItsUid(tripUid);
+		Assert.assertThat("trips are equal", expectedTrip, equalTo(tripDetails));
 	}
 
 	@Test(enabled = false)

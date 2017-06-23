@@ -22,8 +22,6 @@ public final class JsonUtils {
 		}
 	}
 
-	private JsonUtils(){}
-
 	public static String toString(Object o, Converter converter) {
 		return converter.gson.toJson(o);
 	}
@@ -52,14 +50,13 @@ public final class JsonUtils {
 		return element;
 	}
 
-	public static JsonElement toJsonElement(Object object, Converter converter) {
+	public static JsonElement toJsonElementForSimpleType(Object object, Converter converter) {
 		return converter.gson.toJsonTree(object);
 	}
 
 	public static JsonElement toJsonElementForGenerics(Object object, Type type, Converter converter) {
 		return converter.gson.toJsonTree(object, type);
 	}
-
 
 	/**
 	 * Use for non-generic types (e.g. PrivateUserProfile)
@@ -73,6 +70,29 @@ public final class JsonUtils {
 		return converter.gson.fromJson(element, nonGenericClass);
 	}
 
+	/**
+	 * Use for generic types (e.g. List&lt;TripData&gt;)
+	 * @param element
+	 * @param genericType
+	 * @param converter
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T toObject(JsonElement element, Type genericType, Converter converter) {
+		return converter.gson.fromJson(element, genericType);
+	}
+
+	/**
+	 * Use for non-generic types (e.g. PrivateUserProfile)
+	 * @param jsonString
+	 * @param nonGenericClass
+	 * @param converter
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T toObject(String jsonString, Class<T> nonGenericClass, Converter converter) {
+		return converter.gson.fromJson(jsonString, nonGenericClass);
+	}
 
 	/**
 	 * Use for generics (e.g. List&lt;TripData&gt;)
@@ -86,6 +106,14 @@ public final class JsonUtils {
 		return converter.gson.fromJson(jsonString, genericType);
 	}
 
+	/**
+	 * Use for non-generic types (e.g. PrivateUserProfile)
+	 * @param file
+	 * @param nonGenericClass
+	 * @param converter
+	 * @param <T>
+	 * @return
+	 */
 	public static <T> T toObject(File file, Class<T> nonGenericClass, Converter converter) {
 		return converter.gson.fromJson(getFileReader(file), nonGenericClass);
 	}
