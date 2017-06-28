@@ -4,8 +4,7 @@ import data.ui.MenuItem;
 import ui.components.NavigationMenu;
 import utils.exceptions.NotImplementedException;
 import utils.runner.Assert;
-
-import static utils.waiters.Waiter.isDisplayed;
+import utils.waiters.Waiter;
 
 public class IPadNavigationActions extends NavigationActions {
 
@@ -13,7 +12,7 @@ public class IPadNavigationActions extends NavigationActions {
 
 	@Override
 	public void assertLandingPageLoaded() {
-		Assert.assertThat("Main navigation bar is displayed", isDisplayed(navigationMenu.menuBar));
+		Assert.assertThat("Main navigation bar is displayed", new Waiter().isDisplayed(navigationMenu.menuBar));
 	}
 
 	@Override

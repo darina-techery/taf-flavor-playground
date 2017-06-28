@@ -26,7 +26,7 @@ public class DroidTabletNavigationActions extends NavigationActions {
 
 	@Override
 	public String getPageTitle() {
-		return Waiter.getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
+		return new Waiter().getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
 	}
 
 	@Override

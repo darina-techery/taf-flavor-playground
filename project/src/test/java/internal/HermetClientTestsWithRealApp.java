@@ -49,7 +49,7 @@ public class HermetClientTestsWithRealApp extends BaseTestWithDriver {
 		loginSteps.loginWithInvalidCredentials(new UserCredentials("foo", "foo"));
 		By locator = ByHelper.getLocatorByText("Failed to login with provided credentials");
 		Assert.assertThat("Alert 'failed to login with provided credentials' is shown",
-				Waiter.isDisplayed(locator));
+				new Waiter().isDisplayed(locator));
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class HermetClientTestsWithRealApp extends BaseTestWithDriver {
 
 		By tripLocator = DreamTripsListScreen.CARD_LOCATOR;
 		By headerLocator = ByHelper.getLocatorByText(tripName);
-		Assert.assertThat("Dream trips are displayed", Waiter.isDisplayed(tripLocator));
-		Assert.assertThat("Test trip header displayed", Waiter.isDisplayed(headerLocator));
+		Assert.assertThat("Dream trips are displayed", new Waiter().isDisplayed(tripLocator));
+		Assert.assertThat("Test trip header displayed", new Waiter().isDisplayed(headerLocator));
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class HermetClientTestsWithRealApp extends BaseTestWithDriver {
 
 		By tripLocator = By.id("card_view");
 		By headerLocator = ByHelper.getLocatorByText(expectedTripTitle);
-		Assert.assertThat("Dream trips are displayed", Waiter.isDisplayed(tripLocator));
-		Assert.assertThat("Test trip header displayed", Waiter.isDisplayed(headerLocator));
+		Assert.assertThat("Dream trips are displayed", new Waiter().isDisplayed(tripLocator));
+		Assert.assertThat("Test trip header displayed", new Waiter().isDisplayed(headerLocator));
 	}
 }

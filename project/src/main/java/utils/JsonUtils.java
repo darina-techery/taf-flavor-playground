@@ -27,7 +27,11 @@ public final class JsonUtils {
 	}
 
 	public static String toString(JsonElement element) {
-		return element.getAsString();
+		if (element.isJsonObject()) {
+			return element.getAsString();
+		} else {
+			return element.toString();
+		}
 	}
 
 	public static JsonElement toJsonElement(String s) {

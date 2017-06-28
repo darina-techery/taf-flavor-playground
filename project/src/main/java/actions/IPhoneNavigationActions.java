@@ -7,15 +7,13 @@ import utils.exceptions.NotImplementedException;
 import utils.runner.Assert;
 import utils.waiters.Waiter;
 
-import static utils.waiters.Waiter.isDisplayed;
-
 public class IPhoneNavigationActions extends NavigationActions {
 
 	NavigationMenu navigationMenu = new NavigationMenu();
 
 	@Override
 	public void assertLandingPageLoaded() {
-		Assert.assertThat("Main navigation bar is displayed", isDisplayed(navigationMenu.menuBar));
+		Assert.assertThat("Main navigation bar is displayed", new Waiter().isDisplayed(navigationMenu.menuBar));
 	}
 
 	@Override
@@ -25,7 +23,7 @@ public class IPhoneNavigationActions extends NavigationActions {
 
 	@Override
 	public void openMenu() {
-		Waiter.click(navigationMenu.menuButton);
+		new Waiter().click(navigationMenu.menuButton);
 	}
 
 	@Override
@@ -40,6 +38,6 @@ public class IPhoneNavigationActions extends NavigationActions {
 				openMenu();
 		}
 		By buttonLocator = navigationMenu.getMenuItemLocator(menuItem);
-		Waiter.click(buttonLocator);
+		new Waiter().click(buttonLocator);
 	}
 }

@@ -2,10 +2,10 @@ package steps;
 
 import actions.AlertActions;
 import actions.LoginActions;
-import user.UserCredentials;
-import org.apache.logging.log4j.LogManager;
 import ru.yandex.qatools.allure.annotations.Step;
+import user.UserCredentials;
 import utils.annotations.UseActions;
+import utils.exceptions.FailedTestException;
 
 public class LoginSteps {
 	private final LoginActions loginActions;
@@ -29,7 +29,9 @@ public class LoginSteps {
 	@Step("Login to application with valid credentials: '{0}' / '{1}'")
 	public void loginWithValidCredentials(UserCredentials user) {
 		submitCredentials(user);
-		loginActions.waitUntilLoginScreenGone();
+		if (!loginActions.waitUntilLoginScreenGone()) {
+			throw new FailedTestException("Failed to login with provided valid credentials as "+user.getUsername());
+		}
 //		alertActions.declinePermissionRequestAlert();
 	}
 
@@ -43,6 +45,5 @@ public class LoginSteps {
 		if (loginActions.isScreenActive()) {
 			loginWithValidCredentials(user);
 		}
-		LogManager.getLogger().info("logged in");
 	}
 }

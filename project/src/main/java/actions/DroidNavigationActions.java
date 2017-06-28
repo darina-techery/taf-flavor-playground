@@ -28,13 +28,13 @@ public class DroidNavigationActions extends NavigationActions {
 
 	@Override
 	public String getPageTitle() {
-		return Waiter.getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
+		return new Waiter().getText(By.className("android.widget.TextView"), navigationMenu.titleBar);
 	}
 
 	@Override
 	public void openMenu() {
-		Waiter.click(navigationMenu.menuButton);
-		boolean menuShown = Waiter.isDisplayed(navigationMenu.menuDrawer);
+		new Waiter().click(navigationMenu.menuButton);
+		boolean menuShown = new Waiter().isDisplayed(navigationMenu.menuDrawer);
 		if (!menuShown) {
 			throw new FailedTestException("Failed to open menu by clicking Menu button");
 		}
@@ -46,6 +46,6 @@ public class DroidNavigationActions extends NavigationActions {
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
 		SwipeHelper.scrollUp();
 		SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
-		Waiter.click(elementLocator);
+		new Waiter().click(elementLocator);
 	}
 }

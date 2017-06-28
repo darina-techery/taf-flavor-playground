@@ -2,7 +2,7 @@ package data.structures;
 
 import com.google.gson.annotations.Expose;
 import data.Platform;
-import utils.StringUtils;
+import utils.StringHelper;
 import utils.annotations.EnvVar;
 import utils.exceptions.FailedConfigurationException;
 
@@ -65,7 +65,7 @@ public class RunParameters {
 			try {
 				if (f.isAnnotationPresent(Expose.class)) {
 					String currentValue = (String) f.get(this);
-					if (StringUtils.isNullOrEmpty(currentValue)) {
+					if (StringHelper.isNullOrEmpty(currentValue)) {
 						String defaultValue = (String) f.get(defaultParameters);
 						setValue(f, defaultValue);
 					}
@@ -75,7 +75,7 @@ public class RunParameters {
 			}
 		}
 		this.platform = Platform.byName(platformName);
-		this.isCIRun = (!StringUtils.isNullOrEmpty(runOnCI)
+		this.isCIRun = (!StringHelper.isNullOrEmpty(runOnCI)
 				&& Arrays.asList("yes", "y", "true").contains(runOnCI));
 		try {
 			this.fullAppPath = getAbsolutePathToApp();

@@ -36,6 +36,10 @@ public class HermetProxyActions {
 		deleteCreatedStubsForService(mainServiceUrl);
 	}
 
+	public void deleteAllStubsForMainService() throws IOException {
+		deleteAllStubsForService(mainServiceUrl);
+	}
+
 	public void addStubForMainService(JsonObject stub) throws IOException {
 		addStub(mainServiceUrl, stub);
 	}

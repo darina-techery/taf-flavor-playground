@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
-import utils.StringUtils;
+import utils.StringHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class Screenshot {
 		File srcFile = DriverProvider.get().getScreenshotAs(OutputType.FILE);
 		new File(folderPath).mkdirs();
 		String fileName = replaceInvalidCharactersInFilename(rawFileName)
-				+ StringUtils.getTimestampSuffix()
+				+ StringHelper.getTimestampSuffix()
 				+ SCREENSHOT_EXTENSION;
 		File destFile = new File(folderPath + fileName);
 		try {
