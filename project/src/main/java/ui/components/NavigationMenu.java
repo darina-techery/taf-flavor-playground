@@ -10,7 +10,8 @@ import ui.BaseUiModule;
 import utils.ui.ByHelper;
 
 public class NavigationMenu extends BaseUiModule {
-	@iOSFindBy(className = "XCUIElementTypeTabBar")
+
+	@iOSFindBy(className = "XCUIElementTypeNavigationBar")
 	public MobileElement menuBar;
 
 	@AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc='Menu Opened']")
@@ -21,6 +22,7 @@ public class NavigationMenu extends BaseUiModule {
 	public MobileElement menuDrawer;
 
 	@AndroidFindBy(id = "toolbar_actionbar")
+	@iOSFindBy(className = "XCUIElementTypeTabBar")
 	public MobileElement titleBar;
 
 	@AndroidFindBy(id = "action_search")

@@ -3,7 +3,6 @@ package actions;
 import data.ui.MenuItem;
 import org.openqa.selenium.By;
 import ui.components.NavigationMenu;
-import utils.exceptions.NotImplementedException;
 import utils.runner.Assert;
 import utils.waiters.Waiter;
 
@@ -18,7 +17,7 @@ public class IPhoneNavigationActions extends NavigationActions {
 
 	@Override
 	public String getPageTitle() {
-		throw new NotImplementedException();
+		return new Waiter().getText(By.className("XCUIElementTypeStaticText"), navigationMenu.titleBar);
 	}
 
 	@Override

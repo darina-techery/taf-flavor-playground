@@ -32,10 +32,10 @@ public class LoginSteps {
 		if (!loginActions.waitUntilLoginScreenGone()) {
 			throw new FailedTestException("Failed to login with provided valid credentials as "+user.getUsername());
 		}
-//		alertActions.declinePermissionRequestAlert();
+		alertActions.acceptPermissionRequestAlert();
 	}
 
-	@Step("Login to application with invalid credentials: '{0}' / '{1}'")
+	@Step("Try to login to application with invalid credentials: '{0}' / '{1}'")
 	public void loginWithInvalidCredentials(UserCredentials user) {
 		submitCredentials(user);
 	}

@@ -3,7 +3,6 @@ package actions;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import ru.yandex.qatools.allure.annotations.Step;
-import ui.screens.DreamTripsDetailsScreen;
 import ui.screens.DreamTripsListScreen;
 import utils.exceptions.FailedTestException;
 import utils.ui.ByHelper;
@@ -12,7 +11,6 @@ import utils.waiters.Waiter;
 import java.time.Duration;
 
 public abstract class DreamTripsActions extends BaseUiActions {
-    DreamTripsDetailsScreen dreamTripsDetailsScreen = new DreamTripsDetailsScreen();
     DreamTripsListScreen dreamTripsScreen = new DreamTripsListScreen();
 
 	@Step("Search trip by name ''{0}''")
