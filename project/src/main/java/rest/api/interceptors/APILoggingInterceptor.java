@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.stream.Collectors;
 
 public class APILoggingInterceptor implements Interceptor {
 	private static final Charset UTF8 = Charset.forName("UTF-8");
@@ -61,6 +62,9 @@ public class APILoggingInterceptor implements Interceptor {
 	private void logResponse(Response response) throws IOException {
 		String label = response.isSuccessful() ? "SUCCESS" : "FAILURE";
 		//Copy existing response body content, because string() method can only be called once
+		Headers headers = response.headers();
+		String headersString = headers.names().stream()
+				.map(header -> "\""+header+"\":\""+headers.get(header)+"\"").collect(Collectors.joining(","));
 		ResponseBody body = response.body();
 		String bodyContent = null;
 		if (body != null) {
@@ -68,8 +72,7 @@ public class APILoggingInterceptor implements Interceptor {
 			source.request(Long.MAX_VALUE); // Buffer the entire body.
 			bodyContent = source.buffer().clone().readString(Charset.forName("UTF-8"));
 		}
-
-		log.debug("\n> {}:\n\t{}\n\tBody: {}", label, response.toString(),
+		log.debug("\n> {}:\n\t{}\n\tHeaders: {{}}\n\tBody: {}", label, response.toString(), headersString,
 				bodyContent == null || bodyContent.isEmpty() ? "-empty-" : bodyContent);
 	}
 }

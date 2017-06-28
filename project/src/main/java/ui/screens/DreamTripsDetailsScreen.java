@@ -9,64 +9,56 @@ import java.util.List;
 
 public class DreamTripsDetailsScreen extends BaseUiModule {
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "picCollectionOfTrip")
     @AndroidFindBy(id = "viewPagerGallery")
     public MobileElement imgPicOfTrip;
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "tripDetails_tripPoints")
     @AndroidFindBy(id = "textViewPoints")
     public MobileElement txtPointsForTrip;
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "tripDetails_tripPrice")
     @AndroidFindBy(id = "textViewPrice")
     public MobileElement txtPriceOfTrip;
 
-//    @iOSFindBy(uiAutomator = "")
-    @AndroidFindBy(id = "textViewPlace")
-    public MobileElement txtPlaceOfTrip;
+    @iOSFindBy(accessibility = "FEATURED TRIP")
+    public MobileElement lblFeaturedTrip;
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "tripDetails_tripLocation")
+    @AndroidFindBy(id = "textViewPlace")
+    public MobileElement txtLocation;
+
+    @iOSFindBy(accessibility = "tripDetails_tripName")
     @AndroidFindBy(id = "textViewName")
     public MobileElement txtNameOfTrip;
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "tripDetails_tripDuration")
     @AndroidFindBy(id = "textViewScheduleDescription")
     public MobileElement txtTripDuration;
 
-    public static final String IOS_COLLECTION = "XCUIElementTypeCollectionView";
-    public static final String IOS_CELL = "XCUIElementTypeCell";
-    public static final String IOS_TEXT = "XCUIElementTypeStaticText";
-
-    @iOSFindBy(xpath = "//"+ IOS_COLLECTION+"/"+IOS_CELL+"[6]/"+IOS_TEXT+"[1]")
-    public MobileElement txtTripName;
-
-    @iOSFindBy(xpath = "//"+ IOS_COLLECTION+"/"+IOS_CELL+"[6]/"+IOS_TEXT+"[2]")
-    public MobileElement txtTripPrice;
-
-    @iOSFindBy(xpath = "//"+ IOS_COLLECTION+"/"+IOS_CELL+"[6]/"+IOS_TEXT+"[3]")
-    public MobileElement txtLocation;
-
-    @iOSFindBy(xpath = "//"+ IOS_COLLECTION+"/"+IOS_CELL+"[3]/"+IOS_TEXT+"[1]")
     @AndroidFindBy(id = "textViewDate")
+    @iOSFindBy(accessibility = "tripDetails_tripDates")
     public MobileElement txtTripDates;
-
-    @iOSFindBy(xpath = "//"+ IOS_COLLECTION+"/"+IOS_CELL+"[3]/"+IOS_TEXT+"[2]")
-    public MobileElement txtDuration;
 
     @iOSFindBy(accessibility = "tripDetails_bookTripButton")
     @AndroidFindBy(id = "textViewBookIt")
     public MobileElement btnBookIt;
 
-    @iOSFindBy(xpath = "//"+IOS_COLLECTION+"/"+IOS_CELL+"[5]/"+IOS_TEXT+"[2]")
+    @iOSFindBy(accessibility = "add Trip to BL")
+    public MobileElement btnAddToBucketList;
+
     @AndroidFindBy(id = "textViewDescription")
     public MobileElement txtShortDescriptionOfTrip;
 
-    @iOSFindBy(xpath = "//"+IOS_COLLECTION+"/"+IOS_CELL+"[5]/"+IOS_TEXT+"[2]")
     @AndroidFindBy(id = "expandable_text")
     public MobileElement txtLongDescriptionOfTrip;
 
     @AndroidFindBy(id = "expandable_text")
+    @iOSFindBy(accessibility = "txtDetailsDescriptionOfTrip")
     public List<MobileElement> listLongDescriptionOfTrip;
+
+
+
 
 //    @iOSFindBy(uiAutomator = "")
 //    @AndroidFindBy(id = "fdsf")
@@ -76,9 +68,12 @@ public class DreamTripsDetailsScreen extends BaseUiModule {
 //    @AndroidFindBy(id = "fdef")
     public MobileElement txtItineraryOfTrip;
 
-//    @iOSFindBy(uiAutomator = "")
+    @iOSFindBy(accessibility = "Post")
     @AndroidFindBy(id = "post")
     public MobileElement btnPostComment;
+
+    @iOSFindBy(xpath = "XCUIElementTypeButton[@accessibilityContainer='Post']/../XCUIElementTypeTextView")
+    public MobileElement fldComment;
 
 //    @iOSFindBy(uiAutomator = "")
     @AndroidFindBy(id = "listViewContent")

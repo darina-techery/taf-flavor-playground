@@ -26,11 +26,9 @@ public abstract class BaseUiModule implements DriverListener, LogProvider {
     }
 
     private void initPageElements(AppiumDriver<MobileElement> driver) {
-	    log.debug("Initializing elements on "+this.getClass().getSimpleName()+": [START]");
         FieldDecorator decorator = new AppiumFieldDecorator(driver);
         PageFactory.initElements(decorator, this);
         initDynamicFields(driver);
-	    log.debug("Initializing elements: [ END ]");
     }
 
 	private void initDynamicFields(AppiumDriver<MobileElement> driver) {

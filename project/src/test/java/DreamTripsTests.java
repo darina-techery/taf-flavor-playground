@@ -7,7 +7,6 @@ import steps.HermetProxySteps;
 import steps.TripsAPISteps;
 
 import java.io.IOException;
-import java.util.Set;
 
 public class DreamTripsTests extends BaseTestAfterLogin {
 
@@ -23,7 +22,7 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 
 	@Test
 	public void openDreamTripsScreen() throws IOException {
-//		hermetSteps.createDefaultStubForTripsList();
+		hermetSteps.createDefaultStubForTripsList();
 		dreamTripsSteps.openDreamTripsScreen();
 		dreamTripsSteps.assertDreamTripsListLoaded();
 	}
@@ -37,24 +36,16 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 		dreamTripsSteps.openDreamTripsScreen();
 		dreamTripsSteps.openPredefinedTripByName(tripName);
 		dreamTripsSteps.assertAllTripDetailsAreDisplayed(expectedTrip);
-
-//		By tripNameLocator = ByHelper.getLocatorByText(tripName);
-//		Assert.assertThat("Trip name is displayed on details", Waiter.isDisplayed(tripNameLocator));
-//
-//		Assert.assertThat("Stub response equals predefined one",
-//				"ololo",
-//				equalTo("ololo"));
 	}
 
 	@Test
-	public void checkTripTextsInDetails(){
+	public void checkTripTextsInDetails() throws IOException {
+		TripWithDetails expectedTrip = hermetSteps
+				.createStubForTripListAndFirstTripDetails("hermet/platinum_recent_trip_romania.json");
+		String tripName = expectedTrip.name();
+
 		dreamTripsSteps.openDreamTripsScreen();
-		dreamTripsSteps.openTripByName("Las Vegas");
-		//Set<String> actualTextContent = dataActions.getExpectedDataFromTripDetails(tripWithDetails)
-		Set<String> actualTextContent = null;
-		dreamTripsSteps.assertAllTripDescriptionTextsPresent(actualTextContent);
-//		Assert.assertThat("Stub response equals predefined one",
-//				"ololo",
-//				equalTo("ololo"));
+		dreamTripsSteps.openPredefinedTripByName(tripName);
+		dreamTripsSteps.assertAllTripDescriptionTextsPresent(expectedTrip);
 	}
 }

@@ -10,6 +10,7 @@ import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
 import data.Configuration;
 import org.apache.commons.lang3.RandomStringUtils;
+import rest.api.hermet.HermetJsonStubBuilder;
 import rest.api.hermet.HermetStubBuilder;
 import rest.api.services.DreamTripsAPI;
 import ru.yandex.qatools.allure.annotations.Step;
@@ -32,7 +33,7 @@ public class HermetProxySteps {
 
 	@Step("Create Hermet stub for login")
 	public Session createLoginStub() throws IOException {
-		HermetStubBuilder stubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder stubBuilder = new HermetJsonStubBuilder();
 		File dataFile = FileUtils.getResourceFile("hermet/login_response.json");
 		stubBuilder.setResponse(BODY, dataFile);
 		stubBuilder.addPredicate()
@@ -50,15 +51,14 @@ public class HermetProxySteps {
 
 	@Step("Create stub for trips list from file")
 	public List<TripWithoutDetails> createStubForTripsList(File contentFile) throws IOException {
-		HermetStubBuilder stubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder stubBuilder = new HermetJsonStubBuilder();
 		stubBuilder.setResponse(BODY, contentFile);
 		stubBuilder.addPredicate()
 				.equals().method("GET").end()
 				.equals().path("/api/trips").build();
 		JsonObject tripsSearchStub = stubBuilder.build();
 		hermetProxyActions.addStubForMainService(tripsSearchStub);
-		Type resultType = new TypeToken<List<TripWithoutDetails>>() {
-		}.getType();
+		Type resultType = new TypeToken<List<TripWithoutDetails>>() {}.getType();
 		return stubBuilder.getExpectedResponse(resultType);
 	}
 
@@ -74,7 +74,7 @@ public class HermetProxySteps {
 
 		File baseTripsData = FileUtils.getResourceFile("hermet/trip_search_response.json");
 		File tripFile = FileUtils.getResourceFile(tripJsonFileName);
-		HermetStubBuilder stubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder stubBuilder = new HermetJsonStubBuilder();
 
 		JsonElement testTrip = JsonUtils.toJsonElement(tripFile);
 		JsonObject tripObject = testTrip.getAsJsonObject().get("item").getAsJsonObject();
@@ -92,14 +92,13 @@ public class HermetProxySteps {
 		JsonObject tripsListStub = stubBuilder.build();
 		hermetProxyActions.addStubForMainService(tripsListStub);
 
-		stubBuilder = new HermetStubBuilder();
+		stubBuilder = new HermetJsonStubBuilder();
 		stubBuilder.addPredicate().equals().method("GET").path("/api/" + uniqueUid);
 		stubBuilder.setResponse(HermetStubBuilder.ResponsePart.BODY, testTrip);
 		JsonObject testTripStub = stubBuilder.build();
 		hermetProxyActions.addStubForMainService(testTripStub);
 
-		Type responseType = new com.google.gson.reflect.TypeToken<EntityHolder<TripWithDetails>>() {
-		}.getType();
+		Type responseType = new TypeToken<EntityHolder<TripWithDetails>>() {}.getType();
 		EntityHolder<TripWithDetails> entityWithTrip = JsonUtils
 				.toObject(testTrip, responseType, JsonUtils.Converter.DREAM_TRIPS);
 		return entityWithTrip.entity();
@@ -107,7 +106,7 @@ public class HermetProxySteps {
 
 	@Step("Create stub for trip details")
 	public TripWithDetails createStubForTripDetails(File contentFile, String tripUid) throws IOException {
-		HermetStubBuilder stubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder stubBuilder = new HermetJsonStubBuilder();
 		stubBuilder.setResponse(BODY, contentFile);
 		stubBuilder.addPredicate()
 				.equals().method("GET").end()
@@ -128,7 +127,7 @@ public class HermetProxySteps {
 
 	@Step("Remove all Hermet stubs for main API URL")
 	public void cleanupAllStubsForMainUrl() throws IOException {
-		hermetProxyActions.deleteAllStubsForService(Configuration.getParameters().apiURL);
+		hermetProxyActions.deleteAllStubsForMainService();
 	}
 
 	@Step("Remove Hermet stubs for main API URL created in this session")

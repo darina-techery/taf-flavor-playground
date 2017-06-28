@@ -1,11 +1,5 @@
 package actions;
 
-import data.ui.MenuItem;
-import org.openqa.selenium.By;
-import utils.exceptions.FailedTestException;
-import utils.ui.SwipeHelper;
-import utils.waiters.Waiter;
-
 public class DroidMenuActions extends MenuActions {
 //	@Override
 //	public void selectMenuItem(MenuItem menuItem) {

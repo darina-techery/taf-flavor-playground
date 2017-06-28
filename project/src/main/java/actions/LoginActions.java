@@ -7,40 +7,39 @@ import utils.waiters.Waiter;
 import java.time.Duration;
 import java.util.Arrays;
 
-import static utils.waiters.Waiter.*;
-
 public abstract class LoginActions extends BaseUiActions {
 
 	private LoginScreen loginPage = new LoginScreen();
+	private Waiter baseWait = new Waiter();
 
 	public void setLogin(String username) {
-		setText(loginPage.fldLogin, username);
+		baseWait.setText(loginPage.fldLogin, username);
 	}
 
 	public void setPassword(String password) {
-		setText(loginPage.fldPassword, password);
+		baseWait.setText(loginPage.fldPassword, password);
 	}
 
 	public void submit(){
-		click(loginPage.btnLogin);
+		baseWait.click(loginPage.btnLogin);
 	}
 
 	public String getCurrentLoginValue(){
-		return getText(loginPage.fldLogin);
+		return baseWait.getText(loginPage.fldLogin);
 	}
 
 	@Override
 	public void waitForScreen() {
-		boolean areFieldsPresent = areAllDisplayedForElements(Arrays.asList(loginPage.fldLogin, loginPage.fldPassword));
+		boolean areFieldsPresent = baseWait.areAllDisplayedForElements(Arrays.asList(loginPage.fldLogin, loginPage.fldPassword));
 		Assert.assertThat("Login and password fields are present on the screen", areFieldsPresent);
 	}
 
-	public void waitUntilLoginScreenGone() {
-		Waiter.waitAbsent(loginPage.fldLogin, Duration.ofMinutes(1));
+	public boolean waitUntilLoginScreenGone() {
+		return new Waiter(Duration.ofMinutes(1)).waitAbsent(loginPage.fldLogin);
 	}
 
 	public boolean isScreenActive() {
-		return isDisplayed(loginPage.fldLogin);
+		return baseWait.isDisplayed(loginPage.fldLogin);
 	}
 
 }

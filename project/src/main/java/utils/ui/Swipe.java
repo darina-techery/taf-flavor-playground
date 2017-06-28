@@ -134,9 +134,10 @@ public class Swipe {
 	}
 
 	private boolean isElementPresent() {
+		Waiter wait = new Waiter(Duration.ofSeconds(2));
 		return (targetElement != null)
-			? Waiter.waitDisplayed(targetElement, Duration.ofSeconds(2))
-			: Waiter.waitDisplayed(targetElementBy, Duration.ofSeconds(2));
+			? wait.waitDisplayed(targetElement)
+			: wait.waitDisplayed(targetElementBy);
 	}
 
 	private void initContainer() {
@@ -144,7 +145,7 @@ public class Swipe {
 			if (this.containerBy == null) {
 				containerBy = Configuration.isAndroid() ? DEFAULT_ANDROID_CONTAINER : DEFAULT_IOS_CONTAINER;
 			}
-			container = Waiter.find(containerBy);
+			container = new Waiter().find(containerBy);
 		}
 	}
 
