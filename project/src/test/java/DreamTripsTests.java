@@ -37,13 +37,6 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 		dreamTripsSteps.openDreamTripsScreen();
 		dreamTripsSteps.openPredefinedTripByName(tripName);
 		dreamTripsSteps.assertAllTripDetailsAreDisplayed(expectedTrip);
-
-//		By tripNameLocator = ByHelper.getLocatorByText(tripName);
-//		Assert.assertThat("Trip name is displayed on details", Waiter.isDisplayed(tripNameLocator));
-//
-//		Assert.assertThat("Stub response equals predefined one",
-//				"ololo",
-//				equalTo("ololo"));
 	}
 
 	@Test

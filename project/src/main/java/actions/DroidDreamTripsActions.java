@@ -6,6 +6,9 @@ import ui.screens.DreamTripsListScreen;
 import utils.ui.ByHelper;
 import utils.waiters.Waiter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DroidDreamTripsActions extends DreamTripsActions {
     @Override
     @Step("Search trip by name ''{0}''")
@@ -32,5 +35,17 @@ public class DroidDreamTripsActions extends DreamTripsActions {
 	public boolean isCardListShown() {
 		return Waiter.isDisplayed(DreamTripsListScreen.CARD_LOCATOR);
 	}
+
+
+	@Override
+	public Map<String, String> listGeneralTripInfo() {
+        Map<String, String> actualTripData = new HashMap<>();
+        actualTripData.put("duration",dreamTripsDetailsScreen.txtTripDuration.getText());
+        actualTripData.put("price",dreamTripsDetailsScreen.txtPriceOfTrip.getText());
+        actualTripData.put("name",dreamTripsDetailsScreen.txtNameOfTrip.getText());
+        actualTripData.put("location",dreamTripsDetailsScreen.txtPlaceOfTrip.getText());
+        actualTripData.put("points",dreamTripsDetailsScreen.txtPointsForTrip.getText());
+        return actualTripData;
+    }
 
 }

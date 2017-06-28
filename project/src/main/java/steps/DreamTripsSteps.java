@@ -68,8 +68,8 @@ public class DreamTripsSteps {
 	@Step("Verify trip details")
 	public void assertAllTripDetailsAreDisplayed(TripWithDetails expectedTripDetails) throws IOException {
 		Map<String, String> expectedTripData = dataActions.getDataForTripDetailsPage(expectedTripDetails);
-		Map<String, String> actualTripData = new HashMap<>();
-//		actualTripData.put(...)
+		Map<String, String> actualTripData;
+		actualTripData = dreamTripsActions.listGeneralTripInfo();
 		//TODO: populate actual trip data from tripDetailsActions;
 		List<String> differences = new ArrayList<>();
 		for (String key : expectedTripData.keySet()) {

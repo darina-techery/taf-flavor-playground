@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import utils.exceptions.FailedTestException;
 import utils.exceptions.NotImplementedException;
+import utils.ui.SwipeHelper;
 import utils.waiters.AnyWait;
 import utils.waiters.Waiter;
 
@@ -30,11 +31,16 @@ public class DroidTabletNavigationActions extends NavigationActions {
 
 	@Override
 	public void openMenu() {
-		throw new NotImplementedException();
+		Waiter.click(navigationMenu.menuButton);
+		boolean menuShown = Waiter.isDisplayed(navigationMenu.menuDrawer);
+		if (!menuShown) {
+			throw new FailedTestException("Failed to open menu by clicking Menu button");
+		}
 	}
 
 	@Override
 	public void selectMenuItem(MenuItem menuItem) {
-		throw new NotImplementedException();
+		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
+		Waiter.click(elementLocator);
 	}
 }

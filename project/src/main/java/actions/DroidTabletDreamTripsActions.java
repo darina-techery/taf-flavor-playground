@@ -1,9 +1,14 @@
 package actions;
 
+import org.openqa.selenium.By;
 import ru.yandex.qatools.allure.annotations.Step;
 import ui.screens.DreamTripsListScreen;
 import utils.exceptions.NotImplementedException;
+import utils.ui.ByHelper;
 import utils.waiters.Waiter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DroidTabletDreamTripsActions extends DreamTripsActions {
 
@@ -23,12 +28,25 @@ public class DroidTabletDreamTripsActions extends DreamTripsActions {
 
 	@Override
 	public void openTripByName(String name) {
-		throw new NotImplementedException();
+        By tripNameLocator = ByHelper.getLocatorByText(name);
+        Waiter.click(tripNameLocator);
+        Waiter.isDisplayed(dreamTripsDetailsScreen.imgPicOfTrip);
 	}
 
 	@Override
 	public boolean isCardListShown() {
 		throw new NotImplementedException();
 	}
+
+    @Override
+    public Map<String, String> listGeneralTripInfo() {
+        Map<String, String> actualTripData = new HashMap<>();
+        actualTripData.put("duration", dreamTripsDetailsScreen.txtTripDuration.getText());
+        actualTripData.put("price", dreamTripsDetailsScreen.txtPriceOfTrip.getText());
+        actualTripData.put("name", dreamTripsDetailsScreen.txtNameOfTrip.getText());
+        actualTripData.put("location", dreamTripsDetailsScreen.txtPlaceOfTrip.getText());
+        actualTripData.put("points", dreamTripsDetailsScreen.txtPointsForTrip.getText());
+        return actualTripData;
+    }
 
 }
