@@ -70,7 +70,8 @@ public class DreamTripsSteps {
 				}
 			});
 		} else {
-			differences = Assert.getDifference("trip descriptions", actualTextsFromUi, expectedTextsFromStubData);
+			differences = Assert.getDifferenceIgnoringWhitespaces("trip descriptions",
+					actualTextsFromUi, expectedTextsFromStubData);
 		}
 		Assert.assertThat("No differences should be found between actual and expected trip descriptions",
 				differences, is(empty()));

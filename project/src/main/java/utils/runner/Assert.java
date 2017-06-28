@@ -5,6 +5,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 import utils.ui.Screenshot;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static org.hamcrest.core.Is.is;
 
@@ -58,6 +59,37 @@ public class Assert {
 		if (!actualCopy.isEmpty()) {
 			actualCopy.forEach(str -> differences.add(
 					"Actual "+dataDescription+" contains extra value missing in expected: '"+str+"'\n"));
+		}
+		return differences;
+	}
+
+	public static List<String> getDifferenceIgnoringWhitespaces(String dataDescription,
+	                                                            Set<String> actualData, Set<String> expectedData) {
+		final List<String> differences = new ArrayList<>();
+		Function<String, String> removeWhitespaces = s -> s.replaceAll("\\s+", "");
+		Map<String, String> expectedNoSpacesToOriginal = new HashMap<>();
+		expectedData.forEach(s -> expectedNoSpacesToOriginal.put(removeWhitespaces.apply(s), s));
+
+		Map<String, String> actualNoWhitespacesToOriginal = new HashMap<>();
+		actualData.forEach(s -> actualNoWhitespacesToOriginal.put(removeWhitespaces.apply(s), s));
+
+		Set<String> expectedValuesWithoutWhitespaces = expectedNoSpacesToOriginal.keySet();
+		expectedValuesWithoutWhitespaces.removeAll(actualNoWhitespacesToOriginal.keySet());
+		if (!expectedValuesWithoutWhitespaces.isEmpty()) {
+			expectedValuesWithoutWhitespaces.forEach(expectedWithoutSpaces -> {
+				String originalExpectedValue = expectedNoSpacesToOriginal.get(expectedWithoutSpaces);
+				differences.add("Actual "+dataDescription+" contains not '"+originalExpectedValue+"'\n");
+			});
+		}
+
+		expectedData.forEach(s -> expectedNoSpacesToOriginal.put(removeWhitespaces.apply(s), s));
+		Set<String> actualValuesWithoutWhitespaces = actualNoWhitespacesToOriginal.keySet();
+		actualValuesWithoutWhitespaces.removeAll(expectedNoSpacesToOriginal.keySet());
+		if (!actualValuesWithoutWhitespaces.isEmpty()) {
+			actualValuesWithoutWhitespaces.forEach(actualWithoutSpaces -> {
+				String originalActualValue = actualNoWhitespacesToOriginal.get(actualWithoutSpaces);
+				differences.add("Actual "+dataDescription+" contains extra value missing in expected: '"+originalActualValue+"'\n");
+			});
 		}
 		return differences;
 	}
