@@ -31,8 +31,8 @@ public class DroidTabletNavigationActions extends NavigationActions {
 
 	@Override
 	public void openMenu() {
-		Waiter.click(navigationMenu.menuButton);
-		boolean menuShown = Waiter.isDisplayed(navigationMenu.menuDrawer);
+		new Waiter().click(navigationMenu.menuButton);
+		boolean menuShown = new Waiter().isDisplayed(navigationMenu.menuDrawer);
 		if (!menuShown) {
 			throw new FailedTestException("Failed to open menu by clicking Menu button");
 		}
@@ -41,6 +41,6 @@ public class DroidTabletNavigationActions extends NavigationActions {
 	@Override
 	public void selectMenuItem(MenuItem menuItem) {
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
-		Waiter.click(elementLocator);
+		new Waiter().click(elementLocator);
 	}
 }
