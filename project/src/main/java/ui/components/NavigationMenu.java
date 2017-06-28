@@ -36,7 +36,12 @@ public class NavigationMenu extends BaseUiModule {
 
 	public final By getMenuItemLocator(MenuItem item) {
 		if (Configuration.isAndroid()) {
-			return ByHelper.getLocatorByText(item.toString());
+			if (Configuration.isAndroidPhone()) {
+				return ByHelper.getLocatorByText(item.toString());
+			}
+			else {
+				return item.getAndroidTablet();
+			}
 		} else {
 			return item.getIosLocator();
 		}
