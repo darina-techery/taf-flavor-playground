@@ -16,8 +16,7 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 
 	@BeforeMethod
 	public void cleanupHermetStubs() throws IOException {
-//		hermetSteps.cleanupCreatedStubsForMainUrl();
-		hermetSteps.cleanupAllStubsForMainUrl();
+		hermetSteps.cleanupCreatedStubsForMainUrl();
 	}
 
 	@Test

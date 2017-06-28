@@ -8,7 +8,6 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.apache.logging.log4j.LogManager;
 
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -29,8 +28,6 @@ final class AppiumServiceProvider {
 			appiumServiceBuilder.withArgument(GeneralServerFlag.TEMP_DIRECTORY, "./target/tmp");
 			appiumServiceBuilder.withArgument(AndroidServerFlag.BOOTSTRAP_PORT_NUMBER, port);
 			appiumServiceBuilder.withIPAddress("127.0.0.1");
-			//appiumServiceBuilder.withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"));
-			appiumServiceBuilder.withAppiumJS(new File("/Users/InviZ/.nvm/versions/node/v6.3.1/lib/node_modules/appium/build/lib/main.js"));
 
 			if (Configuration.getParameters().isCIRun) {
 				appiumServiceBuilder.usingAnyFreePort();

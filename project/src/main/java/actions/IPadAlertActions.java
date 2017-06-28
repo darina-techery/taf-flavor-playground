@@ -8,7 +8,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class IPadAlertActions extends AlertActions {
-
 	private static final By ALERT_BUTTON_LOCATOR = By.className("XCUIElementTypeButton");
 	private static final Duration DISMISS_ALERT_TIMEOUT = Duration.ofSeconds(2);
 	private static final Duration ALERT_SHOWN_TIMEOUT = Duration.ofSeconds(10);
