@@ -1,8 +1,8 @@
 {
-    "platformName" : "AndroidTablet",
-    "device": "emulator-5556",
+    "platformName" : "iPad",
+    "device": "7B9EFF0D-E33D-4B8D-876D-C97BC400629B",
     "apiURL" : "http://techery-dt-integration.techery.io",
-    "droidAppName" : "DreamTrips-hermet.apk",
+    "droidAppName" : "DreamTrips-external-stable-integration-debug.apk",
     "iosAppName" : "DreamTrip.app",
     "locale" : "en-US",
     "runOnCI": "y"

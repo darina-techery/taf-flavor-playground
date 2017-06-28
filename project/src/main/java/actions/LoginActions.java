@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public abstract class LoginActions extends BaseUiActions {
 
-	private LoginScreen loginPage = new LoginScreen();
+	protected LoginScreen loginPage = new LoginScreen();
 	private Waiter baseWait = new Waiter();
 
 	public void setLogin(String username) {
