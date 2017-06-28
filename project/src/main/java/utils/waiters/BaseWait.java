@@ -265,7 +265,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		List<Class> classNamesToIgnoreInStackTrace = Arrays.asList(
 				WaitLogger.class, WaitDescriber.class,
 				DefaultWaitSettings.class, WaitValidator.class,
-				OldWaiter.class, Waiter.class);
+				Waiter.class);
 		StackTraceElement placeWhereWaitWasCalled = null;
 		for (int i=1; i<traceElements.length; i++) {
 			try {
