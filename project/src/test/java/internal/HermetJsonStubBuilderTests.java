@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import org.testng.annotations.Test;
-import rest.api.hermet.HermetStubBuilder;
+import rest.api.hermet.HermetJsonStubBuilder;
 import utils.FileUtils;
 import utils.runner.Assert;
 
@@ -13,10 +13,11 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static rest.api.hermet.HermetStubBuilder.ResponsePart;
 
-public class HermetStubBuilderTests {
+public class HermetJsonStubBuilderTests {
 	private String expectedStubContentWithHeadersAndBody = "{\n" +
 			"  \"response\": {\n" +
 			"    \"headers\": {\n" +
+			"      \"Content-Type\":\"application/json\",\n" +
 			"      \"token\":\"test-token\"\n" +
 			"    },\n" +
 			"    \"body\": {\n" +
@@ -37,6 +38,7 @@ public class HermetStubBuilderTests {
 	private String expectedStubContentWithHeader = "{\n" +
 			"  \"response\": {\n" +
 			"    \"headers\": {\n" +
+			"      \"Content-Type\":\"application/json\",\n" +
 			"      \"token\":\"test-token\"\n" +
 			"    }\n" +
 			"  },\n" +
@@ -52,6 +54,9 @@ public class HermetStubBuilderTests {
 
 	private String expectedStubContentFromConfluencePage = "{\n" +
 			"  \"response\": {\n" +
+			"    \"headers\": {\n" +
+			"      \"Content-Type\":\"application/json\"\n" +
+			"    },\n" +
 			"    \"body\": {\n" +
 			"      \"token\":\"test-token\",\n" +
 			"      \"sso_token\":\"test-sso-token\"\n" +
@@ -73,7 +78,7 @@ public class HermetStubBuilderTests {
 	private JsonObject expectedStubWithHeaderAndBody = new JsonParser()
 			.parse(expectedStubContentWithHeadersAndBody).getAsJsonObject();
 
-	private void addDefaultPredicate(HermetStubBuilder builder) {
+	private void addDefaultPredicate(HermetJsonStubBuilder builder) {
 		builder.addPredicate().equals().path("/api/sessions").method("POST").build();
 	}
 
@@ -89,7 +94,7 @@ public class HermetStubBuilderTests {
 	public void testBuildStub_withResponseAsObject_Success() {
 		FakeTokenResponse fakeTokenResponse = new FakeTokenResponse(
 				"test-token", "test-sso-token");
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, fakeTokenResponse);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -100,7 +105,7 @@ public class HermetStubBuilderTests {
 	public void testBuildStub_withResponseAsObject_Failure() {
 		FakeTokenResponse fakeTokenResponse = new FakeTokenResponse(
 				"invalid", "test-sso-token");
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, fakeTokenResponse);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -109,8 +114,8 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withHeaderResponseAsString_Success() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(ResponsePart.HEADERS, "{\"token\":\"test-token\"}");
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
+		hermetStubBuilder.addResponseHeader("token", "test-token");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
 		compareStubs("Valid stub built from String", actualStub, expectedStubWithHeader);
@@ -118,8 +123,8 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withHeaderResponseAsString_Failure() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-		hermetStubBuilder.setResponse(ResponsePart.HEADERS, "{\"token\":\"foo\"}");
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
+		hermetStubBuilder.addResponseHeader("token", "foo");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
 		compareDifferentStubs("Stubs with headers are different", actualStub, expectedStubWithHeader);
@@ -127,7 +132,7 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withResponseAsString_Success() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, "{\"body\":{\"token\":\"test-token\",\"sso_token\":\"test-sso-token\"}}");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -136,7 +141,7 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withResponseAsString_Failure() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, "{\"body\":{\"sso_token\":\"test-sso-token\"}}");
 		hermetStubBuilder.addPredicate().equals().path("/api/sessions").method("POST").build();
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -145,7 +150,7 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withResponseAsFile_Success() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY,
 				FileUtils.getResourceFile("hermet/internal/sample_login_response.json"));
 		addDefaultPredicate(hermetStubBuilder);
@@ -155,7 +160,7 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_withResponseAsFile_Failure() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY,
 				FileUtils.getResourceFile("hermet/internal/sample_login_response_invalid.json"));
 		addDefaultPredicate(hermetStubBuilder);
@@ -172,7 +177,7 @@ public class HermetStubBuilderTests {
 		body.addProperty("sso_token", "test-sso-token");
 		response.add("body", body);
 
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, response);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -187,7 +192,7 @@ public class HermetStubBuilderTests {
 		body.addProperty("sso_token", "test-sso-token");
 		response.add("body", body);
 
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 		hermetStubBuilder.setResponse(ResponsePart.BODY, response);
 		addDefaultPredicate(hermetStubBuilder);
 		JsonObject actualStub = hermetStubBuilder.build();
@@ -197,11 +202,8 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_WithHeaderAndBody_Success() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
-
-		JsonObject headers = new JsonObject();
-		headers.addProperty("token", "test-token");
-		hermetStubBuilder.setResponse(ResponsePart.HEADERS, headers);
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
+		hermetStubBuilder.addResponseHeader("token", "test-token");
 
 		JsonObject body = new JsonObject();
 		body.addProperty("token", "test-token");
@@ -215,7 +217,7 @@ public class HermetStubBuilderTests {
 
 	@Test
 	public void testBuildStub_WithHeaderAndBody_Failure() {
-		HermetStubBuilder hermetStubBuilder = new HermetStubBuilder();
+		HermetJsonStubBuilder hermetStubBuilder = new HermetJsonStubBuilder();
 
 		JsonObject headers = new JsonObject();
 		headers.addProperty("token", "foo");

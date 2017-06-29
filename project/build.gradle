@@ -46,6 +46,8 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.5'
     //Model for API
     compile 'com.worldventures.dreamtrips:api-monolith:3.2.0-DEV-SNAPSHOT'
+    //parse HTML to text
+    compile 'org.jsoup:jsoup:1.10.3'
 
     testCompile "org.hamcrest:java-hamcrest:2.0.0.0"
     testCompile 'org.testng:testng:6.1.1'

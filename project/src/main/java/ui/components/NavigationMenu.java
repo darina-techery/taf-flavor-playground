@@ -1,5 +1,6 @@
 package ui.components;
 
+import data.Configuration;
 import data.ui.MenuItem;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -9,16 +10,19 @@ import ui.BaseUiModule;
 import utils.ui.ByHelper;
 
 public class NavigationMenu extends BaseUiModule {
-	@iOSFindBy(className = "XCUIElementTypeTabBar")
+
+	@iOSFindBy(className = "XCUIElementTypeNavigationBar")
 	public MobileElement menuBar;
 
 	@AndroidFindBy(xpath = "//android.widget.ImageButton[@content-desc='Menu Opened']")
+	@iOSFindBy(accessibility = "menu_more")
 	public MobileElement menuButton;
 
 	@AndroidFindBy(id = "drawerList")
 	public MobileElement menuDrawer;
 
 	@AndroidFindBy(id = "toolbar_actionbar")
+	@iOSFindBy(className = "XCUIElementTypeTabBar")
 	public MobileElement titleBar;
 
 	@AndroidFindBy(id = "action_search")
@@ -30,7 +34,16 @@ public class NavigationMenu extends BaseUiModule {
 	@AndroidFindBy(id = "action_map")
 	public MobileElement mapButton;
 
-	public final By getAndroidMenuItemLocator(MenuItem item) {
-		return ByHelper.getLocatorByText(item.toString());
+	public final By getMenuItemLocator(MenuItem item) {
+		if (Configuration.isAndroid()) {
+			if (Configuration.isAndroidPhone()) {
+				return ByHelper.getLocatorByText(item.toString());
+			}
+			else {
+				return item.getAndroidTablet();
+			}
+		} else {
+			return item.getIosLocator();
+		}
 	}
 }

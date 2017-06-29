@@ -8,6 +8,7 @@ import io.appium.java_client.android.AndroidElement;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import utils.ADBUtils;
@@ -18,46 +19,47 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class Waiter implements CommonLogMessages, HasDriver {
+	private Duration d;
+	public Waiter(Duration d) {
+		this.d = d;
+	}
+	public Waiter() {}
 
-	public static <R> ElementWait<R> wait(MobileElement e, Class<R> resultType) {
+	public <R> ElementWait<R> wait(MobileElement e, Class<R> resultType) {
 		ElementWait<R> wait = new ElementWait<R>();
+		wait.duration(d);
 		wait.with(e);
 		return wait;
 	}
 
-	public static <R> ByWait<R> wait(By locator, Class<R> resultType) {
+	public <R> ByWait<R> wait(By locator, Class<R> resultType) {
 		ByWait<R> wait = new ByWait<R>();
+		wait.duration(d);
 		wait.with(locator);
 		return wait;
 	}
 
-	public static boolean isDisplayed(MobileElement e) {
-		return waitDisplayed(e, null);
+	public boolean isDisplayed(MobileElement e) {
+		return waitDisplayed(e);
 	}
 
-	public static boolean waitDisplayed(MobileElement e, Duration duration) {
+	public boolean waitDisplayed(MobileElement e) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
-		wait.duration(duration);
 		wait.calculate(RemoteWebElement::isDisplayed);
 		describeIsDisplayed(wait);
 		return getBooleanResult(wait, false);
 	}
 
-	public static boolean isDisplayed(By by) {
-		return waitDisplayed(by, null, null);
+	public boolean isDisplayed(By by) {
+		return waitDisplayed(by, null);
 	}
 
-	public static boolean isDisplayed(By by, WebElement parentElement) {
-		return waitDisplayed(by, parentElement, null);
+	public boolean waitDisplayed(By by) {
+		return waitDisplayed(by, null);
 	}
 
-	public static boolean waitDisplayed(By by, Duration duration) {
-		return waitDisplayed(by, null, duration);
-	}
-
-	public static boolean waitDisplayed(By by, WebElement parentElement, Duration duration) {
+	public boolean waitDisplayed(By by, WebElement parentElement) {
 		ByWait<Boolean> wait = wait(by, Boolean.class);
-		wait.duration(duration);
 		wait.parent(parentElement);
 		describeIsDisplayed(wait);
 		wait.findAndCalculate(RemoteWebElement::isDisplayed);
@@ -65,8 +67,9 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, false);
 	}
 
-	public static boolean areAllDisplayedForElements(List<MobileElement> list) {
+	public boolean areAllDisplayedForElements(List<MobileElement> list) {
 		ElementWait<Boolean> wait = new ElementWait<>();
+		wait.duration(d);
 		wait.calculate(()-> {
 			for (MobileElement el : list) {
 				if (!el.isDisplayed()) {
@@ -80,8 +83,9 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, false);
 	}
 
-	public static boolean areAllDisplayedForLocators(List<By> list) {
+	public boolean areAllDisplayedForLocators(List<By> list) {
 		ByWait<Boolean> wait = new ByWait<>();
+		wait.duration(d);
 		wait.when(() -> true);
 		wait.calculate(()-> {
 			for (By locator : list) {
@@ -97,8 +101,9 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, false);
 	}
 
-	public static boolean anyContainsTextForElements(List<MobileElement> list, String text) {
+	public boolean anyContainsTextForElements(List<MobileElement> list, String text) {
 		ElementWait<Boolean> wait = new ElementWait<>();
+		wait.duration(d);
 		wait.calculate(() -> {
 			for (MobileElement el: list) {
 				if (el.getText().contains(text)) {
@@ -112,8 +117,9 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, false);
 	}
 
-	public static boolean anyContainsTextForLocators(List<By> list, String text) {
+	public boolean anyContainsTextForLocators(List<By> list, String text) {
 		ByWait<Boolean> wait = new ByWait<>();
+		wait.duration(d);
 		wait.calculate(() -> {
 			for (By locator: list) {
 				MobileElement el = wait.singleElementSearch.apply(locator);
@@ -128,34 +134,34 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, false);
 	}
 
-	public static void click(MobileElement e) {
+	public void click(MobileElement e) {
 		ElementWait<Void> wait = wait(e, Void.class);
 		describeClick(wait);
 		wait.execute(RemoteWebElement::click).go();
 	}
 
-	public static void click(By by) {
+	public void click(By by) {
 		click(by, null);
 	}
 
-	public static void click(By by, WebElement parentElement) {
+	public void click(By by, WebElement parentElement) {
 		ByWait<Void> wait = wait(by, Void.class).parent(parentElement);
 		wait.findAndExecute(RemoteWebElement::click);
 		wait.describe("click");
 		wait.go();
 	}
 
-	public static String getText(MobileElement e) {
+	public String getText(MobileElement e) {
 		ElementWait<String> wait = wait(e, String.class);
 		describeGetText(wait);
-		return wait.execute(RemoteWebElement::getText).go();
+		return wait.calculate(RemoteWebElement::getText).go();
 	}
 
-	public static String getText(By by) {
+	public String getText(By by) {
 		return getText(by, null);
 	}
 
-	public static String getText(By by, WebElement parentElement) {
+	public String getText(By by, WebElement parentElement) {
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		describeGetText(wait);
@@ -163,7 +169,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return wait.go();
 	}
 
-	public static void setText(MobileElement e, String text) {
+	public void setText(MobileElement e, String text) {
 		ElementWait<Void> wait = wait(e, Void.class);
 		describeSetText(wait, text);
 		wait.when(el -> el.isDisplayed() && el.isEnabled());
@@ -171,11 +177,11 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.go();
 	}
 
-	public static void setText(By by, String text) {
+	public void setText(By by, String text) {
 		setText(by, text, null);
 	}
 
-	public static void setText(By by, String text, WebElement parentElement) {
+	public void setText(By by, String text, WebElement parentElement) {
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		describeSetText(wait, text);
@@ -183,7 +189,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.go();
 	}
 
-	public static void sendKeys(MobileElement e, CharSequence text) {
+	public void sendKeys(MobileElement e, CharSequence text) {
 		ElementWait<Void> wait = wait(e, Void.class);
 		describeSetText(wait, text);
 		wait.when(el -> el.isDisplayed() && el.isEnabled());
@@ -191,11 +197,11 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.go();
 	}
 
-	public static void sendKeys(By by, CharSequence text) {
+	public void sendKeys(By by, CharSequence text) {
 		sendKeys(by, text, null);
 	}
 
-	public static void sendKeys(By by, CharSequence text, WebElement parentElement) {
+	public void sendKeys(By by, CharSequence text, WebElement parentElement) {
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		describeSetText(wait, text);
@@ -203,18 +209,18 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.go();
 	}
 
-	public static String getAttribute(MobileElement e, String attributeName) {
+	public String getAttribute(MobileElement e, String attributeName) {
 		ElementWait<String> wait = wait(e, String.class);
 		describeGetAttribute(wait, attributeName);
 		wait.calculate(el->el.getAttribute(attributeName));
 		return wait.go();
 	}
 
-	public static String getAttribute(By by, String attributeName) {
+	public String getAttribute(By by, String attributeName) {
 		return getAttribute(by, attributeName, null);
 	}
 
-	public static String getAttribute(By by, String attributeName, WebElement parentElement) {
+	public String getAttribute(By by, String attributeName, WebElement parentElement) {
 		ByWait<String> wait = wait(by, String.class);
 		wait.parent(parentElement);
 		describeGetAttribute(wait, attributeName);
@@ -222,19 +228,19 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return wait.go();
 	}
 
-	public static boolean isAbsent(MobileElement e) {
-		return waitAbsent(e, Duration.ofSeconds(5));
+	public boolean isAbsent(MobileElement e) {
+		return waitAbsent(e);
 	}
 
-	public static boolean waitAbsent(MobileElement e, Duration timeout) {
+	public boolean waitAbsent(MobileElement e) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
-		wait.duration(timeout);
+		wait.duration(d);
 		describeIsAbsent(wait);
 		wait.calculate(el -> {
 			boolean result;
 			try {
 				result = !el.isDisplayed();
-			} catch (NoSuchElementException ex) {
+			} catch (NoSuchElementException | StaleElementReferenceException ex) {
 				result = true;
 			}
 			return result;
@@ -243,18 +249,22 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, true);
 	}
 
-	public static boolean isAbsent(By by) {
-		return waitAbsent(by, null, Duration.ofSeconds(5));
+	public boolean isAbsent(By by) {
+		return waitAbsent(by, null);
 	}
 
-	public static boolean isAbsent(By by, WebElement parentElement) {
-		return waitAbsent(by, parentElement, Duration.ofSeconds(5));
+	public boolean isAbsent(By by, WebElement parentElement) {
+		return waitAbsent(by, parentElement);
 	}
 
-	public static boolean waitAbsent(By by, WebElement parentElement, Duration duration) {
+	public boolean waitAbsent(By by) {
+		return waitAbsent(by, null);
+	}
+
+	public boolean waitAbsent(By by, WebElement parentElement) {
 		ByWait<Boolean> wait = new ByWait<>();
 		wait.parent(parentElement).with(by);
-		wait.duration(duration);
+		wait.duration(d);
 		wait.when(locator->true);
 		wait.calculate(locator -> {
 			List<MobileElement> elements = wait.multiElementSearch.apply(locator);
@@ -265,7 +275,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		return getBooleanResult(wait, true);
 	}
 
-	public static void clear(MobileElement e) {
+	public void clear(MobileElement e) {
 		ElementWait<Void> wait = wait(e, Void.class);
 		describeClear(wait);
 		wait.execute(RemoteWebElement::clear).go();
@@ -276,134 +286,111 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		}
 	}
 
-	public static boolean exists(MobileElement e, WaitConfig config) {
+	public boolean exists(MobileElement e, WaitConfig config) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
 		wait.calculate(el -> el.getSize() != null);
 		describeExists(wait);
 		return getBooleanResult(wait, false);
 	}
 
-	public static MobileElement find(By by) {
-		return find(by, null, null);
+	public MobileElement find(By by) {
+		return find(by, null);
 	}
 
-	public static MobileElement find(By by, WebElement parentElement) {
-		return find(by, parentElement, null);
-	}
-
-	public static MobileElement find(By by, Duration duration) {
-		return find(by, null, duration);
-	}
-
-	public static MobileElement find(By by, WebElement parentElement, Duration duration) {
+	public MobileElement find(By by, WebElement parentElement) {
 		ByWait<MobileElement> wait = wait(by, MobileElement.class)
 				.parent(parentElement);
-		wait.duration(duration);
+		wait.duration(d);
 		wait.calculate(wait.singleElementSearch).describe("find");
 		return wait.go();
 	}
 
-	public static List<MobileElement> findAll(By by) {
+	public List<MobileElement> findAll(By by) {
 		return findAll(by, null);
 	}
 
-	public static List<MobileElement> findAll(By by, WebElement parentElement) {
+	public List<MobileElement> findAll(By by, WebElement parentElement) {
 		ByWait<List<MobileElement>> wait = new ByWait<>();
+		wait.duration(d);
 		wait.parent(parentElement).with(by);
 		wait.calculate(wait.multiElementSearch).describe("find all");
 		return wait.go();
 	}
 	
-	public static void tap(By by) {
-		tap(by, null, null);
+	public void tap(By by) {
+		tap(by, null);
 	}
 
-	public static void tap(By by, WebElement parentElement) {
-		tap(by, parentElement, null);
-	}
-
-	public static void tap(By by, Duration duration) {
-		tap(by, null, duration);
-	}
-
-	public static void tap(By by, WebElement parentElement, Duration duration) {
+	public void tap(By by, WebElement parentElement) {
 		ByWait<Void> wait = wait(by, Void.class).parent(parentElement);
-		wait.duration(duration);
+		wait.duration(d);
 		wait.findAndExecute(e -> e.tap(1, 5));
 		wait.describe("tap");
 		wait.go();
 	}
 
-	public static boolean exists(By by) {
-		return exists(by, null, null);
+	public boolean exists(By by) {
+		return exists(by, null);
 	}
 
-	public static boolean exists(By by, WebElement parentElement) {
-		return find(by, parentElement, null) != null;
+	public boolean exists(By by, WebElement parentElement) {
+		return find(by, parentElement) != null;
 	}
 
-	public static boolean exists(By by, Duration duration) {
-		return exists(by, null, duration);
-	}
-
-	public static boolean exists(By by, WebElement parentElement, Duration duration) {
-		return find(by, parentElement, duration) != null;
-	}
-
-	public static int getCount(By by) {
+	public int getCount(By by) {
 		return getCount(by, null);
 	}
 
-	public static int getCount(By by, WebElement parentElement) {
+	public int getCount(By by, WebElement parentElement) {
 		return findAll(by, parentElement).size();
 	}
 
-	private static void describeIsDisplayed(BaseWait wait) {
+	private void describeIsDisplayed(BaseWait wait) {
 		wait.describe("check if element is displayed");
 	}
 
-	private static void describeAreDisplayed(BaseWait wait) {
+	private void describeAreDisplayed(BaseWait wait) {
 		wait.describe("check if all elements are displayed");
 	}
 
-	private static void describeClick(BaseWait wait) {
+	private void describeClick(BaseWait wait) {
 		wait.describe("click");
 	}
 
-	private static void describeGetText(BaseWait wait) {
+	private void describeGetText(BaseWait wait) {
 		wait.describe("get text");
 	}
 
-	private static void describeGetAttribute(BaseWait wait, String attributeName) {
+	private void describeGetAttribute(BaseWait wait, String attributeName) {
 		wait.describe("get attribute ["+attributeName+"]");
 	}
 
-	private static void describeSetText(BaseWait wait, CharSequence text) {
+	private void describeSetText(BaseWait wait, CharSequence text) {
 		wait.describe("set text [" + text+ "]");
 	}
 
-	private static void describeClear(BaseWait wait) {
+	private void describeClear(BaseWait wait) {
 		wait.describe("clear contents");
 	}
 
-	private static void describeIsAbsent(BaseWait wait) {
+	private void describeIsAbsent(BaseWait wait) {
 		wait.describe("is absent");
 	}
 
-	private static void describeExists(BaseWait wait) {
+	private void describeExists(BaseWait wait) {
 		wait.describe("exists");
 	}
 
-	private static boolean getBooleanResult(BaseWait wait, boolean defaultResultWhenNull) {
+	private boolean getBooleanResult(BaseWait wait, boolean defaultResultWhenNull) {
 		Boolean result = (Boolean) wait.go();
 		return result == null ? defaultResultWhenNull : result;
 	}
 
-	private static void untilTrue(BaseWait<?, Boolean> wait) {
+	private void untilTrue(BaseWait<?, Boolean> wait) {
 		wait.until(result -> result);
 	}
 
-	private static Consumer<MobileElement> buildSetTextOperation(String text) {
+	private Consumer<MobileElement> buildSetTextOperation(String text) {
 		return el -> {
 			if (Configuration.isAndroid()) {
 				((AndroidElement)el).replaceValue(text);

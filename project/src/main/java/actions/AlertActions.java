@@ -1,5 +1,10 @@
 package actions;
 
+import ui.components.Alert;
+
 public abstract class AlertActions extends BaseUiActions {
-	public abstract void declinePermissionRequestAlert();
+	protected Alert alert = new Alert();
+	public void acceptPermissionRequestAlert() {
+		/*---Not required on Android---*/
+	}
 }
