@@ -7,4 +7,7 @@ public abstract class AlertActions extends BaseUiActions {
 	public void acceptPermissionRequestAlert() {
 		/*---Not required on Android---*/
 	}
+	public void confirmLogout() {
+		//TODO: confirm logout here
+	}
 }

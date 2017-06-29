@@ -7,6 +7,10 @@ public abstract class NavigationActions extends BaseUiActions {
 
 	protected NavigationMenu navigationMenu = new NavigationMenu();
 
+	public void logout() {
+		selectMenuItem(MenuItem.LOGOUT);
+	}
+
 	public abstract void assertLandingPageLoaded();
 
 	public abstract String getPageTitle();
