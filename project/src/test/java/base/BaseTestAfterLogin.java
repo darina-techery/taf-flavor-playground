@@ -17,12 +17,7 @@ public abstract class BaseTestAfterLogin extends BaseTestWithDriver {
 	public void loginToApplication(Method method) {
 		LoginAs loginData = method.getAnnotation(LoginAs.class);
 		if (loginData != null) {
-			UserCredentials userCredentials;
-			if (!loginData.username().isEmpty() && !loginData.password().isEmpty()) {
-				userCredentials = new UserCredentials(loginData.username(), loginData.password());
-			} else {
-				userCredentials = new UserCredentialsProvider().getUserByRole(loginData.role());
-			}
+			UserCredentials userCredentials = new UserCredentialsProvider().getUserByRole(loginData.role());
 			loginSteps.loginEvenIfLoggedId(userCredentials);
 			UserSessionManager.setActiveUser(userCredentials);
 		} else {

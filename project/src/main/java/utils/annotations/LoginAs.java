@@ -10,7 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface LoginAs {
-	String username() default "";
-	String password() default "";
-	UserRole role() default UserRole.DEFAULT;
+	UserRole role();
 }
