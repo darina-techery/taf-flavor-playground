@@ -56,7 +56,7 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213521")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-425")
 	@LoginAs(role = UserRole.PLATINUM_USER)
-	public void bookPlatinumTripAsPlatinumUser() {
+	public void checkPlatinumUserCanBookPlatinumTrip() {
 		dreamTripsSteps.openDreamTripsScreen();
 		dreamTripsSteps.openPredefinedTripByName(expectedTripName);
 		dreamTripsSteps.assertBookTripButtonIsActive();
