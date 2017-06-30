@@ -62,6 +62,16 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 		dreamTripsSteps.assertBookTripButtonIsActive();
 	}
 
+	@Test
+	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213522")
+	@Issue("https://techery.atlassian.net/browse/DTAUT-426")
+	@LoginAs(role = UserRole.DTG_VETERAN)
+	public void checkDtgUserCannotBookPlatinumTrip(){
+		dreamTripsSteps.openDreamTripsScreen();
+		dreamTripsSteps.openPredefinedTripByName(expectedTripName);
+		dreamTripsSteps.assertBookTripButtonIsDisabled();
+	}
+
 	@AfterMethod
 	public void cleanup() throws IOException {
 		hermetSteps.cleanupCreatedStubsForMainUrl();

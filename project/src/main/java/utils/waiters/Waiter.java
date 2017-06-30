@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import utils.ADBUtils;
 import utils.log.CommonLogMessages;
+import utils.ui.ElementHelper;
 
 import java.time.Duration;
 import java.util.List;
@@ -284,6 +285,38 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		} catch (Exception ex) {
 			LogManager.getLogger().warn("Failed to hide keyboard: ", ex);
 		}
+	}
+
+	public void check(MobileElement checkbox) {
+		ElementWait<Void> wait = wait(checkbox, Void.class);
+		wait.describe("check a checkbox");
+		wait.execute(RemoteWebElement::click);
+		wait.until(() -> ElementHelper.isCheckboxChecked(checkbox));
+		wait.go();
+	}
+
+	public void check(By checkboxLocator) {
+		ByWait<MobileElement> wait = wait(checkboxLocator, MobileElement.class);
+		wait.describe("check a checkbox");
+		wait.findAndCalculate(e -> { e.click(); return e;});
+		wait.until(ElementHelper::isCheckboxChecked);
+		wait.go();
+	}
+
+	public void uncheck(MobileElement checkbox) {
+		ElementWait<Void> wait = wait(checkbox, Void.class);
+		wait.describe("check a checkbox");
+		wait.execute(RemoteWebElement::click);
+		wait.until(() -> !ElementHelper.isCheckboxChecked(checkbox));
+		wait.go();
+	}
+
+	public void uncheck(By checkboxLocator) {
+		ByWait<MobileElement> wait = wait(checkboxLocator, MobileElement.class);
+		wait.describe("check a checkbox");
+		wait.findAndCalculate(e -> { e.click(); return e;});
+		wait.until(e -> !ElementHelper.isCheckboxChecked(e));
+		wait.go();
 	}
 
 	public boolean exists(MobileElement e, WaitConfig config) {

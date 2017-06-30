@@ -115,6 +115,20 @@ public class DreamTripsSteps {
 		Assert.assertThat("'Book trip' button should be enabled and have proper text", differences, is(empty()));
 	}
 
+	@Step("Assert that 'Book trip' button is disabled")
+	public void assertBookTripButtonIsDisabled() {
+		List<String> differences = new ArrayList<>();
+		boolean isButtonEnabled = tripDetailsActions.isBookItButtonActive();
+		String buttonText = tripDetailsActions.getBookItButtonText();
+		if (isButtonEnabled) {
+			differences.add("'Book trip' button should be not enabled for this user");
+		}
+		if (!buttonText.equalsIgnoreCase("Book It!")) {
+			differences.add("Expected 'Book it!' text on 'Book trip' button, but '"+buttonText+"' found.");
+		}
+		Assert.assertThat("'Book trip' button should be disabled and have proper text", differences, is(empty()));
+	}
+
 	private void addDateDifferenceToDiffList(TripDates expectedTripDates, List<String> diff) {
 		String actualDateRange = tripDetailsActions.getDates();
 		String dateDifference = getTripDateDifference(expectedTripDates.startOn(), actualDateRange, "Start date");
