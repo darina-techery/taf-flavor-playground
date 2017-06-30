@@ -305,7 +305,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 
 	public void uncheck(MobileElement checkbox) {
 		ElementWait<Void> wait = wait(checkbox, Void.class);
-		wait.describe("check a checkbox");
+		wait.describe("uncheck a checkbox");
 		wait.execute(RemoteWebElement::click);
 		wait.until(() -> !ElementHelper.isCheckboxChecked(checkbox));
 		wait.go();
@@ -313,7 +313,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 
 	public void uncheck(By checkboxLocator) {
 		ByWait<MobileElement> wait = wait(checkboxLocator, MobileElement.class);
-		wait.describe("check a checkbox");
+		wait.describe("uncheck a checkbox");
 		wait.findAndCalculate(e -> { e.click(); return e;});
 		wait.until(e -> !ElementHelper.isCheckboxChecked(e));
 		wait.go();
