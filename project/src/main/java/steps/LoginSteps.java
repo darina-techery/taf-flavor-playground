@@ -46,7 +46,7 @@ public class LoginSteps {
 		}
 	}
 
-	@Step("Check is login screen is active")
+	@Step("Get state: if login screen is active")
 	public boolean isScreenActive() {
 		return loginActions.isScreenActive();
 	}
