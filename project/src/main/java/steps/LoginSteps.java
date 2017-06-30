@@ -9,7 +9,6 @@ import utils.exceptions.FailedTestException;
 
 public class LoginSteps {
 	private final LoginActions loginActions;
-
 	private final AlertActions alertActions;
 
 	@UseActions
@@ -45,5 +44,10 @@ public class LoginSteps {
 		if (loginActions.isScreenActive()) {
 			loginWithValidCredentials(user);
 		}
+	}
+
+	@Step("Check is login screen is active")
+	public boolean isScreenActive() {
+		return loginActions.isScreenActive();
 	}
 }

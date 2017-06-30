@@ -4,6 +4,8 @@ import data.Configuration;
 import data.ui.MenuItem;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.HowToUseLocators;
+import io.appium.java_client.pagefactory.LocatorGroupStrategy;
 import io.appium.java_client.pagefactory.iOSFindBy;
 import org.openqa.selenium.By;
 import ui.BaseUiModule;
@@ -33,6 +35,12 @@ public class NavigationMenu extends BaseUiModule {
 
 	@AndroidFindBy(id = "action_map")
 	public MobileElement mapButton;
+
+	@AndroidFindBy(xpath = "//android.view.ViewGroup/android.widget.TextView[@text='Logout']")
+    @HowToUseLocators(iOSAutomation = LocatorGroupStrategy.CHAIN)
+	@iOSFindBy(accessibility = "alertView")
+	@iOSFindBy(accessibility = "Logout")
+	public MobileElement btnLogout;
 
 	public final By getMenuItemLocator(MenuItem item) {
 		if (Configuration.isAndroid()) {
