@@ -53,6 +53,11 @@ public class LoginSteps {
 			loginWithValidCredentials(user);
 		}
 	}
+	
+	@Step("Get state: if login screen is active")
+	public boolean isScreenActive() {
+		return loginActions.isScreenActive();
+	}
 
 	@Step("Login to application as '{0}', even if already logged in")
 	public void loginEvenIfLoggedId(UserCredentials user) {

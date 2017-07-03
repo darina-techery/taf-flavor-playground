@@ -1,5 +1,5 @@
 {
-    "platformName" : "AndroidPhone",
+    "platformName" : "AndroidTablet",
     "device": "emulator-5554",
     "apiURL" : "http://techery-dt-integration.techery.io",
     "droidAppName" : "DreamTrips-external-stable-integration-debug.apk",

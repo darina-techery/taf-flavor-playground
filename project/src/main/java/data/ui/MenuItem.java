@@ -19,8 +19,8 @@ public enum MenuItem {
 	SEND_FEEDBACK(  AppStrings.get().sendFeedback,  MobileBy.AccessibilityId("menu_feedback"), By.xpath("//android.widget.ImageView[@content-desc='send_feedback']")),
 	SETTINGS(       AppStrings.get().settings,      MobileBy.AccessibilityId("menu_settings"), By.xpath("//android.widget.ImageView[@content-desc='settings']")),
 	HELP(           AppStrings.get().help,          MobileBy.AccessibilityId("menu_faq"), By.xpath("//android.widget.ImageView[@content-desc='help']")),
-	LEGAL_TERMS(    AppStrings.get().legalTerms,    MobileBy.AccessibilityId("legal_terms"), By.xpath("//android.widget.ImageView[@content-desc='triplist']")),
-	LOGOUT(         AppStrings.get().logout,        MobileBy.AccessibilityId("menu_logout"), By.xpath("//android.widget.ImageView[@content-desc='triplist']"));
+	LEGAL_TERMS(    AppStrings.get().legalTerms,    MobileBy.AccessibilityId("legal_terms"), By.xpath("//android.widget.ImageView[@content-desc='legal_terms']")),
+	LOGOUT(         AppStrings.get().logout,        MobileBy.AccessibilityId("menu_logout"), By.xpath("//android.widget.ImageView[@content-desc='logout']"));
 
 	private final String text;
 	private final By iosLocator;

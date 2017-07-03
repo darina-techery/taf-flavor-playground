@@ -50,10 +50,8 @@ public class DroidNavigationActions extends NavigationActions {
 	public void selectMenuItem(MenuItem menuItem) {
 		openMenu();
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
-		if (Configuration.isPhone()) {
-			SwipeHelper.scrollUp();
-			SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
-		}
+		SwipeHelper.scrollUpInContainer(navigationMenu.menuDrawer);
+		SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
 		new Waiter().click(elementLocator);
 	}
 }
