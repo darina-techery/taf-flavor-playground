@@ -8,7 +8,7 @@ public class TermsAndConditionsScreen extends BaseUiModule {
 	@AndroidFindBy(id = "accept_checkbox")
 	public MobileElement chkAccept;
 
-	@AndroidFindBy(id = "accept")
+	@AndroidFindBy(id = "acceptTermsAndConditions")
 	public MobileElement btnAccept;
 
 	@AndroidFindBy(id = "reject")

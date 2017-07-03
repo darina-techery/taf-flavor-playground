@@ -39,7 +39,7 @@ public class LoginSteps {
 			throw new FailedTestException("Failed to login with provided valid credentials as "+user.getUsername());
 		}
 		alertActions.acceptPermissionRequestAlert();
-		termsAndConditionsActions.acceptIfRequired();
+		termsAndConditionsActions.acceptTermsAndConditionsIfRequested();
 	}
 
 	@Step("Try to login to application with invalid credentials: '{0}'")
