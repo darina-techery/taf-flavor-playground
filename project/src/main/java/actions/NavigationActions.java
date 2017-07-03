@@ -1,7 +1,6 @@
 package actions;
 
 import data.ui.MenuItem;
-import org.openqa.selenium.By;
 import ui.components.NavigationMenu;
 import utils.waiters.Waiter;
 

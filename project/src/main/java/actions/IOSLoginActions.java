@@ -6,9 +6,9 @@ import utils.waiters.Waiter;
 
 import java.time.Duration;
 
-public class IPhoneLoginActions extends LoginActions {
+public class IOSLoginActions extends LoginActions {
 
-	private IPhoneAlertActions iPhoneAlertActions = new IPhoneAlertActions();
+	private IOSAlertActions iosAlertActions = new IOSAlertActions();
 
 	public boolean waitUntilLoginScreenGone() {
 		AnyWait<Void, Boolean> wait = new AnyWait<>();
@@ -17,7 +17,7 @@ public class IPhoneLoginActions extends LoginActions {
 		wait.calculate(()-> {
 			boolean result = new Waiter(Duration.ofSeconds(1)).isAbsent(loginPage.fldLogin);
 			if (!result) {
-				result = iPhoneAlertActions.isPermissionRequestAlertDisplayed();
+				result = iosAlertActions.isPermissionRequestAlertDisplayed();
 			}
 			return result;
 		});
@@ -26,7 +26,7 @@ public class IPhoneLoginActions extends LoginActions {
 			wait.go();
 			return wait.isSuccess();
 		} catch (UnhandledAlertException e) {
-			if (iPhoneAlertActions.isPermissionRequestAlertDisplayed()) {
+			if (iosAlertActions.isPermissionRequestAlertDisplayed()) {
 				return true;
 			} else {
 				throw e;

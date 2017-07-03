@@ -1,7 +1,9 @@
 package actions;
 
+import data.Configuration;
 import data.ui.MenuItem;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.By;
 import utils.exceptions.FailedTestException;
 import utils.ui.SwipeHelper;
@@ -33,10 +35,14 @@ public class DroidNavigationActions extends NavigationActions {
 
 	@Override
 	public void openMenu() {
-		new Waiter().click(navigationMenu.menuButton);
-		boolean menuShown = new Waiter().isDisplayed(navigationMenu.menuDrawer);
-		if (!menuShown) {
-			throw new FailedTestException("Failed to open menu by clicking Menu button");
+		if (Configuration.isPhone()) {
+			new Waiter().click(navigationMenu.menuButton);
+			boolean menuShown = new Waiter().isDisplayed(navigationMenu.menuDrawer);
+			if (!menuShown) {
+				throw new FailedTestException("Failed to open menu by clicking Menu button");
+			}
+		} else {
+			LogManager.getLogger().info("Menu on tablet is present on screen by default.");
 		}
 	}
 
@@ -44,7 +50,7 @@ public class DroidNavigationActions extends NavigationActions {
 	public void selectMenuItem(MenuItem menuItem) {
 		openMenu();
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
-		SwipeHelper.scrollUp();
+		SwipeHelper.scrollUpInContainer(navigationMenu.menuDrawer);
 		SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
 		new Waiter().click(elementLocator);
 	}

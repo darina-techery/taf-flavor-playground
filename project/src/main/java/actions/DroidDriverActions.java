@@ -3,8 +3,6 @@ package actions;
 import data.Configuration;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-import org.apache.commons.lang3.NotImplementedException;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 
 import javax.inject.Inject;
@@ -13,11 +11,6 @@ public class DroidDriverActions extends DriverActions {
 
 	@Inject
 	Configuration configuration;
-
-	@Override
-	public void declineAlert(By by) {
-		throw new NotImplementedException("Method not implemented");
-	}
 
 	@Override
 	public void resetApplication() {

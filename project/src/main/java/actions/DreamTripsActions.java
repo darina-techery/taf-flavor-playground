@@ -10,7 +10,7 @@ import utils.waiters.Waiter;
 
 import java.time.Duration;
 
-public abstract class DreamTripsActions extends BaseUiActions {
+public class DreamTripsActions extends BaseUiActions {
     DreamTripsListScreen dreamTripsScreen = new DreamTripsListScreen();
 
 	@Step("Search trip by name ''{0}''")

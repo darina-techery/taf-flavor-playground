@@ -27,8 +27,23 @@ public class SwipeHelper {
 		swipe.swipe();
 	}
 
+	public static void scrollDownInContainer(MobileElement container) {
+		Swipe swipe = new Swipe();
+		swipe.container(container);
+		swipe.withOffsetFromBorderRatio(0.05);
+		swipe.swipe();
+	}
+
 	public static void scrollUp() {
 		Swipe swipe = new Swipe();
+		swipe.withOffsetFromBorderRatio(0.05);
+		swipe.direction(SwipeElementDirection.DOWN);
+		swipe.swipe();
+	}
+
+	public static void scrollUpInContainer(MobileElement container) {
+		Swipe swipe = new Swipe();
+		swipe.container(container);
 		swipe.withOffsetFromBorderRatio(0.05);
 		swipe.direction(SwipeElementDirection.DOWN);
 		swipe.swipe();

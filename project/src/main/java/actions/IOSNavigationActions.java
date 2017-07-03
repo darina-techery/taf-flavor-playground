@@ -1,14 +1,22 @@
 package actions;
 
+import data.Configuration;
 import data.ui.MenuItem;
 import org.openqa.selenium.By;
-import ui.components.NavigationMenu;
 import utils.runner.Assert;
 import utils.waiters.Waiter;
 
-public class IPhoneNavigationActions extends NavigationActions {
+import java.util.Arrays;
+import java.util.List;
 
-	NavigationMenu navigationMenu = new NavigationMenu();
+import static data.ui.MenuItem.*;
+
+public class IOSNavigationActions extends NavigationActions {
+
+	private static final List<MenuItem> ITEMS_ON_MENU_BAR = Configuration.isPhone()
+			? Arrays.asList(ACTIVITY_FEED, DREAM_TRIPS, NOTIFICATIONS, LOCAL)
+			: Arrays.asList(ACTIVITY_FEED, DREAM_TRIPS, NOTIFICATIONS, LOCAL,
+			MESSENGER, BOOK_TRAVEL, TRIP_IMAGES, MEMBERSHIP, BUCKET_LIST);
 
 	@Override
 	public void assertLandingPageLoaded() {
@@ -27,16 +35,14 @@ public class IPhoneNavigationActions extends NavigationActions {
 
 	@Override
 	public void selectMenuItem(MenuItem menuItem) {
-		switch (menuItem) {
-			case ACTIVITY_FEED:
-			case DREAM_TRIPS:
-			case LOCAL:
-				//items are available on menu bar, we don't open menu
-				break;
-			default:
-				openMenu();
+		if (!isMenuItemPresentOnNavigationBar(menuItem)) {
+			openMenu();
 		}
 		By buttonLocator = navigationMenu.getMenuItemLocator(menuItem);
 		new Waiter().click(buttonLocator);
+	}
+
+	private boolean isMenuItemPresentOnNavigationBar(MenuItem menuItem) {
+		return ITEMS_ON_MENU_BAR.contains(menuItem);
 	}
 }

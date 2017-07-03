@@ -5,7 +5,6 @@ import actions.NavigationActions;
 import data.ui.MenuItem;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
-import utils.waiters.Waiter;
 
 public class NavigationSteps  {
 	private final NavigationActions navigationActions;

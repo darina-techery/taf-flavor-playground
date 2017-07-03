@@ -4,13 +4,8 @@ import com.google.common.base.Preconditions;
 import data.Configuration;
 import driver.DriverProvider;
 import driver.HasDriver;
-import io.appium.java_client.MobileElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.CMDUtils;
 import utils.exceptions.NotImplementedException;
 
 import javax.annotation.Nonnull;
@@ -48,13 +43,6 @@ public abstract class DriverActions implements HasDriver {
 			throw new RuntimeException("Failed to hide keyboard: ", e);
 		}
 	}
-
-	public MobileElement waitFor(By by) {
-		return (MobileElement) new WebDriverWait(getDriver(), 50)
-				.until(ExpectedConditions.visibilityOfElementLocated(by));
-	}
-
-	public abstract void declineAlert(By by);
 
 	public abstract void resetApplication();
 
