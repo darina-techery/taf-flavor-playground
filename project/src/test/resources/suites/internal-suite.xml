@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="All tests" configfailurepolicy="continue" preserve-order="true" verbose="1">
+    <listeners>
+        <listener class-name="listeners.CustomTestListener" />
+    </listeners>
+    <test name="Listener tests">
+        <classes>
+            <class name="internal.PlatformRestrictionsTest"/>
+        </classes>
+    </test>
+</suite>
