@@ -50,18 +50,12 @@ public abstract class BaseTest implements LogProvider, DriverListener {
     private void initStepsComponent(){
     	ActionsDefinition actionDefinitions;
     	switch (Configuration.getParameters().platform) {
-		    case ANDROID_PHONE:
+		    case ANDROID_PHONE: case ANDROID_TABLET:
 		    	actionDefinitions = new DroidActionsDefinition();
 		    	break;
-		    case IPHONE:
-		    	actionDefinitions = new IPhoneActionsDefinition();
+		    case IPHONE: case IPAD:
+		    	actionDefinitions = new IOSActionsDefinition();
 		    	break;
-		    case ANDROID_TABLET:
-				actionDefinitions = new DroidTabletActionsDefinition();
-				break;
-		    case IPAD:
-				actionDefinitions = new IPadActionsDefinition();
-				break;
 		    default:
 		    	throw new RuntimeException("No action definitions created for "+Configuration.getParameters().platform);
 	    }
