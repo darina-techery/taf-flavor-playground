@@ -13,7 +13,7 @@ public final class LogoutTests extends BaseTestAfterLogin implements LogProvider
 	@Test
 	public void logoutFromApp() {
 		navigationSteps.logoutUser();
-		Assert.assertThat("Login screen is NOT active after logout from application.",loginSteps.isScreenActive());
+		Assert.assertThat("Login screen should be active after logout from application.",loginSteps.isScreenActive());
 	}
 
 }
