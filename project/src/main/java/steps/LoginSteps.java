@@ -53,7 +53,7 @@ public class LoginSteps {
 			loginWithValidCredentials(user);
 		}
 	}
-	
+
 	@Step("Get state: if login screen is active")
 	public boolean isScreenActive() {
 		return loginActions.isScreenActive();
