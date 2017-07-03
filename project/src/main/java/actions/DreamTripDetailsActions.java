@@ -43,6 +43,14 @@ public abstract class DreamTripDetailsActions extends BaseUiActions {
 		return dreamTripsDetailsScreen.txtTripDates.getText().trim();
 	}
 
+	public boolean isBookItButtonActive() {
+		return dreamTripsDetailsScreen.btnBookIt.isEnabled();
+	}
+
+	public String getBookItButtonText() {
+		return dreamTripsDetailsScreen.btnBookIt.getText();
+	}
+
 	@Step("Get trip details from Trip Details screen")
 	public Map<String, String> getTripDetailsFromPage() {
 		Map<String, String> values = new HashMap<>();

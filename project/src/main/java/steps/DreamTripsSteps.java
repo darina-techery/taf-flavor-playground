@@ -51,7 +51,7 @@ public class DreamTripsSteps {
 		tripDetailsActions.waitForScreen();
 	}
 
-	@Step("Verify all expected text entries with trip descriptions are present on the page")
+	@Step("Assert that all expected text entries with trip descriptions are present on the page")
 	public void assertAllTripDescriptionTextsPresent(TripWithDetails tripWithDetails) {
 		Set<String> actualTextsFromUi = tripDetailsActions.getTripDescriptionsFromPage();
 		Set<String> expectedTextsFromStubData = tripDetailsActions.getTripDescriptionsFromStub(tripWithDetails);
@@ -88,7 +88,7 @@ public class DreamTripsSteps {
 				tripsListActions.isTripShownInList(tripName));
 	}
 
-	@Step("Verify trip details")
+	@Step("Assert that trip details match expected")
 	public void assertAllTripDetailsAreDisplayed(TripWithDetails expectedTripDetails) throws IOException {
 		Map<String, String> expectedTripData = tripDetailsActions.getTripDetailsFromStub(expectedTripDetails);
 		Map<String, String> actualTripData = tripDetailsActions.getTripDetailsFromPage();
@@ -98,7 +98,35 @@ public class DreamTripsSteps {
 		addDateDifferenceToDiffList(dates, differences);
 
 		differences = differences.stream().filter(Objects::nonNull).collect(Collectors.toList());
-		Assert.assertThat("No differences should be found between actual and expected data", differences, is(empty()));
+		Assert.assertThat("No differences should be found between actual and expected trip data", differences, is(empty()));
+	}
+
+	@Step("Assert that 'Book trip' button is active")
+	public void assertBookTripButtonIsActive() {
+		List<String> differences = new ArrayList<>();
+		boolean isButtonEnabled = tripDetailsActions.isBookItButtonActive();
+		String buttonText = tripDetailsActions.getBookItButtonText();
+		if (!isButtonEnabled) {
+			differences.add("'Book trip' button should be enabled, but was disabled.");
+		}
+		if (!buttonText.equalsIgnoreCase("Book It!")) {
+			differences.add("Expected 'Book it!' text on 'Book trip' button, but '"+buttonText+"' found.");
+		}
+		Assert.assertThat("'Book trip' button should be enabled and have proper text", differences, is(empty()));
+	}
+
+	@Step("Assert that 'Book trip' button is disabled")
+	public void assertBookTripButtonIsDisabled() {
+		List<String> differences = new ArrayList<>();
+		boolean isButtonEnabled = tripDetailsActions.isBookItButtonActive();
+		String buttonText = tripDetailsActions.getBookItButtonText();
+		if (isButtonEnabled) {
+			differences.add("'Book trip' button should be not enabled for this user");
+		}
+		if (!buttonText.equalsIgnoreCase("Book It!")) {
+			differences.add("Expected 'Book it!' text on 'Book trip' button, but '"+buttonText+"' found.");
+		}
+		Assert.assertThat("'Book trip' button should be disabled and have proper text", differences, is(empty()));
 	}
 
 	private void addDateDifferenceToDiffList(TripDates expectedTripDates, List<String> diff) {

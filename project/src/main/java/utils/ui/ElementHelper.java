@@ -15,6 +15,10 @@ public final class ElementHelper {
 		return e.getAttribute(attributeName);
 	}
 
+	public static boolean isCheckboxChecked(MobileElement checkbox) {
+		return Boolean.parseBoolean(checkbox.getAttribute("checked"));
+	}
+
 	public static String describeElement(MobileElement e) {
 		String result = "";
 		if (Configuration.isIOS()) {
