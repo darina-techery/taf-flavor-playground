@@ -3,6 +3,7 @@ package steps;
 import actions.AlertActions;
 import actions.LoginActions;
 import actions.NavigationActions;
+import actions.TermsAndConditionsActions;
 import ru.yandex.qatools.allure.annotations.Step;
 import user.UserCredentials;
 import utils.annotations.UseActions;
@@ -12,12 +13,15 @@ public class LoginSteps {
 	private final LoginActions loginActions;
 	private final NavigationActions navigationActions;
 	private final AlertActions alertActions;
+	private final TermsAndConditionsActions termsAndConditionsActions;
 
 	@UseActions
-	public LoginSteps(LoginActions loginActions, AlertActions alertActions, NavigationActions navigationActions) {
+	public LoginSteps(LoginActions loginActions, AlertActions alertActions, NavigationActions navigationActions,
+	                  TermsAndConditionsActions termsAndConditionsActions) {
 		this.alertActions = alertActions;
 		this.loginActions = loginActions;
 		this.navigationActions = navigationActions;
+		this.termsAndConditionsActions = termsAndConditionsActions;
 	}
 
 	@Step("Submit provided login credentials: '{0}' ")
@@ -35,6 +39,7 @@ public class LoginSteps {
 			throw new FailedTestException("Failed to login with provided valid credentials as "+user.getUsername());
 		}
 		alertActions.acceptPermissionRequestAlert();
+		termsAndConditionsActions.acceptTermsAndConditionsIfRequested();
 	}
 
 	@Step("Try to login to application with invalid credentials: '{0}'")
