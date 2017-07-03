@@ -41,6 +41,8 @@ public class DroidTabletNavigationActions extends NavigationActions {
 	@Override
 	public void selectMenuItem(MenuItem menuItem) {
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
+		SwipeHelper.scrollUp();
+		SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
 		new Waiter().click(elementLocator);
 	}
 }
