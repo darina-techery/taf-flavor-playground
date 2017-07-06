@@ -61,7 +61,21 @@ test.doFirst {
 
 test {
     useTestNG() {
-        // runlist to executed. path is relative to current folder
-        suites 'src/test/resources/suites/internal-suite.xml'
+        testLogging.showStandardStreams = true
+        if (System.getProperty("suite") != null) {
+            suites 'src/test/resources/suites/' + System.getProperty("suite")
+        } else {
+            suites 'src/test/resources/suites/suite.xml'
+        }
+        if (System.getProperty("groups") != null) {
+            includeGroups System.getProperty("groups")
+        }
+        if (System.getProperty("excludeGroups") != null) {
+            excludeGroups System.getProperty("excludeGroups")
+        }
+        afterTest { desc, result ->
+            println "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+        }
     }
+
 }
