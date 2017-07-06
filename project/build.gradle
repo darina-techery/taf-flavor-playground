@@ -62,11 +62,14 @@ test.doFirst {
 test {
     useTestNG() {
         testLogging.showStandardStreams = true
+        String suiteName
         if (System.getProperty("suite") != null) {
-            suites 'src/test/resources/suites/' + System.getProperty("suite")
+            suiteName = 'src/test/resources/suites/' + System.getProperty("suite")
         } else {
-            suites 'src/test/resources/suites/suite.xml'
+            suiteName = 'src/test/resources/suites/suite.xml'
         }
+        suites suiteName
+        println("Executing TestNG suite "+suiteName)
         if (System.getProperty("groups") != null) {
             includeGroups System.getProperty("groups")
         }

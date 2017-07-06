@@ -19,6 +19,11 @@ public class GradleGroupsTests {
 		test("B");
 	}
 
+	@Test(groups="group with spaces")
+	public void testGroupWithSpaces(){
+		test("group with spaces");
+	}
+
 	@Test
 	public void testNoGroup() {
 		test("No group");
