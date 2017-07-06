@@ -29,7 +29,7 @@ If group name contains spaces, enclose argument in quotes.
 ## Structure
 ### Screens - Actions - Steps - Tests
 #### Screen
-Screen contains UI mapping
+Screen contains UI mapping for the whole screen (like DreamTripsScreen) or its part (like NavigationMenu).
 1. Screen classes should extend <code>BaseUiModule</code>, which contains basic PageObject compilation instructions.
 2. Screen classes contain locators for Android and iOS.
 3. Element names should have prefixes to reflect element type: _btn_ for button, _lbl_ for label, _txt_ for editable text etc.
@@ -53,7 +53,9 @@ Screen contains UI mapping
 5. Use xpath as last resort, it is not only slow, but also unstable on iOS. If possible, choose accessibility strategy for iOS.
 6. If some element has no accessibilityId, communicate with QA Automation team to create a task for adding it.
 #### Actions 
-Actions contain interactions with UI. Each interaction is 1 simple user action (e.g. submit login credentials contains *setText* for login field, *setText* for password field, *click* for submit button).
+Actions contain interactions with UI. 
+Each interaction is 1 simple user action, which consists of several operations with UI elements 
+(e.g. submit login credentials contains *setText* for login field, *setText* for password field, *click* for submit button).
 1. Actions classes should extend BaseUiActions class.
 2. If actions are different for Android and iOS, this class (SomeActionsClass) should be abstract.Implement different actions for iOS and Android in child classes named DroidSomeActionsClass and IOSSomeActionsClass.
 <pre><code>
@@ -155,12 +157,23 @@ import static org.hamcrest.core.Is.is;
     }
     Assert.assertThat("Actual trip details match expected ones", differences, is(empty())); 
 </code></pre>
+5. Do not use Assert outside assertion methods. If you want to check that some action had expected result
+(e.g. you clicked 'menu' -> menu was opened), use another construction:
+<pre><code>
+if (!menu.isDisplayed()){
+    throw new FailedTestException("Menu wasn't shown after menu button was clicked.");
+}
+</code></pre>
+This will abort the test without assertion error.
 
 ### Driver
 Driver instance is always accessible via <code>DriverProvider.get()</code>
 
 ### Waiters
 Waiters are blocks of actions executed one by one either until success, or until timeout.
+
+Example: to set text into a text field, we have to click this field, erase its contents 
+and send a key sequence for a new value.
 
 For most cases you can use a predefined set of actions defined in Waiter class.
  
@@ -170,53 +183,38 @@ Create a new Waiter instance with argument to specify timeout, or without it.
 Waiter wait = new Waiter() //default timeout
 Waiter wait = new Waiter(Duration.ofSeconds(3)) //abort actions if 3 seconds if no success yet.
 </code></pre>
-Use predefines actions for MobileElements and By's:
+Use predefined actions and requests for MobileElements and By's:
 * click
-* set text
+* set text 
+* get text
+* get attribute
+* is element displayed?
+* wait until element is displayed (the same as isDisplayed, added for better readability)
+* are are elements displayed? (for the list of locators/elements)
+* is element absent?
+* clear text contents in an editable field
+* does element exist?
+* does any element contain required text?
 * check/uncheck a checkbox
-* find or findAll for By
-* getCount for By (how many elements are found by locator) 
-* get data: is element displayed, is it absent, get its attribute
+* find element (or find all elements) for By argument
+* get count for By (how many elements are found by locator) 
 * etc. 
 
 If you have to perform more complex chain of actions 
-(e.g. refresh the page until the proper element is shown, use AnyWait class
-which is highly configurable.)
+(e.g. refresh the page until the proper element is shown), use AnyWait class
+which is highly configurable.
 
 ####AnyWait<T,R>
 
-Waiters are parameterized: base class is AnyWait&lt;T, R&gt;, where T is for test object, R is for result.
+Waiters succeed if all actions were executed without exceptions, and condition until() (if provided)
+is satisfied. Example: read text from the element until it is not null.
 
-Waiters can ignore certain exceptions (e.g. NoSuchElementException).
+If actions chain fails, Waiter pauses and then executes all sequence from beginning (if time is not out yet).
   
 Either test object, or result, or both of them can be null. 
 In this case, type will be AnyWait&lt;Void, Void&gt;, because we take nothing and return nothing.
 
-AnyWait example:
-<pre><code>
-//accept no parameter, return nothing
-AnyWait<Void, Void> activityWait = new AnyWait<>();
-//execute 2 actions: scroll down and then gather all texts from visible part of the page
-activityWait.execute(()->{
-    SwipeHelper.scrollDown();
-    addVisibleTextsFromTripDetails(textsFromTripDetails);
-});
-//stop when button "Post Comment" is displayed.
-activityWait.until(() -> dreamTripsDetailsScreen.btnPostComment.isDisplayed());
-//do not fail if NoSuchElementException is thrown (if we haven't reached the button "Post Comment" yet).
-activityWait.addIgnorableException(NoSuchElementException.class);
-//add a description
-activityWait.describe("Wait until all texts collected from Trip Details");
-//the whole operation should be aborted if not completed within 5 minutes
-activityWait.duration(Duration.ofMinutes(5));
-//go!
-activityWait.go();
-//check if the operation was a success (until() method returned true).
-if (!activityWait.isSuccess()) {
-    throw new FailedTestException("FAILED to scroll Details page down until Post Comment button is displayed. " +
-            "Swipe might be a problem.");
-}
-</code></pre>
+Waiters are parameterized: base class is AnyWait&lt;T, R&gt;, where T is for test object, R is for result.
 
 Details:
 1. If our AnyWait accepts a button to click and returns nothing, T will be MobileElement (for button),
@@ -272,5 +270,39 @@ wait.until(() -> screen.title.isDisplayed());
  Example: <code>wait.describe("Reload the page until title contains new username")</code>
 10. Optional method <code>duration()</code> receives Duration parameter and lets you set a timeout for the operation 
 which is different from default.
-11. Method <code>go()</code> starts the execution, once you are all set.
+11. Optional method <code>failOnTimeout(true/false)</code> lets you choose is the test has to be aborted if Wait fails.
+ Default: false (proceed on failure).
+12. Optional method <code>addIgnorableException</code> from interface <code>IgnoresExceptions</code> lets
+ you add an exception which will not abort the test, but fail just current attempt. Waiter will pause 
+ and try again soon.
+13. Method <code>go()</code> starts the execution, once you are all set.
+14. Method <code>isSuccess()</code> returns true, if Wait managed to perform all actions successfully,
+and false otherwise (if the goal was not reached until timeout).
 
+AnyWait example:
+<pre><code>
+//accept no parameter, return nothing
+AnyWait<Void, Void> activityWait = new AnyWait<>();
+//execute 2 actions: scroll down and then gather all texts from visible part of the page
+//add found texts to collection textsFromTripDetails (declared above).
+activityWait.execute(()->{
+    SwipeHelper.scrollDown();
+    addVisibleTextsFromTripDetails(textsFromTripDetails);
+});
+//stop when button "Post Comment" is displayed.
+activityWait.until(() -> dreamTripsDetailsScreen.btnPostComment.isDisplayed());
+//do not fail if NoSuchElementException is thrown 
+(if we haven't reached the button "Post Comment" yet).
+activityWait.addIgnorableException(NoSuchElementException.class);
+//add a description
+activityWait.describe("Wait until all texts collected from Trip Details");
+//the whole operation should be aborted if not completed within 5 minutes
+activityWait.duration(Duration.ofMinutes(5));
+//go!
+activityWait.go();
+//check if the operation was a success (until() method returned true).
+if (!activityWait.isSuccess()) {
+    throw new FailedTestException("FAILED to scroll Details page down until Post Comment button is displayed. " +
+            "Swipe might be a problem.");
+}
+</code></pre>
