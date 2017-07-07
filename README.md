@@ -257,7 +257,7 @@ import utils.runner.Assert;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 //{...}
-    List&lt;String&gt; differences = new ArrayList&lt;&gt;();
+    List<String> differences = new ArrayList<>();
     for (String s: expectedTripDetails.keySet()) {
         if (!actualTripDetails.containsKey(s)) {
             differences.add("Property "+s+" was not found in actual trip details, expected "+actualTripDetails.get(s));
@@ -335,7 +335,7 @@ R will be String (we return found text) -> AnyWait<Void, String>
 3. We specify our test object (parameter) using with() method.
 ```java
 MobileElement button = someScreen.myButton;
-AnyWait&lt;MobileElement, Void&gt; wait = new AnyWait&lt;&gt;();
+AnyWait<MobileElement, Void> wait = new AnyWait&<>();
 wait.with(button);
 ```
 4. We operate with test object (or without it) using 2 methods:
