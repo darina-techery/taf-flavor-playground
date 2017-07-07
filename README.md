@@ -6,10 +6,13 @@ To rebuild the project, execute command
 `./gradlew clean compileJava compileTestJava`
 
 Simply: if your project says it cannot find some files, just execute this command first.
+In any other case it's okay to use default Build option in IDE.
 
 
 ## Execution
-To execute tests, run command
+To run certain test or test class from IDE, it's ok to use default Run option.
+
+To execute tests from command line, run command
 
 `./gradlew clean compileJava compileTestJava test`
 
@@ -26,7 +29,6 @@ Optional parameters (passed via JVM args, starting from -D):
 
 If group name contains spaces, enclose argument in quotes.
 <br/>__Example:__`./gradlew clean compileJava compileTestJava test "-Dgroups=group with spaces,A" -Dsuite=internal-suite.xml`
-
 
 ## Structure
 ### Screens - Actions - Steps - Tests
@@ -52,14 +54,17 @@ Screen contains UI mapping for the whole screen (like DreamTripsScreen) or its p
     @iOSFindBy(accessibility = "Logout")
     public MobileElement btnLogout;
 ```
-5. Use xpath as last resort, it is not only slow, but also unstable on iOS. If possible, choose accessibility strategy for iOS.
-6. If some element has no accessibilityId, communicate with QA Automation team to create a task for adding it.
+5. Use xpath as last resort, it is not only slow, but also unstable on iOS. If possible, 
+choose accessibility strategy for iOS.
+6. (iOS) If some element has no accessibilityId, communicate with QA Automation team to create 
+a task for adding it.
 #### Actions 
 Actions contain interactions with UI. 
 Each interaction is 1 simple user action, which consists of several operations with UI elements 
 (e.g. submit login credentials contains *setText* for login field, *setText* for password field, *click* for submit button).
-1. Actions classes should extend BaseUiActions class.
-2. If actions are different for Android and iOS, this class (SomeActionsClass) should be abstract.Implement different actions for iOS and Android in child classes named DroidSomeActionsClass and IOSSomeActionsClass.
+1. Actions classes may extend BaseUiActions class to have method waitForScreen(), or extend nothing.
+2. If actions are different for Android and iOS, this class (SomeActionsClass) must be abstract.
+Implement different actions for iOS and Android in child classes named DroidSomeActionsClass and IOSSomeActionsClass.
 ```java
 public abstract class SomeActions extends BaseUiActions {
     //declare screen for this set of actions
@@ -135,6 +140,92 @@ public void openDreamTripsScreen() {
 ```java
 @Step("Open Trip by name '{0}'")
 public void openTripByName(String tripName) {...}
+```
+
+### Tests
+Tests contain test methods with metadata (references to Jira tickets, test groups, enable/disable flags etc.)
+Tests operate Test Steps, which are accessible by `getStepsComponent().***Steps();`
+
+**NOTE**: DO NOT create Steps via `steps = new ***Steps()`, because Steps are constructed by 
+Dagger.
+
+There are 3 base classes for tests:
+* `BaseTest` provides access to test steps. Use it for basic internal self-tests.
+```java
+public class MySimpleTest extends BaseTest {
+	MySimpleSteps steps = getStepsComponent().mySimpleSteps();
+	@Test
+	public void test(){
+		steps.runSimpleScenarios();
+		steps.executeSimpleAssert();
+	}
+}
+```
+* `BaseTestWithDriver` also includes AppiumDriver management. Every test in a class based on 
+`BaseTestWithDriver` will start from login screen.
+Use `BaseTestWithDriver` for test classes with tests about login.
+```java
+public final class LoginTests extends BaseTestWithDriver implements LogProvider {
+
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
+
+	@Test
+	public void loginToApp() {
+		//application is already launched, login screen shown
+		loginSteps.loginIfRequired(defaultUser);
+		navigationSteps.assertLandingPageLoaded();
+	}
+}
+```
+* `BaseTestAfterLogin` also includes login operation. Every test in a class based on 
+`BaseTestAfterLogin` will start from landing page.
+```java
+public final class LogoutTests extends BaseTestAfterLogin implements LogProvider {
+
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
+
+	@Test
+	public void logoutFromApp() {
+		//application is launched, user is logged in, landing page is shown
+		navigationSteps.logoutUser();
+		Assert.assertThat("Login screen should be active after logout from application.",loginSteps.isScreenActive());
+	}
+}
+```
+#### Metadata in tests
+Add annotations to provide useful information about your tests.
+1. `@Test(groups = {...})` - list all groups this test belongs to.
+2. `@RunOn(platforms = {Platform.IPHONE, Platform.ANDROID_PHONE})` 
+- use this annotation, if test is designed only for certain platforms (e.g. there is no such screen
+on another platform). 
+If the test is marked with `@RunOn`, it will only be executed for platforms from given list. 
+It will not affect local runs via IDE, only command-line runs from Gradle (local and on CI).
+3. `@SkipOn(platforms = {Platform.ANY}, jiraIssue="link to Jira issue blocking it%")` 
+- use this annotation when test is blocked by some bug. It will not let the test be executed 
+on listed platforms. This annotation should be removed when the issue is fixed. 
+It will not affect local runs via IDE, only command-line runs from Gradle (local and on CI).
+4. `@TestCaseId("link to test in TestRail")` contains reference to this test in TestRail.
+5. `@Issue("link to Jira ticket")` contains reference to task in Jira (it can be a task for 
+QA Automation team or a bug which introduced the necessity of this test).
+6. `@Test(enabled = false)` - add this argument to *temporarily* disable test for local execution.
+Do not commit disabled tests.
+
+Example:
+```java
+@Test
+@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213520")
+@Issue("https://techery.atlassian.net/browse/DTAUT-421")
+//suppose this test is restricted to Android only by design
+@RunOn(platforms = {Platform.ANDROID_PHONE, Platform.ANDROID_TABLET})
+//suppose this page crashes on tablets
+@SkipOn(platforms = {Platform.ANDROID_TABLET}, issue = ".../DTAUT-xxx")
+public void checkTripDetails() throws IOException {
+    dreamTripsSteps.openDreamTripsScreen();
+    dreamTripsSteps.openPredefinedTripByName(expectedTripName);
+    dreamTripsSteps.assertAllTripDetailsAreDisplayed(expectedTrip);
+}
 ```
 
 ### Assertions

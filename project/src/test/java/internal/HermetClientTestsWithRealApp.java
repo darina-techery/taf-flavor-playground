@@ -22,14 +22,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class HermetClientTestsWithRealApp extends BaseTestWithDriver {
-	private LoginSteps loginSteps = getUiStepsComponent().loginSteps();
-	private NavigationSteps navigationSteps = getUiStepsComponent().navigationSteps();
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
 
 	private HermetProxySteps proxySteps = new HermetProxySteps();
 
 	@BeforeClass
 	public void reset(){
-		getUiStepsComponent().driverSteps().resetApplication();
+		getStepsComponent().driverSteps().resetApplication();
 	}
 
 	@BeforeMethod

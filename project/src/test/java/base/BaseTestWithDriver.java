@@ -7,7 +7,7 @@ import steps.DriverSteps;
 
 public abstract class BaseTestWithDriver extends BaseTest {
 
-	private DriverSteps driverSteps = getUiStepsComponent().driverSteps();
+	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
 	@BeforeSuite
 	public void resetApplicationToDefaultState(){
