@@ -1,5 +1,6 @@
 apply plugin: 'net.ltgt.apt' // plugin for generation java code
 apply plugin: 'java'
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
@@ -59,5 +60,25 @@ test.doFirst {
 }
 
 test {
-    useTestNG()
+    useTestNG() {
+        testLogging.showStandardStreams = true
+        String suiteName
+        if (System.getProperty("suite") != null) {
+            suiteName = 'src/test/resources/suites/' + System.getProperty("suite")
+        } else {
+            suiteName = 'src/test/resources/suites/suite.xml'
+        }
+        suites suiteName
+        println("Executing TestNG suite "+suiteName)
+        if (System.getProperty("groups") != null) {
+            includeGroups System.getProperty("groups")
+        }
+        if (System.getProperty("excludeGroups") != null) {
+            excludeGroups System.getProperty("excludeGroups")
+        }
+        afterTest { desc, result ->
+            println "Executed test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+        }
+    }
+
 }

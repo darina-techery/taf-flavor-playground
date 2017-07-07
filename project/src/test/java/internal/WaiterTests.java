@@ -29,7 +29,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static ui.internal.LoginScreenForWaiterTests.*;
 
 public final class WaiterTests extends BaseTest implements CommonLogMessages {
-	private final DriverSteps driverSteps = getUiStepsComponent().driverSteps();
+	private final DriverSteps driverSteps = getStepsComponent().driverSteps();
 	private LoginScreen loginScreen;
 	private LoginScreenForWaiterTests uiTestScreen;
 

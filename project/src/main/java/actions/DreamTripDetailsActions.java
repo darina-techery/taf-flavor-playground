@@ -78,7 +78,7 @@ public abstract class DreamTripDetailsActions extends BaseUiActions {
 	public Set<String> getTripDescriptionsFromPage() {
 		final Set<String> textsFromTripDetails = new LinkedHashSet<>();
 		addVisibleTextsFromTripDetails(textsFromTripDetails);
-		AnyWait<Void, LinkedHashSet> activityWait = new AnyWait<>();
+		AnyWait<Void, Void> activityWait = new AnyWait<>();
 		activityWait.execute(()->{
 			SwipeHelper.scrollDown();
 			addVisibleTextsFromTripDetails(textsFromTripDetails);

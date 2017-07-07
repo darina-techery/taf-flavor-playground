@@ -1,6 +1,8 @@
 package base;
 
-import actions.definitions.*;
+import actions.definitions.ActionsDefinition;
+import actions.definitions.DroidActionsDefinition;
+import actions.definitions.IOSActionsDefinition;
 import actions.rest.HermetProxyActions;
 import dagger.ActionsModule;
 import dagger.DaggerStepsComponent;
@@ -33,7 +35,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 	    hermetProxyActions = new HermetProxyActions();
     }
 
-	protected StepsComponent getUiStepsComponent() {
+	protected StepsComponent getStepsComponent() {
 		return stepsComponent;
 	}
 

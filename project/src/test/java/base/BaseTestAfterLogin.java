@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 
 public abstract class BaseTestAfterLogin extends BaseTestWithDriver {
 
-	private LoginSteps loginSteps = getUiStepsComponent().loginSteps();
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
 
 	@BeforeMethod
 	public void loginToApplication(Method method) {

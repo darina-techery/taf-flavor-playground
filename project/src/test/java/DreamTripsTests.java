@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class DreamTripsTests extends BaseTestAfterLogin {
 
-	private DreamTripsSteps dreamTripsSteps = getUiStepsComponent().dreamTripsSteps();
+	private DreamTripsSteps dreamTripsSteps = getStepsComponent().dreamTripsSteps();
 	private HermetProxySteps hermetSteps = new HermetProxySteps();
 	private static final String TRIP_STUB_FILE_NAME = "hermet/platinum_recent_trip_romania.json";
 	private TripWithDetails expectedTrip;

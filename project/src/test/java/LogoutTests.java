@@ -9,8 +9,8 @@ import utils.log.LogProvider;
 
 public final class LogoutTests extends BaseTestAfterLogin implements LogProvider {
 
-	private LoginSteps loginSteps = getUiStepsComponent().loginSteps();
-	private NavigationSteps navigationSteps = getUiStepsComponent().navigationSteps();
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213563")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-435")
