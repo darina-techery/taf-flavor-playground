@@ -1,6 +1,6 @@
 # Table of contents
-1. [Build] (##build)
-## Build
+1. [Build] (#build)
+## Build <a name="build"/>
 Each time you add new Actions class (see Actions section below), the project has to be rebuild by Gradle to generate missing classes.
 To rebuild the project, execute command 
 
