@@ -15,14 +15,14 @@ To execute tests, run command
 
 Optional parameters (passed via JVM args, starting from -D):
 * `suite` to specify .xml file in src/test/resources/suites. 
-**Default:** suite.xml
-**Example:**`./gradlew clean compileJava compileTestJava test -Dsuite=internal-suite.xml`
+<br/>**Default:** suite.xml
+<br/>**Example:**`./gradlew clean compileJava compileTestJava test -Dsuite=internal-suite.xml`
 * `groups` to specify test groups included in test run.
-__Default:__ none (all tests will be included)
-__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A,B`
+<br/>__Default:__ none (all tests will be included)
+<br/>__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A,B`
 * `excludeGroups` to specify test groups excluded from test run.
-__Default:__ none (no tests will be excluded)
-__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A`
+<br/>__Default:__ none (no tests will be excluded)
+<br/>__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A`
 
 If group name contains spaces, enclose argument in quotes.
 <br/>__Example:__`./gradlew clean compileJava compileTestJava test "-Dgroups=group with spaces,A" -Dsuite=internal-suite.xml`
