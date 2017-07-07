@@ -1,5 +1,6 @@
 apply plugin: 'net.ltgt.apt' // plugin for generation java code
 apply plugin: 'java'
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
@@ -59,5 +60,8 @@ test.doFirst {
 }
 
 test {
-    useTestNG()
+    useTestNG() {
+        // runlist to executed. path is relative to current folder
+        suites 'src/test/resources/suites/internal-suite.xml'
+    }
 }

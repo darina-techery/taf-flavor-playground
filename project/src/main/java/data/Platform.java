@@ -6,7 +6,8 @@ public enum Platform {
 	ANDROID_PHONE("androidPhone"),
 	ANDROID_TABLET("androidTablet"),
 	IPHONE("iPhone"),
-	IPAD("iPad");
+	IPAD("iPad"),
+	ANY("any");
 
 	private String configValue;
 
