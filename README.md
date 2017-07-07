@@ -1,9 +1,11 @@
 # taf-flavor-playground
 ## Build
-Each time you add new Actions class, the project has to be rebuild by Gradle to generate missing classes.
+Each time you add new Actions class (see Actions section below), the project has to be rebuild by Gradle to generate missing classes.
 To rebuild the project, execute command 
 
-`./gradlew clean compileJava compileTestJava test`
+`./gradlew clean compileJava compileTestJava`
+
+Simply: if your project says it cannot find some files, just execute this command first.
 
 
 ## Execution
@@ -13,17 +15,17 @@ To execute tests, run command
 
 Optional parameters (passed via JVM args, starting from -D):
 * `suite` to specify .xml file in src/test/resources/suites. 
-<br/><b>Default:</b> suite.xml
-<br/><b>Example:</b>`./gradlew clean compileJava compileTestJava test -Dsuite=internal-suite.xml`
+**Default:** suite.xml
+**Example:**`./gradlew clean compileJava compileTestJava test -Dsuite=internal-suite.xml`
 * `groups` to specify test groups included in test run.
-<br/><b>Default:</b> none (all tests will be included)
-<br/><b>Example:</b>`./gradlew clean compileJava compileTestJava test -Dgroups=A,B`
+__Default:__ none (all tests will be included)
+__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A,B`
 * `excludeGroups` to specify test groups excluded from test run.
-<br/><b>Default:</b> none (no tests will be excluded)
-<br/><b>Example:</b>`./gradlew clean compileJava compileTestJava test -Dgroups=A`
+__Default:__ none (no tests will be excluded)
+__Example:__`./gradlew clean compileJava compileTestJava test -Dgroups=A`
 
 If group name contains spaces, enclose argument in quotes.
-<br/><b>Example:</b>`./gradlew clean compileJava compileTestJava test "-Dgroups=group with spaces,A" -Dsuite=internal-suite.xml`
+<br/>__Example:__`./gradlew clean compileJava compileTestJava test "-Dgroups=group with spaces,A" -Dsuite=internal-suite.xml`
 
 
 ## Structure
