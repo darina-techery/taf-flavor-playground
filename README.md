@@ -1,5 +1,20 @@
 # Table of contents
-1. [Build] (#build)
+1. [Build](#build)
+2. [Execution](#execution)
+3. [Project Structure](#project-structure)
+    1. [Screens - Actions - Steps - Tests](#screens-actions-steps-tests)
+        1. [Screen](#screen)
+        2. [Actions](#actions)
+        3. [Steps](#steps)
+        4. [Tests](#tests)
+            1. [Metadata in tests](#metadata-in-tests)
+            2. [Assertions](#assertions)
+    2. [Driver](#driver)
+    3. [Waiters](#waiters)
+        1. [Predefined actions: Waiter](#predefined-actions-waiter)
+        2. [Custom actions: AnyWait<T,R>](#custom-actions-any-wait)
+        
+
 ## Build <a name="build"/>
 Each time you add new Actions class (see Actions section below), the project has to be rebuild by Gradle to generate missing classes.
 To rebuild the project, execute command 
@@ -10,7 +25,7 @@ Simply: if your project says it cannot find some files, just execute this comman
 In any other case it's okay to use default Build option in IDE.
 
 
-## Execution
+## Execution <a name="execution"/>
 To run certain test or test class from IDE, it's ok to use default Run option.
 
 To execute tests from command line, run command
@@ -31,9 +46,9 @@ Optional parameters (passed via JVM args, starting from -D):
 If group name contains spaces, enclose argument in quotes.
 <br/>__Example:__`./gradlew clean compileJava compileTestJava test "-Dgroups=group with spaces,A" -Dsuite=internal-suite.xml`
 
-## Structure
-### Screens - Actions - Steps - Tests
-#### Screen
+## Project Structure <a name="project-structure"/>
+### Screens - Actions - Steps - Tests <a name="screens-actions-steps-tests"/>
+#### Screen <a name="screen"/>
 Screen contains UI mapping for the whole screen (like DreamTripsScreen) or its part (like NavigationMenu).
 1. Screen classes should extend `BaseUiModule`, which contains basic PageObject compilation instructions.
 2. Screen classes contain locators for Android and iOS.
@@ -59,7 +74,7 @@ Screen contains UI mapping for the whole screen (like DreamTripsScreen) or its p
 choose accessibility strategy for iOS.
 6. (iOS) If some element has no accessibilityId, communicate with QA Automation team to create 
 a task for adding it.
-#### Actions 
+#### Actions <a name="actions"/>
 Actions contain interactions with UI. 
 Each interaction is 1 simple user action, which consists of several operations with UI elements 
 (e.g. submit login credentials contains *setText* for login field, *setText* for password field, *click* for submit button).
@@ -100,7 +115,7 @@ public class DroidSomeActions extends SomeActions {
 3. __Note:__ device-specific Actions classes (IOS- and Droid-) should be named __strictly__ with IOS- and Droid- prefixes. 
 Otherwise, code generation will fail. 
 
-#### Steps
+#### Steps <a name="steps"/>
 Steps aggregate Actions to form sequences of actions based on business logic. They can basically be described as "User does something".
 
 Example: User logs in with valid credentials.
@@ -143,7 +158,7 @@ public void openDreamTripsScreen() {
 public void openTripByName(String tripName) {...}
 ```
 
-### Tests
+#### Tests <a name="tests"/>
 Tests contain test methods with metadata (references to Jira tickets, test groups, enable/disable flags etc.)
 Tests operate Test Steps, which are accessible by `getStepsComponent().***Steps();`
 
@@ -195,7 +210,7 @@ public final class LogoutTests extends BaseTestAfterLogin implements LogProvider
 	}
 }
 ```
-#### Metadata in tests
+##### Metadata in tests <a name="metadata-in-tests"/>
 Add annotations to provide useful information about your tests.
 1. `@Test(groups = {...})` - list all groups this test belongs to.
 2. `@RunOn(platforms = {Platform.IPHONE, Platform.ANDROID_PHONE})` 
@@ -229,7 +244,7 @@ public void checkTripDetails() throws IOException {
 }
 ```
 
-### Assertions
+##### Assertions <a name="assertions"/>
 1. Use method Assert.assertThat from project (utils.runner), not hamcrest or testng package, because 
 our method also takes screenshot for Allure when assertion fails.
 2. All assertion messages have to follow the form "Something should be this way (or NOT this way)", 
@@ -252,7 +267,8 @@ import static org.hamcrest.core.Is.is;
     }
     Assert.assertThat("Actual trip details match expected ones", differences, is(empty())); 
 ```
-5. Do not use Assert outside assertion methods. If you want to check that some action had expected result
+5. Do not use Assert outside assertion points in the end of the test. 
+If you want to check that some action had expected result
 (e.g. you clicked 'menu' -> menu was opened), use another construction:
 ```java
 if (!menu.isDisplayed()){
@@ -261,10 +277,10 @@ if (!menu.isDisplayed()){
 ```
 This will abort the test without assertion error.
 
-### Driver
+### Driver <a name="driver"/>
 Driver instance is always accessible via `DriverProvider.get()`
 
-### Waiters
+### Waiters <a name="waiters"/>
 Waiters are blocks of actions executed one by one either until success, or until timeout.
 
 Example: to set text into a text field, we have to click this field, erase its contents 
@@ -272,7 +288,7 @@ and send a key sequence for a new value.
 
 For most cases you can use a predefined set of actions defined in Waiter class.
  
-#### Waiter
+#### Predefined actions: Waiter <a name="predefined-actions-waiter"/>
 Create a new Waiter instance with argument to specify timeout, or without it.
 ```java
 Waiter wait = new Waiter() //default timeout
@@ -299,7 +315,7 @@ If you have to perform more complex chain of actions
 (e.g. refresh the page until the proper element is shown), use AnyWait class
 which is highly configurable.
 
-####AnyWait<T,R>
+#### Custom actions: AnyWait<T,R> <a name="custom-actions-any-wait"/>
 
 Waiters succeed if all actions were executed without exceptions, and condition until() (if provided)
 is satisfied. Example: read text from the element until it is not null.
