@@ -7,9 +7,9 @@ import utils.log.LogProvider;
 
 public final class LoginTests extends BaseTestWithDriver implements LogProvider {
 
-	private LoginSteps loginSteps = getUiStepsComponent().loginSteps();
-	private NavigationSteps navigationSteps = getUiStepsComponent().navigationSteps();
-	private DriverSteps driverSteps = getUiStepsComponent().driverSteps();
+	private LoginSteps loginSteps = getStepsComponent().loginSteps();
+	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
+	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
 	@Test
 	public void loginToAppAsFirstTimeUser() {

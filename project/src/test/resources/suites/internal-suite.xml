@@ -5,7 +5,7 @@
     </listeners>
     <test name="Listener tests">
         <classes>
-            <class name="internal.PlatformRestrictionsTest"/>
+            <class name="internal.GradleGroupsTests"/>
         </classes>
     </test>
 </suite>
