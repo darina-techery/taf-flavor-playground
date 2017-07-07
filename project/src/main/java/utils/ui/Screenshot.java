@@ -67,7 +67,7 @@ public class Screenshot {
 		return destFile;
 	}
 
-	public BufferedImage makeScreenshotOfElement(final MobileElement element) throws IOException  {
+	public static BufferedImage makeScreenshotOfElement(final MobileElement element) throws IOException  {
 
 		final BufferedImage img;
 		final Point topLeft;
@@ -88,14 +88,8 @@ public class Screenshot {
 				bottomRight.getY());
 	}
 
-	public void saveScreenToFile(final MobileElement e) throws IOException {
-		BufferedImage buffer = makeScreenshotOfElement(e);
-		File outputFile = new File("saved.png");
-		ImageIO.write(buffer, "png", outputFile);
-	}
 
-
-	public Color averageColor(BufferedImage bufferedImage) {
+	public static Color getAverageColor(BufferedImage bufferedImage) {
 		int x0=bufferedImage.getMinX();
 		int y0=bufferedImage.getMinY();
 
@@ -114,7 +108,7 @@ public class Screenshot {
 		return new Color((int) sumr / num, (int) sumg / num, (int) sumb / num);
 	}
 
-	public String getColorName(Color color) {
+	public static String getColorName(Color color) {
 		int rgb = color.getRGB();
 
 		float hsb[] = new float[3];
