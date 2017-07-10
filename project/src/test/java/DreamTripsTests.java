@@ -29,7 +29,6 @@ public class DreamTripsTests extends BaseTestAfterLogin {
 
 	@Test
 	public void openDreamTripsScreen() throws IOException {
-		hermetSteps.createDefaultStubForTripsList();
 		dreamTripsSteps.openDreamTripsScreen();
 		dreamTripsSteps.assertDreamTripsListLoaded();
 	}
