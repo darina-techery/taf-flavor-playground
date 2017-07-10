@@ -68,6 +68,22 @@ public class ByWait<R> extends BaseWait<By, R> implements HasDriver {
 		return this;
 	}
 
+	public ByWait<R> findAllAndCalculate(Function<List<MobileElement>, R> operation) {
+		this.calculate(by -> {
+			List<MobileElement> elements = this.multiElementSearch.apply(testableObject);
+			return operation.apply(elements);
+		});
+		return this;
+	}
+
+	public ByWait<R> findAllAndExecute(Consumer<List<MobileElement>> operation) {
+		this.execute(by -> {
+			List<MobileElement> elements = this.multiElementSearch.apply(testableObject);
+			operation.accept(elements);
+		});
+		return this;
+	}
+
 	@Override
 	protected void setDefaultPrecondition() {
 		when(elementFound);
