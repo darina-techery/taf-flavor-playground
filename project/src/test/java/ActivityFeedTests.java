@@ -1,6 +1,7 @@
 import base.BaseTestAfterLogin;
 import com.worldventures.dreamtrips.api.feed.model.FeedItem;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
+import data.Platform;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -10,6 +11,7 @@ import ru.yandex.qatools.allure.annotations.TestCaseId;
 import steps.ActivityFeedSteps;
 import steps.SocialAPISteps;
 import utils.StringHelper;
+import utils.annotations.SkipOn;
 import utils.runner.Assert;
 
 import java.io.IOException;
@@ -41,6 +43,8 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213686")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-499")
 	@Test
+	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE}, jiraIssue = "https://techery.atlassian.net/browse/DTAUT-505")
+	//asked Max to make text field visible to Appium
 	public void openShareNewPostScreenAndValidateItsState(){
 		activityFeedSteps.openActivityFeedScreen();
 		activityFeedSteps.pressSharePostButton();

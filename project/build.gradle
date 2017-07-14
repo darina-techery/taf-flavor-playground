@@ -29,7 +29,7 @@ dependencies {
     agent "org.aspectj:aspectjweaver:${aspectjVersion}"
 
     compile "ru.yandex.qatools.allure:allure-testng-adaptor:${allureVersion}"
-    compile 'io.appium:java-client:5.0.0-BETA8'
+    compile 'io.appium:java-client:5.0.0-BETA9'
     compile "ru.yandex.qatools.ashot:ashot:1.5.2"
     compile "cglib:cglib:3.2.5"
     //REST client

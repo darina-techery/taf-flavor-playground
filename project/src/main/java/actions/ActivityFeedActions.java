@@ -72,11 +72,10 @@ public abstract class ActivityFeedActions extends BaseUiActions {
 	public LocalDateTime getPostTimestamp(MobileElement postContainer) {
 		LocalDateTime dateTime;
 		if (Configuration.isAndroid()) {
-//			DriverProvider.get().getDeviceTime();
 			String dateTimeStr = new Waiter()
 					.getText(ActivityFeedScreen.ANDROID_POST_DATE_TIME_LOCATOR, postContainer)
 					.replace(" at ", " ");
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd K:mm a");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd K:mma");
 			dateTime = LocalDateTime.from(formatter.parse(dateTimeStr));
 		} else {
 			String date = new Waiter().getText(ActivityFeedScreen.IOS_POST_DATE_LOCATOR, postContainer);

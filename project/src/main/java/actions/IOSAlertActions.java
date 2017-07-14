@@ -11,8 +11,7 @@ import java.util.List;
 
 public class IOSAlertActions extends AlertActions {
 	private static final By ALERT_BUTTON_LOCATOR = By.className("XCUIElementTypeButton");
-	private static final Duration DISMISS_ALERT_TIMEOUT = Duration.ofSeconds(3);
-	private static final Duration ALERT_SHOWN_TIMEOUT = Duration.ofSeconds(10);
+	private static final Duration ALERT_SHOWN_TIMEOUT = Duration.ofSeconds(20);
 
 	public boolean isPermissionRequestAlertDisplayed() {
 		List<MobileElement> alertButtons = new Waiter(ALERT_SHOWN_TIMEOUT).findAll(ALERT_BUTTON_LOCATOR);
