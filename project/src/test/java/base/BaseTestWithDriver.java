@@ -42,6 +42,8 @@ public abstract class BaseTestWithDriver extends BaseTest {
 	@AfterSuite(alwaysRun = true)
 	public void shutdownDriver(){
 		driverSteps.shutdownApplication();
+		driverSteps.shutDownEmulator();
+
 	}
 
 }

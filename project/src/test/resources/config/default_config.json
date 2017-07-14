@@ -1,25 +1,10 @@
 {
-    "platformName" : "AndroidPhone",
-    "device": "emulator-5554",
+    "platformName" : "iPhone",
+    "device": "EFBFAD5B-1B50-4239-99DA-CB3DEDB46C80",
     "apiURL" : "http://techery-dt-integration.techery.io",
     "droidAppName" : "DreamTrips-external-stable-integration-debug.apk",
     "iosAppName" : "DreamTrip.app",
     "locale" : "en-US",
     "runOnCI": "y"
-}
-
-/*
-
-"droidAppName" : "DreamTrips.apk",
-  "iosAppName" : "DreamTrip.app",
-
-platform:
-Unknown, iPhone, AndroidPhone, iPad, AndroidTablet, iPhoneDevice
-
-appPath:
-/Users/administrator/workspace/apps/
-
-device:
-emulator-5554,emulator-5556 or any device UDID
-
-*/
+//
+//iPhone 6 EFBFAD5B-1B50-4239-99DA-CB3DEDB46C80
