@@ -43,8 +43,9 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213686")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-499")
 	@Test
-	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE}, jiraIssue = "https://techery.atlassian.net/browse/DTAUT-505")
-	//asked Max to make text field visible to Appium
+	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE},
+			jiraIssue = "https://techery.atlassian.net/browse/DTAUT-505",
+			reason = "asked Max to make text field hint visible for Appium")
 	public void openShareNewPostScreenAndValidateItsState(){
 		activityFeedSteps.openActivityFeedScreen();
 		activityFeedSteps.pressSharePostButton();
@@ -82,6 +83,9 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-434")
 	@Test
+	@SkipOn(platforms = {Platform.IPHONE, Platform.IPAD},
+			jiraIssue = "https://worldventures.atlassian.net/browse/SOCIAL-1039",
+			reason = "[iOS] post title in Activity Feed mismatch: 'added Post' instead of 'added a Post'")
 	public void createNewTextPostAndValidateItsTitleInFeed() throws IOException {
 		String hashTags = getHashTagsWithMethodNameAndTimestamp();
 		String postContent = "Text post " + hashTags;

@@ -91,7 +91,7 @@ public class ActivityFeedSteps {
 
 	@Step("Validate title for a post in Activity Feed")
 	public void assertThatPostHasValidTitle(MobileElement postContainer, UserProfile authorProfile) {
-		String expectedTitle = String.format("%s added Post", authorProfile.username());
+		String expectedTitle = String.format("%s %s added a Post", authorProfile.firstName(), authorProfile.lastName());
 		String actualTitle = activityFeedActions.getPostTitle(postContainer);
 		Assert.assertThat("New post title should match provided one", actualTitle, is(expectedTitle));
 	}

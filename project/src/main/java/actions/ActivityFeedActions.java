@@ -38,19 +38,6 @@ public abstract class ActivityFeedActions extends BaseUiActions {
 		return result;
 	}
 
-//	public MobileElement waitUntilPostWithTextAppears(String expectedText) {
-//		final AnyWait<String, MobileElement> finder = new AnyWait<>();
-//		finder.duration(Duration.ofSeconds(30));
-//		finder.with(expectedText);
-//		finder.when(() -> activityFeedScreen.feedPostContainers.size() > 0);
-//		finder.calculate(text -> findPostContainerByText.apply(text));
-//		finder.until(Objects::nonNull);
-//		finder.addIgnorableException(NoSuchElementException.class);
-//		finder.describe("Scroll down until element with text ["+expectedText+"] is found");
-//		MobileElement result = finder.go();
-//		return result;
-//	}
-
 	private Function<String, MobileElement> findPostContainerByText = text -> {
 		for (MobileElement container : activityFeedScreen.feedPostContainers) {
 			MobileElement textField = activityFeedScreen.getPostTextArea(container);
