@@ -68,7 +68,6 @@ public class Screenshot {
 	}
 
 	public static BufferedImage makeScreenshotOfElement(final MobileElement element) throws IOException  {
-
 		final BufferedImage img;
 		final Point topLeft;
 		final Point bottomRight;
@@ -87,7 +86,6 @@ public class Screenshot {
 				bottomRight.getX(),
 				bottomRight.getY());
 	}
-
 
 	public static Color getAverageColor(BufferedImage bufferedImage) {
 		int x0=bufferedImage.getMinX();
@@ -109,13 +107,15 @@ public class Screenshot {
 	}
 
 	public static String getColorName(Color color) {
-		int rgb = color.getRGB();
+//		int rgb = color.getRGB();
 
-		float hsb[] = new float[3];
-		int r = (rgb >> 16) & 0xFF;
-		int g = (rgb >>  8) & 0xFF;
-		int b = (rgb      ) & 0xFF;
-		Color.RGBtoHSB(r, g, b, hsb);
+//		float hsb[] = new float[3];
+//		int r = (rgb >> 16) & 0xFF;
+//		int g = (rgb >>  8) & 0xFF;
+//		int b = (rgb      ) & 0xFF;
+//		Color.RGBtoHSB(r, g, b, hsb);
+
+		float hsb[] = getColorInHSB(color);
 
 		if      (hsb[1] < 0.1 && hsb[2] > 0.9) return "nearlyWhite";
 		else if (hsb[2] < 0.1) return "nearlyBlack";
@@ -129,7 +129,31 @@ public class Screenshot {
 			else if (deg >= 270 && deg < 330) return "magenta";
 			else return "red";
 		}
+	}
 
+	private static float[] getColorInHSB(Color color) {
+		int rgb = color.getRGB();
+
+		float hsb[] = new float[3];
+		int r = (rgb >> 16) & 0xFF;
+		int g = (rgb >>  8) & 0xFF;
+		int b = (rgb      ) & 0xFF;
+		Color.RGBtoHSB(r, g, b, hsb);
+		return hsb;
+	}
+
+	public static boolean areImagesEqualByAverageColor(BufferedImage img1, BufferedImage img2) {
+		double threshold = 0.05;
+		float hsb1[] = getColorInHSB(getAverageColor(img1));
+		float hsb2[] = getColorInHSB(getAverageColor(img2));
+//		int color2 = getAverageColor(img2).getRGB();
+//		return Math.abs(color1 - color2)
+		for (int i=0; i<3; i++) {
+			if (Math.abs(hsb1[i] - hsb2[i]) > threshold) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

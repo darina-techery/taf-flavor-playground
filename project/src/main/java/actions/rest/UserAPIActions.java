@@ -1,13 +1,18 @@
 package actions.rest;
 
+import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.session.model.Session;
-import rest.helpers.FailedResponseParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assume;
 import rest.api.clients.DreamTripsAPIClient;
-import rest.api.services.AuthAPI;
 import rest.api.model.login.request.LoginRequest;
+import rest.api.services.AuthAPI;
+import rest.api.services.DreamTripsAPI;
+import rest.helpers.FailedResponseParser;
 import retrofit2.Response;
-import user.UserSessionManager;
 import user.UserCredentials;
+import user.UserSessionManager;
 import utils.exceptions.FailedConfigurationException;
 import utils.exceptions.FailedWaitAttemptException;
 import utils.waiters.AnyWait;
@@ -15,12 +20,19 @@ import utils.waiters.AnyWait;
 import java.io.IOException;
 import java.time.Duration;
 
-public class AuthAPIActions {
+import static org.hamcrest.core.Is.is;
+
+public class UserAPIActions {
 
 	private final AuthAPI authAPI;
+	private final DreamTripsAPI dreamTripsAPI;
 
-	public AuthAPIActions() {
-		this.authAPI = new DreamTripsAPIClient().create(AuthAPI.class);
+	private Logger log = LogManager.getLogger();
+
+	public UserAPIActions() {
+		DreamTripsAPIClient client = new DreamTripsAPIClient();
+		this.authAPI = client.create(AuthAPI.class);
+		this.dreamTripsAPI = client.create(DreamTripsAPI.class);
 	}
 
 	public Response<Session> authenticateUser(UserCredentials userCredentials) {
@@ -44,5 +56,11 @@ public class AuthAPIActions {
 		}
 		UserSessionManager.addApiSession(loginResponse.body());
 		return loginResponse;
+	}
+
+	public PrivateUserProfile getCurrentUserProfile() throws IOException {
+		Response<PrivateUserProfile> response = dreamTripsAPI.getCurrentUserProfile().execute();
+		Assume.assumeThat("User profile request should be successful", response.code(), is(200));
+		return response.body();
 	}
 }

@@ -16,9 +16,12 @@ import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.log.LogProvider;
+
+import java.lang.reflect.Method;
 
 public abstract class BaseTest implements LogProvider, DriverListener {
 
@@ -27,6 +30,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 
     private StepsComponent stepsComponent;
     private HermetProxyActions hermetProxyActions;
+    private String testMethodName;
 
     public BaseTest() {
 	    TestDataReader.readDataMembers(this);
@@ -42,6 +46,15 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 	@BeforeClass
 	public void startHermetServiceIfNotPresent() {
 		hermetProxyActions.startMainService();
+	}
+
+	@BeforeMethod
+	public void setTestMethodName(Method method) {
+    	testMethodName = method.getName();
+	}
+
+	protected String getTestMethodName() {
+    	return testMethodName;
 	}
 
 	@AfterMethod
