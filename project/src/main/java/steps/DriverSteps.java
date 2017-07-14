@@ -43,9 +43,4 @@ public class DriverSteps {
 		AppStrings.add(appStrings);
 	}
 
-	@Step("Shutdown emulator")
-	public void shutDownEmulator()
-	{
-		actions.closeEmulator();
-	}
 }
