@@ -99,7 +99,7 @@ public final class CMDUtils {
 	}
 
 	public static String getDreamTripBundleId(){
-		String bundleId = executeCommandAndGetFullResponse("fbsimctl list_apps | grep DreamTrip | grep bundle_id | sed -n -e 's/.*\"bundle_id\" = \"\\(.*\\)\";/\\1/p'");
+		String bundleId = executeCommandAndGetFullResponse("fbsimctl list_apps | grep DreamTrip | grep bundle_id | sed -n -e 's/.*\"bundle_id\" = \"\\(.*\\)\";/\\1/p'");//
 		return bundleId;
 	}
 
