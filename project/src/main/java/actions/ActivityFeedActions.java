@@ -1,6 +1,5 @@
 package actions;
 
-import data.Configuration;
 import io.appium.java_client.MobileElement;
 import org.openqa.selenium.NoSuchElementException;
 import ui.screens.ActivityFeedScreen;
@@ -12,8 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -56,30 +53,7 @@ public abstract class ActivityFeedActions extends BaseUiActions {
 		return new Waiter().getText(ActivityFeedScreen.POST_TITLE_FINDER.getBy(), postContainer);
 	}
 
-	public LocalDateTime getPostTimestamp(MobileElement postContainer) {
-		LocalDateTime dateTime;
-		if (Configuration.isAndroid()) {
-			String dateTimeStr = new Waiter()
-					.getText(ActivityFeedScreen.ANDROID_POST_DATE_TIME_LOCATOR, postContainer)
-					.replace(" at ", " ");
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd K:mma");
-			dateTime = LocalDateTime.from(formatter.parse(dateTimeStr));
-		} else {
-			String date = new Waiter().getText(ActivityFeedScreen.IOS_POST_DATE_LOCATOR, postContainer);
-			String time = new Waiter().getText(ActivityFeedScreen.IOS_POST_TIME_LOCATOR, postContainer);
-
-			String dateTimeStr = date + " " + time.replace(" at ", " ");
-			DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-					.appendPattern("MMM dd")
-					.optionalStart()
-					.appendPattern(" yyyy")
-					.optionalEnd()
-					.appendPattern(" K:mm a")
-					.toFormatter();
-			dateTime = LocalDateTime.from(formatter.parse(dateTimeStr));
-		}
-		return dateTime;
-	}
+	public abstract LocalDateTime getPostTimestamp(MobileElement postContainer);
 
 	public BufferedImage getPostAuthorAvatar(MobileElement postContainer) throws IOException {
 		MobileElement avatar = activityFeedScreen.getPostAvatar(postContainer);

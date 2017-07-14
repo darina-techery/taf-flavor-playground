@@ -14,6 +14,7 @@ import retrofit2.http.Query;
 import java.util.List;
 
 public interface DreamTripsAPI {
+
 	@GET("/api/profile")
 	Call<PrivateUserProfile> getCurrentUserProfile();
 
@@ -27,12 +28,11 @@ public interface DreamTripsAPI {
 
 
 	@GET("/api/hashtags/search?per_page=10&type=post")
-//	Call<List<FeedItem>> getPostsByHashTag(@Query("before") String beforeDate,
-//	Call<FeedItemWrapper> getPostsByHashTag(@Query("before") String beforeDate,
 	Call<HashtagsSearchResponse> getPostsByHashTag(@Query("before") String beforeDate,
-//	Call<List<FeedItem<PostSocialized>>> getPostsByHashTag(@Query("before") String beforeDate,
                                                    @Query("query") String hashTags);
 
 	@DELETE("/api/social/posts/{uid}")
 	Call<Void> deletePost(@Path("uid") String postUid);
+
+	
 }

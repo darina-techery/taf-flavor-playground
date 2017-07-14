@@ -100,6 +100,9 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-434")
 	@Test
+	@SkipOn(platforms = {Platform.ANY},
+			jiraIssue = "https://techery.atlassian.net/browse/DTAUT-507",
+			reason = "need to upload avatar before test")
 	public void createNewTextPostAndValidateItsAuthorAvatar() throws IOException {
 		String hashTags = getHashTagsWithMethodNameAndTimestamp();
 		String postContent = "Text post " + hashTags;
@@ -109,12 +112,15 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 		addCreatedFeedItemToCleanupList(hashTags);
 
 		MobileElement newPostContainer = activityFeedSteps.findNewPostByText(postContent);
-		activityFeedSteps.assertThatPostHasValidAvatar(newPostContainer, currentUserProfile);
+//		activityFeedSteps.assertThatPostHasValidAvatar(newPostContainer, currentUserProfile);
 	}
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-434")
 	@Test
+	@SkipOn(platforms = {Platform.ANDROID_PHONE, Platform.ANDROID_TABLET},
+			jiraIssue = "https://worldventures.atlassian.net/browse/SOCIAL-1036",
+			reason = "[Android] Timestamp does not contain year value")
 	public void createNewTextPostAndValidateItsDateAndTime() throws IOException {
 		String hashTags = getHashTagsWithMethodNameAndTimestamp();
 		String postContent = "Text post " + hashTags;
