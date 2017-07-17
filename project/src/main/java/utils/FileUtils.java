@@ -1,14 +1,12 @@
 package utils;
 
-import okhttp3.ResponseBody;
+import okhttp3.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import rest.api.clients.SharedServicesClient;
-import rest.api.services.RemoteDownloadAPI;
-import retrofit2.Response;
 
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 
 public final class FileUtils {
 	private static final Logger log = LogManager.getLogger();
@@ -35,51 +33,10 @@ public final class FileUtils {
 		return new File(path);
 	}
 
-	public static File downloadRemoteFile(String url, String filename) throws IOException {
-		final RemoteDownloadAPI remoteDownloadAPI = new SharedServicesClient().create(RemoteDownloadAPI.class);
-		Response<ResponseBody> response = remoteDownloadAPI.downloadFileWithDynamicUrl(url).execute();
-		if (response.isSuccessful()) {
-			ResponseBody body = response.body();
-			try {
-				log.info("Writing requested resource to file started.");
-				File imageFile = new File("target/downloads/"+filename);
-				imageFile.mkdirs();
-				InputStream inputStream = null;
-				OutputStream outputStream = null;
-				try {
-					byte[] fileReader = new byte[4096];
-//					long fileSize = body.contentLength();
-//					long fileSizeDownloaded = 0;
-
-					inputStream = body.byteStream();
-					outputStream = new FileOutputStream(imageFile);
-
-					while (true) {
-						int read = inputStream.read(fileReader);
-						if (read == -1) {
-							break;
-						}
-						outputStream.write(fileReader, 0, read);
-//						fileSizeDownloaded += read;
-						log.info("File downloaded to: " + imageFile.getPath());
-					}
-
-					outputStream.flush();
-					return imageFile;
-				} catch (IOException e) {
-					log.error("Failed to save downloaded file from URL " + url);
-				} finally {
-					if (inputStream != null) {
-						inputStream.close();
-					}
-					if (outputStream != null) {
-						outputStream.close();
-					}
-				}
-			} catch (IOException e) {
-				log.error("Failed to download file by URL " + url);
-			}
-		}
-		return null;
+	public static MediaType getMediaType(File f) throws IOException {
+		InputStream is = new BufferedInputStream(new FileInputStream(f));
+		String contentType = URLConnection.guessContentTypeFromStream(is);
+		is.close();
+		return MediaType.parse(contentType);
 	}
 }

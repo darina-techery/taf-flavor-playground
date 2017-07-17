@@ -143,17 +143,20 @@ public class Screenshot {
 	}
 
 	public static boolean areImagesEqualByAverageColor(BufferedImage img1, BufferedImage img2) {
-		double threshold = 0.05;
-		float hsb1[] = getColorInHSB(getAverageColor(img1));
-		float hsb2[] = getColorInHSB(getAverageColor(img2));
+//		double threshold = 0.05;
+//		float hsb1[] = getColorInHSB(getAverageColor(img1));
+//		float hsb2[] = getColorInHSB(getAverageColor(img2));
 //		int color2 = getAverageColor(img2).getRGB();
 //		return Math.abs(color1 - color2)
-		for (int i=0; i<3; i++) {
-			if (Math.abs(hsb1[i] - hsb2[i]) > threshold) {
-				return false;
-			}
-		}
-		return true;
+//		for (int i=0; i<3; i++) {
+//			if (Math.abs(hsb1[i] - hsb2[i]) > threshold) {
+//				return false;
+//			}
+//		}
+//		return true;
+		String color1 = getColorName(getAverageColor(img1));
+		String color2 = getColorName(getAverageColor(img2));
+		return color1.equals(color2);
 	}
 
 }

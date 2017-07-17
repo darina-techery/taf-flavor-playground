@@ -10,10 +10,13 @@ import ru.yandex.qatools.allure.annotations.Issue;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
 import steps.ActivityFeedSteps;
 import steps.SocialAPISteps;
+import steps.UserAPISteps;
+import utils.FileUtils;
 import utils.StringHelper;
 import utils.annotations.SkipOn;
 import utils.runner.Assert;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,14 +28,21 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class ActivityFeedTests extends BaseTestAfterLogin {
 	ActivityFeedSteps activityFeedSteps = getStepsComponent().activityFeedSteps();
 	SocialAPISteps socialAPISteps = getStepsComponent().socialAPISteps();
+	UserAPISteps userAPISteps = getStepsComponent().userAPISteps();
 
 	private static final String DEFAULT_HASH_TAG = "#AutoTestPost";
 	private List<FeedItem> createdFeedItems = new ArrayList<>();
-	private PrivateUserProfile currentUserProfile;
+	private PrivateUserProfile defaultUserProfile;
+	private File userAvatarFile;
 
 	@BeforeClass
 	public void getTestUserProfile() throws IOException {
-		currentUserProfile = socialAPISteps.getCurrentUserProfile();
+		defaultUserProfile = userAPISteps.getCurrentUserProfile();
+		userAvatarFile = FileUtils.getResourceFile("images/blue.png");
+		//upload default avatar if changed
+		if (!defaultUserProfile.avatar().thumb().endsWith(userAvatarFile.getName())) {
+			userAPISteps.uploadAvatar(userAvatarFile);
+		}
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -45,7 +55,7 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 	@Test
 	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE},
 			jiraIssue = "https://techery.atlassian.net/browse/DTAUT-505",
-			reason = "asked Max to make text field hint visible for Appium")
+			reason = "need to make text field hint visible for Appium")
 	public void openShareNewPostScreenAndValidateItsState(){
 		activityFeedSteps.openActivityFeedScreen();
 		activityFeedSteps.pressSharePostButton();
@@ -94,15 +104,12 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 		addCreatedFeedItemToCleanupList(hashTags);
 
 		MobileElement newPostContainer = activityFeedSteps.findNewPostByText(postContent);
-		activityFeedSteps.assertThatPostHasValidTitle(newPostContainer, currentUserProfile);
+		activityFeedSteps.assertThatPostHasValidTitle(newPostContainer, defaultUserProfile);
 	}
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-434")
 	@Test
-	@SkipOn(platforms = {Platform.ANY},
-			jiraIssue = "https://techery.atlassian.net/browse/DTAUT-507",
-			reason = "need to upload avatar before test")
 	public void createNewTextPostAndValidateItsAuthorAvatar() throws IOException {
 		String hashTags = getHashTagsWithMethodNameAndTimestamp();
 		String postContent = "Text post " + hashTags;
@@ -112,7 +119,7 @@ public class ActivityFeedTests extends BaseTestAfterLogin {
 		addCreatedFeedItemToCleanupList(hashTags);
 
 		MobileElement newPostContainer = activityFeedSteps.findNewPostByText(postContent);
-//		activityFeedSteps.assertThatPostHasValidAvatar(newPostContainer, currentUserProfile);
+		activityFeedSteps.assertThatPostHasValidAvatar(newPostContainer, userAvatarFile);
 	}
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")

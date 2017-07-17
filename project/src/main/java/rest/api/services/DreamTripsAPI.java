@@ -5,11 +5,10 @@ import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 import java.util.List;
 
@@ -34,5 +33,9 @@ public interface DreamTripsAPI {
 	@DELETE("/api/social/posts/{uid}")
 	Call<Void> deletePost(@Path("uid") String postUid);
 
-	
+	@Multipart
+	@POST("/api/profile/avatar")
+	Call<ResponseBody> uploadAvatar(
+//	Call<ResponseBody> uploadAvatar(@Part("description") RequestBody description,
+	                                @Part MultipartBody.Part file);
 }

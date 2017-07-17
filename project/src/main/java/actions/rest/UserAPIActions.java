@@ -2,21 +2,29 @@ package actions.rest;
 
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.session.model.Session;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assume;
 import rest.api.clients.DreamTripsAPIClient;
+import rest.api.clients.UploadAPIClient;
 import rest.api.model.login.request.LoginRequest;
 import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
 import rest.helpers.FailedResponseParser;
+import retrofit2.Call;
 import retrofit2.Response;
 import user.UserCredentials;
 import user.UserSessionManager;
+import utils.FileUtils;
 import utils.exceptions.FailedConfigurationException;
 import utils.exceptions.FailedWaitAttemptException;
 import utils.waiters.AnyWait;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 
@@ -62,5 +70,24 @@ public class UserAPIActions {
 		Response<PrivateUserProfile> response = dreamTripsAPI.getCurrentUserProfile().execute();
 		Assume.assumeThat("User profile request should be successful", response.code(), is(200));
 		return response.body();
+	}
+
+	public void uploadUserAvatar(File avatarFile) throws IOException {
+		UploadAPIClient client = new UploadAPIClient();
+		DreamTripsAPI uploadService = client.create(DreamTripsAPI.class);
+
+		MediaType fileMediaType = FileUtils.getMediaType(avatarFile);
+		RequestBody requestFile = RequestBody.create(fileMediaType, avatarFile);
+		MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", avatarFile.getName(), requestFile);
+		// add another part within the multipart request
+//		String descriptionString = "Uploading avatar for current user";
+//		RequestBody description =
+//				RequestBody.create(
+//						okhttp3.MultipartBody.FORM, descriptionString);
+		// finally, execute the request
+//		Call<ResponseBody> call = uploadService.uploadAvatar(description, body);
+		Call<ResponseBody> call = uploadService.uploadAvatar(body);
+		Response<ResponseBody> response = call.execute();
+
 	}
 }

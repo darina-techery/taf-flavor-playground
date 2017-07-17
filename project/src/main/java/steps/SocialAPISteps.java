@@ -5,7 +5,6 @@ import actions.rest.UserAPIActions;
 import com.worldventures.dreamtrips.api.api_common.model.UniqueIdentifiable;
 import com.worldventures.dreamtrips.api.feed.model.FeedItem;
 import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
-import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import org.apache.logging.log4j.LogManager;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
@@ -47,10 +46,5 @@ public class SocialAPISteps {
 	public List<FeedItem> getFeedItemsByHashtags(String hashtags) throws IOException {
 		HashtagsSearchResponse response = socialAPIActions.searchFeedItemsByHashtags(hashtags);
 		return socialAPIActions.getFeedItemsFromSearchResponse(response);
-	}
-
-	@Step("Get current user profile via API")
-	public PrivateUserProfile getCurrentUserProfile() throws IOException {
-		return userAPIActions.getCurrentUserProfile();
 	}
 }

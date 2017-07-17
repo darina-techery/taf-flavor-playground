@@ -9,8 +9,6 @@ import io.appium.java_client.MobileElement;
 import org.junit.Assume;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.DateTimeHelper;
-import utils.FileUtils;
-import utils.StringHelper;
 import utils.annotations.UseActions;
 import utils.runner.Assert;
 import utils.ui.Screenshot;
@@ -23,8 +21,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
@@ -97,23 +93,14 @@ public class ActivityFeedSteps {
 	}
 
 	@Step("Validate user avatar for a new post in Activity Feed")
-	public void assertThatPostHasValidAvatar(MobileElement postContainer, UserProfile authorProfile) throws IOException {
-		String avatarUrl = authorProfile.avatar().thumb();
-		String filename = String.format("%s%s%s",
-				//filename
-				avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1, avatarUrl.lastIndexOf(".")),
-				//timestamp
-				StringHelper.getTimestampSuffix(),
-				//extension
-				avatarUrl.substring(avatarUrl.lastIndexOf(".")));
-		File avatar = FileUtils.downloadRemoteFile(avatarUrl, filename);
-		BufferedImage expectedAvatar = ImageIO.read(avatar);
+	public void assertThatPostHasValidAvatar(MobileElement postContainer, File expectedAvatarFile) throws IOException {
 		BufferedImage actualAvatar = activityFeedActions.getPostAuthorAvatar(postContainer);
+		BufferedImage expectedAvatar = ImageIO.read(expectedAvatarFile);
 		if (!Screenshot.areImagesEqualByAverageColor(actualAvatar, expectedAvatar)) {
-			File actualAvatarFile = new File("target/screenshots/actual_"+filename);
+			File actualAvatarFile = new File("target/screenshots/actual_"+expectedAvatarFile.getName());
 			ImageIO.write(actualAvatar, "jpeg", actualAvatarFile);
 			Assert.assertThat(String.format("Avatar mismatch: expected image as in %s, but was as in %s",
-					avatar.getPath(), actualAvatarFile.getPath()),
+					expectedAvatarFile.getAbsolutePath(), actualAvatarFile.getAbsolutePath()),
 					false);
 		}
 	}
@@ -130,52 +117,6 @@ public class ActivityFeedSteps {
 				"Difference between actual post creating time and timestamp in post " +
 						"should be less than allowed post creating delay",
 				actualDifference, lessThan(allowedDifference));
-	}
-
-	@Step("Validate new text post details: userpic, date and time, text content, title")
-	public void assertThatTextPostDetailsMatchExpected(MobileElement postContainer,
-	                                                   String expectedContent,
-	                                                   LocalDateTime timestamp,
-	                                                   UserProfile authorProfile) throws IOException {
-		List<String> differences = new ArrayList<>();
-		//title
-		String expectedTitle = String.format("%s added Post", authorProfile.username());
-		String actualTitle = activityFeedActions.getPostTitle(postContainer);
-		if (!expectedTitle.equals(actualTitle)) {
-			differences.add(String.format("Title mismatch: expected [%s], but was [%s]", expectedTitle, actualTitle));
-		}
-		//userpic
-		String avatarUrl = authorProfile.avatar().thumb();
-		String filename = String.format("%s%s%s",
-				//filename
-				avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1, avatarUrl.lastIndexOf(".")),
-				//timestamp
-				StringHelper.getTimestampSuffix(),
-				//extension
-				avatarUrl.substring(avatarUrl.lastIndexOf(".")));
-		File avatar = FileUtils.downloadRemoteFile(avatarUrl, filename);
-		BufferedImage expectedAvatar = ImageIO.read(avatar);
-		BufferedImage actualAvatar = activityFeedActions.getPostAuthorAvatar(postContainer);
-		if (!Screenshot.areImagesEqualByAverageColor(actualAvatar, expectedAvatar)) {
-			File actualAvatarFile = new File("target/screenshots/actual_"+filename);
-			ImageIO.write(actualAvatar, "jpeg", actualAvatarFile);
-			differences.add(String.format("Avatar mismatch: expected image "+avatar.getPath()
-					+", but was "+actualAvatarFile.getPath()));
-		}
-		//timestamp
-
-	}
-
-	public static void main(String[] args) {
-		String avatarUrl = "http://s3.amazonaws.com/dreamtrips-test/avatars/143256/thumb/avatar.jpeg";
-		String filename = String.format("%s%s%s",
-				//filename
-				avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1, avatarUrl.lastIndexOf(".")),
-				//timestamp
-				StringHelper.getTimestampSuffix(),
-				//extension
-				avatarUrl.substring(avatarUrl.lastIndexOf(".")));
-		System.out.println(filename);
 	}
 
 }

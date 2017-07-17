@@ -6,7 +6,6 @@ import utils.waiters.Waiter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class IOSActivityFeedActions extends ActivityFeedActions {
 
@@ -15,13 +14,7 @@ public class IOSActivityFeedActions extends ActivityFeedActions {
 		String time = new Waiter().getText(ActivityFeedScreen.IOS_POST_TIME_LOCATOR, postContainer);
 
 		String dateTimeStr = date + " " + time.replace(" at ", " ");
-		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-				.appendPattern("MMM dd")
-				.optionalStart()
-				.appendPattern(" yyyy")
-				.optionalEnd()
-				.appendPattern(" K:mm a")
-				.toFormatter();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy K:mm a");
 		return LocalDateTime.from(formatter.parse(dateTimeStr));
 	}
 }
