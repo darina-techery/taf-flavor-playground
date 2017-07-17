@@ -1,5 +1,6 @@
 package utils;
 
+import data.Configuration;
 import driver.DriverProvider;
 
 import java.time.LocalDateTime;
@@ -17,9 +18,12 @@ public final class DateTimeHelper {
 	}
 
 	public static ZoneId getDeviceZoneId() {
-		//example: Thu Jul 13 2017 13:31:56 GMT+0300 (EEST)
-		String dateTime = DriverProvider.get().getDeviceTime().replaceAll("\\(.*\\)", "").trim();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ccc MMM dd yyyy HH:mm:ss zzzxxxx");
+		String dateTime = DriverProvider.get().getDeviceTime();
+		DateTimeFormatter formatter = Configuration.isAndroid()
+				//example: Mon Jul 17 12:30:03 EEST 2017
+				? DateTimeFormatter.ofPattern("ccc MMM dd HH:mm:ss zzz yyyy")
+				//example: Thu Jul 13 2017 13:31:56 GMT+0300 (EEST)
+				: DateTimeFormatter.ofPattern("ccc MMM dd yyyy HH:mm:ss zzzxxxx (zzz)");
 		TemporalAccessor temporalAccessor = formatter.parse(dateTime);
 		return ZoneId.from(temporalAccessor);
 	}

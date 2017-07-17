@@ -14,7 +14,7 @@ public class IOSActivityFeedActions extends ActivityFeedActions {
 		String time = new Waiter().getText(ActivityFeedScreen.IOS_POST_TIME_LOCATOR, postContainer);
 
 		String dateTimeStr = date + " " + time.replace(" at ", " ");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy K:mm a");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a");
 		return LocalDateTime.from(formatter.parse(dateTimeStr));
 	}
 }
