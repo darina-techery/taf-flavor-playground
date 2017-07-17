@@ -14,10 +14,12 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import utils.ADBUtils;
 import utils.log.CommonLogMessages;
 import utils.ui.ElementHelper;
+import utils.ui.SwipeHelper;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Waiter implements CommonLogMessages, HasDriver {
 	private Duration d;
@@ -25,6 +27,15 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		this.d = d;
 	}
 	public Waiter() {}
+
+	public Function<MobileElement, Boolean> scrollDownIfElementIsNull = element -> {
+		if (element == null) {
+			SwipeHelper.scrollDown();
+			return false;
+		} else {
+			return true;
+		}
+	};
 
 	public <R> ElementWait<R> wait(MobileElement e, Class<R> resultType) {
 		ElementWait<R> wait = new ElementWait<R>();
