@@ -12,6 +12,7 @@ import utils.annotations.UseActions;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class SocialAPISteps {
 	private final SocialAPIActions socialAPIActions;
@@ -29,7 +30,7 @@ public class SocialAPISteps {
 	}
 
 	@Step("Delete all feed items from to-delete list and remove them from this list")
-	public void deleteFeedItemsAndRemoveDeletedFromList(List<FeedItem> items) {
+	public void deleteFeedItemsAndRemoveDeletedFromList(Set<FeedItem> items) {
 		Iterator<FeedItem> i = items.iterator();
 		while (i.hasNext()) {
 			FeedItem itemToDelete = i.next();

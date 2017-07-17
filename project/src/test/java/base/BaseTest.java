@@ -19,11 +19,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import user.UserCredentials;
 import user.UserSessionManager;
+import utils.log.CommonLogMessages;
 import utils.log.LogProvider;
 
 import java.lang.reflect.Method;
 
-public abstract class BaseTest implements LogProvider, DriverListener {
+public abstract class BaseTest implements LogProvider, DriverListener, CommonLogMessages {
 
 	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
 	protected UserCredentials defaultUser;

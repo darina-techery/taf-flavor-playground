@@ -10,6 +10,7 @@ import org.junit.Assume;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.DateTimeHelper;
 import utils.annotations.UseActions;
+import utils.exceptions.FailedTestException;
 import utils.runner.Assert;
 import utils.ui.Screenshot;
 
@@ -93,15 +94,20 @@ public class ActivityFeedSteps {
 	}
 
 	@Step("Validate user avatar for a new post in Activity Feed")
-	public void assertThatPostHasValidAvatar(MobileElement postContainer, File expectedAvatarFile) throws IOException {
-		BufferedImage actualAvatar = activityFeedActions.getPostAuthorAvatar(postContainer);
-		BufferedImage expectedAvatar = ImageIO.read(expectedAvatarFile);
-		if (!Screenshot.areImagesEqualByAverageColor(actualAvatar, expectedAvatar)) {
-			File actualAvatarFile = new File("target/screenshots/actual_"+expectedAvatarFile.getName());
-			ImageIO.write(actualAvatar, "jpeg", actualAvatarFile);
-			Assert.assertThat(String.format("Avatar mismatch: expected image as in %s, but was as in %s",
-					expectedAvatarFile.getAbsolutePath(), actualAvatarFile.getAbsolutePath()),
-					false);
+	public void assertThatPostHasValidAvatar(MobileElement postContainer, File expectedAvatarFile) {
+		try {
+			BufferedImage actualAvatar = activityFeedActions.getPostAuthorAvatar(postContainer);
+			BufferedImage expectedAvatar = ImageIO.read(expectedAvatarFile);
+			if (!Screenshot.areImagesEqualByAverageColor(actualAvatar, expectedAvatar)) {
+				File actualAvatarFile = new File("target/screenshots/actual_" + expectedAvatarFile.getName());
+				ImageIO.write(actualAvatar, "jpeg", actualAvatarFile);
+				Assert.assertThat(String.format("Avatar mismatch: expected image as in %s, but was as in %s",
+						expectedAvatarFile.getAbsolutePath(), actualAvatarFile.getAbsolutePath()),
+						false);
+			}
+		}
+		catch (IOException e) {
+			throw new FailedTestException("Could not validate user avatar", e);
 		}
 	}
 
@@ -112,7 +118,7 @@ public class ActivityFeedSteps {
 		ZonedDateTime expectedZonedDateTime = expectedTimestamp.atZone(deviceZoneId);
 		LocalDateTime actualDateTime = activityFeedActions.getPostTimestamp(postContainer);
 		ZonedDateTime actualZonedDateTime = actualDateTime.atZone(deviceZoneId);
-		Duration actualDifference = Duration.between(expectedZonedDateTime, actualZonedDateTime);
+		Duration actualDifference = Duration.between(actualZonedDateTime, expectedZonedDateTime);
 		Assert.assertThat(
 				"Difference between actual post creating time and timestamp in post " +
 						"should be less than allowed post creating delay",

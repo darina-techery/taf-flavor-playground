@@ -54,9 +54,12 @@ public class Screenshot {
 	private static synchronized File takeScreenshot(String folderPath, String rawFileName) {
 		File srcFile = DriverProvider.get().getScreenshotAs(OutputType.FILE);
 		new File(folderPath).mkdirs();
-		String fileName = replaceInvalidCharactersInFilename(rawFileName)
-				+ StringHelper.getTimestampSuffix()
-				+ SCREENSHOT_EXTENSION;
+		String fileNameWithoutExtension = replaceInvalidCharactersInFilename(rawFileName)
+				+ StringHelper.getTimestampSuffix();
+		if (fileNameWithoutExtension.length() > 250) {
+			fileNameWithoutExtension = fileNameWithoutExtension.substring(0, 250);
+		}
+		String fileName = fileNameWithoutExtension + SCREENSHOT_EXTENSION;
 		File destFile = new File(folderPath + fileName);
 		try {
 			FileUtils.copyFile(srcFile, destFile);
