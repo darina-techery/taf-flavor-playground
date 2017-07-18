@@ -3,12 +3,11 @@ package steps;
 import actions.ActivityFeedActions;
 import actions.NavigationActions;
 import actions.NewPostActions;
-import com.worldventures.dreamtrips.api.profile.model.UserProfile;
 import data.ui.MenuItem;
 import io.appium.java_client.MobileElement;
 import org.junit.Assume;
 import ru.yandex.qatools.allure.annotations.Step;
-import utils.DateTimeHelper;
+import utils.StringHelper;
 import utils.annotations.UseActions;
 import utils.exceptions.FailedTestException;
 import utils.runner.Assert;
@@ -20,14 +19,13 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 public class ActivityFeedSteps {
+	public static final String DEFAULT_HASH_TAG = "#AutoTestPost";
 	private final NavigationActions navigationActions;
 	private final ActivityFeedActions activityFeedActions;
 	private final NewPostActions newPostActions;
@@ -87,8 +85,7 @@ public class ActivityFeedSteps {
 	}
 
 	@Step("Validate title for a post in Activity Feed")
-	public void assertThatPostHasValidTitle(MobileElement postContainer, UserProfile authorProfile) {
-		String expectedTitle = String.format("%s %s added a Post", authorProfile.firstName(), authorProfile.lastName());
+	public void assertThatPostHasValidTitle(MobileElement postContainer, String expectedTitle) {
 		String actualTitle = activityFeedActions.getPostTitle(postContainer);
 		Assert.assertThat("New post title should match provided one", actualTitle, is(expectedTitle));
 	}
@@ -112,17 +109,20 @@ public class ActivityFeedSteps {
 	}
 
 	@Step("Validate timestamp for a new post in Activity Feed")
-	public void assertThatPostHasValidTimestamp(MobileElement postContainer, LocalDateTime expectedTimestamp,
+	public void assertThatPostHasValidTimestamp(MobileElement postContainer, LocalDateTime expectedDateTime,
 	                                            Duration allowedDifference) {
-		ZoneId deviceZoneId = DateTimeHelper.getDeviceZoneId();
-		ZonedDateTime expectedZonedDateTime = expectedTimestamp.atZone(deviceZoneId);
 		LocalDateTime actualDateTime = activityFeedActions.getPostTimestamp(postContainer);
-		ZonedDateTime actualZonedDateTime = actualDateTime.atZone(deviceZoneId);
-		Duration actualDifference = Duration.between(actualZonedDateTime, expectedZonedDateTime);
+		Duration actualDifference = Duration.between(actualDateTime, expectedDateTime);
 		Assert.assertThat(
 				"Difference between actual post creating time and timestamp in post " +
 						"should be less than allowed post creating delay",
 				actualDifference, lessThan(allowedDifference));
+	}
+
+	@Step("Generate hash tag for test post based on current time and test name: '{0}'")
+	public String getHashTagBasedOnTimeAndTestName(String testName) {
+		return String.format("%s_%s_%s", DEFAULT_HASH_TAG, testName,
+				StringHelper.getTimestampSuffix());
 	}
 
 }

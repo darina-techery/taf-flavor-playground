@@ -6,8 +6,14 @@ import actions.NavigationActions;
 import actions.TermsAndConditionsActions;
 import ru.yandex.qatools.allure.annotations.Step;
 import user.UserCredentials;
+import user.UserCredentialsProvider;
+import user.UserSessionManager;
+import utils.annotations.LoginAs;
 import utils.annotations.UseActions;
 import utils.exceptions.FailedTestException;
+import utils.runner.Assert;
+
+import static org.hamcrest.core.Is.is;
 
 public class LoginSteps {
 	private final LoginActions loginActions;
@@ -22,6 +28,18 @@ public class LoginSteps {
 		this.loginActions = loginActions;
 		this.navigationActions = navigationActions;
 		this.termsAndConditionsActions = termsAndConditionsActions;
+	}
+
+	@Step("Login user before test (default or provided in @LoginAs)")
+	public void loginUserBeforeTest(UserCredentials defaultUser, LoginAs loginData) {
+		if (loginData != null) {
+			UserCredentials userCredentials = new UserCredentialsProvider().getUserByRole(loginData.role());
+			loginEvenIfLoggedId(userCredentials);
+			UserSessionManager.setActiveUser(userCredentials);
+		} else {
+			loginIfRequired(defaultUser);
+			UserSessionManager.setActiveUser(defaultUser);
+		}
 	}
 
 	@Step("Submit provided login credentials: '{0}' ")
@@ -66,5 +84,13 @@ public class LoginSteps {
 			alertActions.confirmLogout();
 		}
 		loginWithValidCredentials(user);
+	}
+
+//	@Step("Get if password field empty")
+//	public boolean isPasswordFieldEmpty()
+	@Step("Verify that password field is empty")
+	public void assertThatPasswordFieldEmpty() {
+		String currentPasswordValue = loginActions.getCurrentPasswordValue();
+		Assert.assertThat("Password field should be empty", currentPasswordValue.length(), is(0));
 	}
 }

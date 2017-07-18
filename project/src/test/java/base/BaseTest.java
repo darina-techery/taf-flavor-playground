@@ -14,11 +14,9 @@ import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import user.UserCredentials;
-import user.UserSessionManager;
 import utils.log.CommonLogMessages;
 import utils.log.LogProvider;
 
@@ -44,23 +42,18 @@ public abstract class BaseTest implements LogProvider, DriverListener, CommonLog
 		return stepsComponent;
 	}
 
-	@BeforeClass
+	@BeforeSuite(alwaysRun = true)
 	public void startHermetServiceIfNotPresent() {
 		hermetProxyActions.startMainService();
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void setTestMethodName(Method method) {
     	testMethodName = method.getName();
 	}
 
 	protected String getTestMethodName() {
     	return testMethodName;
-	}
-
-	@AfterMethod
-	public void resetActiveUserCredentials() {
-		UserSessionManager.resetUserData();
 	}
 
     private void initStepsComponent(){
@@ -81,7 +74,7 @@ public abstract class BaseTest implements LogProvider, DriverListener, CommonLog
 			    .build();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanupCreatedStubs(){
     	hermetProxyActions.deleteCreatedStubsForMainService();
     }

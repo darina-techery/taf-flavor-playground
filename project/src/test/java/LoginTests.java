@@ -1,4 +1,4 @@
-import base.BaseTestWithDriver;
+import base.BaseTestWithRestart;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -18,7 +18,7 @@ import utils.log.LogProvider;
 import java.io.*;
 import java.net.URLConnection;
 
-public final class LoginTests extends BaseTestWithDriver implements LogProvider {
+public final class LoginTests extends BaseTestWithRestart implements LogProvider {
 
 	private LoginSteps loginSteps = getStepsComponent().loginSteps();
 	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();

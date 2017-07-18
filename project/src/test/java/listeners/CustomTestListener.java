@@ -52,7 +52,6 @@ public class CustomTestListener extends TestListenerAdapter
 			createAttachmentOnFail();
 		} catch (Exception e) {
 			log.error("{}: can't capture test data on Fail due to error:\n{}", getFullTestName(tr), e.getMessage());
-			DriverProvider.restart();
 		}
 	}
 

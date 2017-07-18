@@ -28,6 +28,10 @@ public abstract class LoginActions extends BaseUiActions {
 		return baseWait.getText(loginPage.fldLogin);
 	}
 
+	public String getCurrentPasswordValue(){
+		return baseWait.getText(loginPage.fldPassword);
+	}
+
 	@Override
 	public void waitForScreen() {
 		boolean areFieldsPresent = baseWait.areAllDisplayedForElements(Arrays.asList(loginPage.fldLogin, loginPage.fldPassword));

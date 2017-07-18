@@ -2,6 +2,7 @@ package steps;
 
 import actions.rest.UserAPIActions;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
+import com.worldventures.dreamtrips.api.profile.model.UserProfile;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
 
@@ -24,5 +25,12 @@ public class UserAPISteps {
 	@Step("Upload new avatar for current user")
 	public void uploadAvatar(File avatarFile) throws IOException {
 		userAPIActions.uploadUserAvatar(avatarFile);
+	}
+
+	@Step("Upload provided avatar for user if current one is different")
+	public void uploadAvatarIfCurrentIsDifferent(UserProfile userProfile, File avatarFile) throws IOException {
+		if (!userProfile.avatar().thumb().endsWith(avatarFile.getName())) {
+			uploadAvatar(avatarFile);
+		}
 	}
 }
