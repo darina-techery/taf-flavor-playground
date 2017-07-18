@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class BucketListActions extends BaseUiActions {
+public abstract class BucketListActions extends BaseUiActions {
 	BucketListScreen bucketListScreen = new BucketListScreen();
 
 	@Override
@@ -41,14 +41,7 @@ public class BucketListActions extends BaseUiActions {
 	}
 
 	@Step("Press DONE button on keyboard")
-	public void pressDone() {
-		Dimension size = getDriver().manage().window().getSize();
-		int x = size.getWidth() - 20;
-		int y = size.getHeight() - 20;
-		getDriver().tap(1, x, y, 100);
-		//close search
-		//getDriver().navigate().back();
-	}
+	public void pressDone() {}
 
 	@Step("Find just created bucket list with name - ''{0}''")
 	public MobileElement getBucketList(String bucketListName, boolean scrollIfNotFound) {

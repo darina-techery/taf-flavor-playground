@@ -4,7 +4,9 @@ import com.worldventures.dreamtrips.api.entity.model.EntityHolder;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
+import com.worldventures.dreamtrips.api.bucketlist.model.BucketItem;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -22,4 +24,14 @@ public interface DreamTripsAPI {
 
 	@GET("/api/{uid}")
 	Call<EntityHolder<TripWithDetails>> getTripDetails(@Path("uid") String tripUid);
+
+	@GET("/api/users/{uid}/bucket_list_items")
+	Call<List<BucketItem>> getUserBucketLists(@Path("uid") String userUid);
+
+	@GET("/api/{uid}")
+	Call<EntityHolder<TripWithDetails>> getBucketLists(@Path("uid") String tripUid);
+
+	@DELETE("/api/bucket_list_items/{item}")
+	Call<Void> deleteBucketItem(@Path("item") String item);
+
 }

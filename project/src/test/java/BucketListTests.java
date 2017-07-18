@@ -1,4 +1,5 @@
 import base.BaseTestAfterLogin;
+import data.Platform;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
@@ -7,6 +8,7 @@ import steps.BucketListSteps;
 import steps.DriverSteps;
 import steps.LoginSteps;
 import steps.NavigationSteps;
+import utils.annotations.SkipOn;
 import utils.log.LogProvider;
 import utils.runner.Assert;
 
@@ -17,6 +19,9 @@ public final class BucketListTests extends BaseTestAfterLogin implements LogProv
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213564")
  	@Issue("https://techery.atlassian.net/browse/DTAUT-465")
+	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE},
+						jiraIssue = "")
+						//reason = "need to add ID to field with bucketName")
  	@Test
 	public void addNewBucketList() {
 		bucketListSteps.openBucketListScreen();

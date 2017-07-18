@@ -1,26 +1,11 @@
 package steps;
 
 import actions.BucketListActions;
-import actions.DreamTripDetailsActions;
-import actions.DreamTripsActions;
 import actions.NavigationActions;
-import com.worldventures.dreamtrips.api.trip.model.TripDates;
-import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
-import data.Configuration;
 import data.ui.MenuItem;
 import io.appium.java_client.MobileElement;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
-import utils.runner.Assert;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
 
 public class BucketListSteps {
 	private final BucketListActions bucketListActions;
@@ -45,6 +30,7 @@ public class BucketListSteps {
 		String nameForBucketList = bucketListActions.generateNameForBucketList();
 		bucketListActions.pressAddButton();
 		bucketListActions.enterBucketListName(nameForBucketList);
+
 		bucketListActions.pressDone();
 
 		return bucketListActions.getBucketList(nameForBucketList,false);

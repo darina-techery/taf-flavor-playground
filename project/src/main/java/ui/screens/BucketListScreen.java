@@ -38,9 +38,18 @@ public class BucketListScreen extends BaseUiModule {
     @AndroidFindBy(id = "textViewName")
     public MobileElement fldFirstItem;
 
+    @iOSFindBy(accessibility = "Done")
+    public MobileElement btnDoneNaming;
+
+    @iOSFindBy(accessibility = "Close")
+    public MobileElement btnCancelNaming;
+
     @iOSFindBy(accessibility = "Add")
     @AndroidFindBy(id = "action_quick")
     public MobileElement btnAddNewItem;
+
+    @iOSFindBy(accessibility = "TITLE:")
+    public MobileElement fldBucketListName;
 
     @iOSFindBy(uiAutomator = ".textFields()[0]")
     @AndroidFindBy(id = "editTextQuickInput")
