@@ -13,7 +13,7 @@ import utils.annotations.UseActions;
 import utils.exceptions.FailedTestException;
 import utils.runner.Assert;
 
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.text.IsEmptyString.isEmptyString;
 
 public class LoginSteps {
 	private final LoginActions loginActions;
@@ -77,6 +77,11 @@ public class LoginSteps {
 		return loginActions.isScreenActive();
 	}
 
+	@Step("Get state: if login screen is active")
+	public void assertThatLoginScreenIsShown() {
+		Assert.assertThat("Login screen should be active", isScreenActive());
+	}
+
 	@Step("Login to application as '{0}', even if already logged in")
 	public void loginEvenIfLoggedId(UserCredentials user) {
 		if (!loginActions.isScreenActive()) {
@@ -88,7 +93,7 @@ public class LoginSteps {
 
 	@Step("Verify that password field is empty")
 	public void assertThatPasswordFieldEmpty() {
-		String currentPasswordValue = loginActions.getCurrentPasswordValue();
-		Assert.assertThat("Password field should be empty", currentPasswordValue.length(), is(0));
+		String currentPasswordValue = loginActions.getPasswordFieldValue();
+		Assert.assertThat("Password field should be empty", currentPasswordValue, isEmptyString());
 	}
 }
