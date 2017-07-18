@@ -63,20 +63,6 @@ public class ActivityFeedScreen extends BaseUiModule {
 	public static By IOS_POST_DATE_LOCATOR = MobileBy.AccessibilityId("dateLabel");
 	public static By IOS_POST_TIME_LOCATOR = MobileBy.AccessibilityId("timeLabel");
 
-//	public static final Finder POST_DATE_FINDER = new Finder()
-//		.android(By.id("feed_header_date"))
-//		.ios(MobileBy.AccessibilityId("dateLabel"));
-//	public MobileElement getLblPostDate(MobileElement postContainer) {
-//		return POST_DATE_FINDER.find(postContainer);
-//	}
-//
-//	public static final Finder POST_TIME_FINDER = new Finder()
-//			.android(null)
-//			.ios(MobileBy.AccessibilityId("timeLabel"));
-//	public MobileElement getLblPostTime(MobileElement postContainer) {
-//		return POST_TIME_FINDER.find(postContainer);
-//	}
-
 	public static final Finder POST_TEXT_AREA_FINDER = new Finder()
 		.android(By.id("post"))
 		.ios(MobileBy.AccessibilityId("hashtagsLabel"));
@@ -112,7 +98,7 @@ public class ActivityFeedScreen extends BaseUiModule {
 		return POST_BTN_MORE_FINDER.find(postContainer);
 	}
 
-	private static final Finder POST_IMAGE_VIEW_FINDER = new Finder()
+	public static final Finder POST_IMAGE_VIEW_FINDER = new Finder()
 			.android(By.id("imageViewCover"))
 			.ios(MobileBy.AccessibilityId("coverPhotoButton"));
 	public MobileElement getImageView(MobileElement postContainer) {

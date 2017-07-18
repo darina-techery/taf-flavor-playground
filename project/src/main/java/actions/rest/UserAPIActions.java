@@ -79,15 +79,7 @@ public class UserAPIActions {
 		MediaType fileMediaType = FileUtils.getMediaType(avatarFile);
 		RequestBody requestFile = RequestBody.create(fileMediaType, avatarFile);
 		MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", avatarFile.getName(), requestFile);
-		// add another part within the multipart request
-//		String descriptionString = "Uploading avatar for current user";
-//		RequestBody description =
-//				RequestBody.create(
-//						okhttp3.MultipartBody.FORM, descriptionString);
-		// finally, execute the request
-//		Call<ResponseBody> call = uploadService.uploadAvatar(description, body);
 		Call<ResponseBody> call = uploadService.uploadAvatar(body);
-		Response<ResponseBody> response = call.execute();
-
+		call.execute();
 	}
 }

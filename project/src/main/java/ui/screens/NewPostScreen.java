@@ -13,19 +13,15 @@ public class NewPostScreen extends BaseUiModule {
 	@HowToUseLocators(androidAutomation = CHAIN)
 	@AndroidFindBy(id = "container_user")
 	@AndroidFindBy(id = "avatar")
-//	@iOSFindBy(accessibility = "postInfoView")
 	@iOSFindBy(accessibility = "avatar")
 	public MobileElement avatar;
 
 	@HowToUseLocators(androidAutomation = CHAIN)
 	@AndroidFindBy(id = "container_user")
 	@AndroidFindBy(id = "name")
-//	@iOSFindBy(accessibility = "postInfoView")
 	@iOSFindBy(accessibility = "userNameLabel")
 	public MobileElement lblUsername;
 
-	//	@HowToUseLocators(androidAutomation = LocatorGroupStrategy.CHAIN)
-//	@AndroidFindBy(id = "container_user")
 	@AndroidFindBy(id = "close")
 	@iOSFindBy(accessibility = "closePost")
 	public MobileElement btnClose;

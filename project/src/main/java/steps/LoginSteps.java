@@ -86,8 +86,6 @@ public class LoginSteps {
 		loginWithValidCredentials(user);
 	}
 
-//	@Step("Get if password field empty")
-//	public boolean isPasswordFieldEmpty()
 	@Step("Verify that password field is empty")
 	public void assertThatPasswordFieldEmpty() {
 		String currentPasswordValue = loginActions.getCurrentPasswordValue();
