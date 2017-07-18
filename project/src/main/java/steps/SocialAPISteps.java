@@ -47,7 +47,7 @@ public class SocialAPISteps {
 	}
 
 	@Step("Get all feed items with hashtags '{0}'")
-	public List<FeedItem> getFeedItemsByHashtags(String hashtags) throws IOException {
+	public List<FeedItem> getFeedItemsByHashTags(String hashtags) throws IOException {
 		AnyWait<Void, HashtagsSearchResponse> waitUntilFeedItemsAreFetched = new AnyWait<>();
 		waitUntilFeedItemsAreFetched.duration(Duration.ofMinutes(1));
 		waitUntilFeedItemsAreFetched.calculate(() -> {

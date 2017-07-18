@@ -23,6 +23,6 @@ public final class LoginTests extends BaseTestWithRestart implements LogProvider
 		loginSteps.loginIfRequired(defaultUser);
 		navigationSteps.assertLandingPageLoaded();
 	}
-	
+
 }
 

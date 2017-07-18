@@ -29,7 +29,6 @@ public class ActivityFeedTestsForNewPost extends BaseTestForLoggedInUserWithoutR
 	SocialAPISteps socialAPISteps = getStepsComponent().socialAPISteps();
 	UserAPISteps userAPISteps = getStepsComponent().userAPISteps();
 
-	private static final String DEFAULT_HASH_TAG = "#AutoTestPost";
 	private List<FeedItem> createdFeedItems;
 	private PrivateUserProfile defaultUserProfile;
 	private File userAvatarFile;
@@ -43,14 +42,14 @@ public class ActivityFeedTestsForNewPost extends BaseTestForLoggedInUserWithoutR
 		userAvatarFile = FileUtils.getResourceFile("images/blue.png");
 		userAPISteps.uploadAvatarIfCurrentIsDifferent(defaultUserProfile, userAvatarFile);
 		String testName = this.getClass().getSimpleName();
-		String hashTags = activityFeedSteps.getHashTagBasedOnTimeAndTestName(testName);
-		postContent = "Text post " + hashTags;
+		String hashTag = activityFeedSteps.getHashTagBasedOnTimeAndTestName(testName);
+		postContent = "Text post " + hashTag;
 
 		activityFeedSteps.openActivityFeedScreen();
 		activityFeedSteps.createNewTextPost(postContent);
 		createdAt = DateTimeHelper.getDeviceTime();
 
-		createdFeedItems = socialAPISteps.getFeedItemsByHashtags(hashTags);
+		createdFeedItems = socialAPISteps.getFeedItemsByHashTags(hashTag);
 		newPostContainer = activityFeedSteps.findNewPostByText(postContent);
 	}
 
@@ -82,8 +81,9 @@ public class ActivityFeedTestsForNewPost extends BaseTestForLoggedInUserWithoutR
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213556")
 	@Issue("https://techery.atlassian.net/browse/DTAUT-434")
 	@Test
-	@SkipOn(platforms = {Platform.IPAD}, jiraIssue = "https://techery.atlassian.net/browse/DTAUT-508",
-			reason = "[iPad] invalid screen area is captured on screenshot")
+	@SkipOn(platforms = {Platform.IPAD},
+			jiraIssue = "https://techery.atlassian.net/browse/DTAUT-508",
+			reason = "framework defect: invalid screen area is captured on screenshot")
 	public void checkNewPostAuthorAvatar() throws IOException {
 		activityFeedSteps.assertThatPostHasValidAvatar(newPostContainer, userAvatarFile);
 	}
