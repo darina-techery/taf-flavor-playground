@@ -1,11 +1,18 @@
 package utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import okhttp3.MediaType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
 
 public final class FileUtils {
-	private FileUtils(){}
+	private static final Logger log = LogManager.getLogger();
+	private FileUtils(){
+
+	}
 
 	public static String getResourceFilePath(String relativeFilePath) throws FileNotFoundException {
 		ClassLoader classLoader = FileUtils.class.getClassLoader();
@@ -24,5 +31,12 @@ public final class FileUtils {
 			throw new RuntimeException("Could not locate resource file at "+relativeFilePath);
 		}
 		return new File(path);
+	}
+
+	public static MediaType getMediaType(File f) throws IOException {
+		InputStream is = new BufferedInputStream(new FileInputStream(f));
+		String contentType = URLConnection.guessContentTypeFromStream(is);
+		is.close();
+		return MediaType.parse(contentType);
 	}
 }

@@ -14,19 +14,22 @@ import driver.DriverListener;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import user.UserCredentials;
-import user.UserSessionManager;
+import utils.log.CommonLogMessages;
 import utils.log.LogProvider;
 
-public abstract class BaseTest implements LogProvider, DriverListener {
+import java.lang.reflect.Method;
+
+public abstract class BaseTest implements LogProvider, DriverListener, CommonLogMessages {
 
 	@TestData(file = UserCredentials.DATA_FILE_NAME, key = "default_user")
 	protected UserCredentials defaultUser;
 
     private StepsComponent stepsComponent;
     private HermetProxyActions hermetProxyActions;
+    private String testMethodName;
 
     public BaseTest() {
 	    TestDataReader.readDataMembers(this);
@@ -39,14 +42,18 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 		return stepsComponent;
 	}
 
-	@BeforeClass
+	@BeforeSuite(alwaysRun = true)
 	public void startHermetServiceIfNotPresent() {
 		hermetProxyActions.startMainService();
 	}
 
-	@AfterMethod
-	public void resetActiveUserCredentials() {
-		UserSessionManager.resetUserData();
+	@BeforeMethod(alwaysRun = true)
+	public void setTestMethodName(Method method) {
+    	testMethodName = method.getName();
+	}
+
+	protected String getTestMethodName() {
+    	return testMethodName;
 	}
 
     private void initStepsComponent(){
@@ -67,7 +74,7 @@ public abstract class BaseTest implements LogProvider, DriverListener {
 			    .build();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanupCreatedStubs(){
     	hermetProxyActions.deleteCreatedStubsForMainService();
     }

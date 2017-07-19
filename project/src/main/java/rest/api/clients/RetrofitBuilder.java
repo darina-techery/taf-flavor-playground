@@ -2,6 +2,7 @@ package rest.api.clients;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import org.apache.http.entity.ContentType;
 import rest.api.interceptors.HeadersInterceptor;
 import rest.api.interceptors.APILoggingInterceptor;
 import retrofit2.Converter;
@@ -24,7 +25,7 @@ public class RetrofitBuilder {
 	private String baseUrl;
 
 	static {
-		COMMON_HEADERS.put("Content-Type", "application/json");
+		COMMON_HEADERS.put("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
 		DT_HEADERS.put("Accept","application/com.dreamtrips.api+json;version=2");
 		DT_HEADERS.put("DT-App-Version","1.19.0");
 	}

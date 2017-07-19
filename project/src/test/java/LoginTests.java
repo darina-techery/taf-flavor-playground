@@ -1,11 +1,11 @@
-import base.BaseTestWithDriver;
+import base.BaseTestWithRestart;
 import org.testng.annotations.Test;
 import steps.DriverSteps;
 import steps.LoginSteps;
 import steps.NavigationSteps;
 import utils.log.LogProvider;
 
-public final class LoginTests extends BaseTestWithDriver implements LogProvider {
+public final class LoginTests extends BaseTestWithRestart implements LogProvider {
 
 	private LoginSteps loginSteps = getStepsComponent().loginSteps();
 	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
@@ -23,5 +23,6 @@ public final class LoginTests extends BaseTestWithDriver implements LogProvider 
 		loginSteps.loginIfRequired(defaultUser);
 		navigationSteps.assertLandingPageLoaded();
 	}
+
 }
 

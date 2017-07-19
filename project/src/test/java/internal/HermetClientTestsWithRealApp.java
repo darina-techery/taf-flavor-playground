@@ -1,6 +1,6 @@
 package internal;
 
-import base.BaseTestWithDriver;
+import base.BaseTestWithRestart;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
 import data.ui.MenuItem;
 import org.openqa.selenium.By;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class HermetClientTestsWithRealApp extends BaseTestWithDriver {
+public class HermetClientTestsWithRealApp extends BaseTestWithRestart {
 	private LoginSteps loginSteps = getStepsComponent().loginSteps();
 	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
 

@@ -18,10 +18,7 @@ public abstract class BaseAndroidCapabilities extends BaseCapabilities {
 		capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 0);
 		capabilities.setCapability(CapabilityType.VERSION, "6.0");
 		capabilities.setCapability(MobileCapabilityType.ORIENTATION, ScreenOrientation.PORTRAIT);
-
-		//TODO: remove if fails
 		capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UIAutomator2");
-
 		capabilities.setCapability("defaultCapability", true);
 		capabilities.setCapability("CapabilityName", this.getClass().getName());
 		return capabilities;

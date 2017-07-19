@@ -1,13 +1,12 @@
-import base.BaseTestAfterLogin;
+import base.BaseTestForLoggedInUserWithRestart;
+import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
-import utils.runner.Assert;
-import org.testng.annotations.Test;
 import steps.LoginSteps;
 import steps.NavigationSteps;
 import utils.log.LogProvider;
 
-public final class LogoutTests extends BaseTestAfterLogin implements LogProvider {
+public final class LogoutTests extends BaseTestForLoggedInUserWithRestart implements LogProvider {
 
 	private LoginSteps loginSteps = getStepsComponent().loginSteps();
 	private NavigationSteps navigationSteps = getStepsComponent().navigationSteps();
@@ -17,7 +16,8 @@ public final class LogoutTests extends BaseTestAfterLogin implements LogProvider
 	@Test
 	public void logoutFromApp() {
 		navigationSteps.logoutUser();
-		Assert.assertThat("Login screen should be active after logout from application.",loginSteps.isScreenActive());
+		loginSteps.assertThatLoginScreenIsShown();
+		loginSteps.assertThatPasswordFieldEmpty();
 	}
 
 }

@@ -4,8 +4,9 @@ import data.Configuration;
 import driver.DriverProvider;
 import org.testng.annotations.*;
 import steps.DriverSteps;
+import user.UserSessionManager;
 
-public abstract class BaseTestWithDriver extends BaseTest {
+public abstract class BaseTestWithRestart extends BaseTest {
 
 	private DriverSteps driverSteps = getStepsComponent().driverSteps();
 
@@ -32,6 +33,11 @@ public abstract class BaseTestWithDriver extends BaseTest {
 		if (Configuration.isIOS()) {
 			driverSteps.resetApplication();
 		}
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void resetActiveUserCredentials() {
+		UserSessionManager.resetUserData();
 	}
 
 	@AfterClass(alwaysRun = true)
