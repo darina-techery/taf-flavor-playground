@@ -52,6 +52,6 @@ public class DroidNavigationActions extends NavigationActions {
 		By elementLocator = navigationMenu.getMenuItemLocator(menuItem);
 		SwipeHelper.scrollUpInContainer(navigationMenu.menuDrawer);
 		SwipeHelper.scrollDownToElement(elementLocator, navigationMenu.menuDrawer);
-		new Waiter().click(elementLocator);
+		new Waiter().click(elementLocator, navigationMenu.menuDrawer);
 	}
 }

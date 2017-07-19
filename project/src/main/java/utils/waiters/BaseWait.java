@@ -34,6 +34,8 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 
 	private static final String OUTPUT_TEMPLATE = "\n\t- %1$-9s [%2$s]";
 
+	private Throwable lastThrowable;
+
 	BaseWait() {
 		ignoredExceptions = new HashSet<>();
 		waitClassName = this.getClass().getSimpleName();
@@ -175,6 +177,10 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		return success;
 	}
 
+	public Throwable getLastError() {
+		return lastThrowable;
+	}
+
 	public R prepare(T testableObject) {
 		with(testableObject);
 		setDefaultPrecondition();
@@ -228,6 +234,7 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 				listIgnorableExceptions(log);
 				throw t;
 			}
+			lastThrowable = t;
 			success = false;
 		}
 		return result;
@@ -302,10 +309,10 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 		private void logWarning() {
 			StackTraceElement placeWhereWaitWasCalled = getWaitCallPositionInStackTrace();
 			String failedMethodName = getMethodName(placeWhereWaitWasCalled);
-			log.warn(String.format("For %s: [%s] failed to succeed in %d ms.",
-					describe(),
+			log.warn(String.format("Failure in %d ms in %s: %s",
+					timer.getTimeElapsedInMillis(),
 					waitClassName,
-					timer.getTimeElapsedInMillis()));
+					describe()));
 			Screenshot.getScreenshotOnTimeout(waitClassName + "_" + failedMethodName);
 		}
 
@@ -316,7 +323,12 @@ public abstract class BaseWait<T, R> implements IgnoresExceptions, LogProvider {
 						+ " failed"
 						+ (actionDescription == null ? "" : " to [" + actionDescription + "]")
 						+ " in " + describeWaitCallPosition();
-				throw new FailedTestException(errorMessage);
+				if (lastThrowable != null) {
+					errorMessage += "\n Last throwable caught: ";
+					throw new FailedTestException(errorMessage, lastThrowable);
+				} else {
+					throw new FailedTestException(errorMessage);
+				}
 			}
 		}
 	}

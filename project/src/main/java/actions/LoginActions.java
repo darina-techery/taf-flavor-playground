@@ -1,5 +1,6 @@
 package actions;
 
+import data.AppStrings;
 import ui.screens.LoginScreen;
 import utils.runner.Assert;
 import utils.waiters.Waiter;
@@ -9,7 +10,10 @@ import java.util.Arrays;
 
 public abstract class LoginActions extends BaseUiActions {
 
-	protected LoginScreen loginPage = new LoginScreen();
+	static final String LOGIN_HINT = AppStrings.get().userIdHint;
+	static final String PASSWORD_HINT = AppStrings.get().userPasswordHint;
+
+	LoginScreen loginPage = new LoginScreen();
 	private Waiter baseWait = new Waiter();
 
 	public void setLogin(String username) {
@@ -24,8 +28,14 @@ public abstract class LoginActions extends BaseUiActions {
 		baseWait.click(loginPage.btnLogin);
 	}
 
-	public String getCurrentLoginValue(){
-		return baseWait.getText(loginPage.fldLogin);
+	public String getLoginFieldValue(){
+		String loginValue = new Waiter().getText(loginPage.fldLogin);
+		return (loginValue.equals(LOGIN_HINT)) ? "" : loginValue;
+	}
+
+	public String getPasswordFieldValue() {
+		String passwordValue = new Waiter().getText(loginPage.fldPassword);
+		return (passwordValue.equals(PASSWORD_HINT)) ? "" : passwordValue;
 	}
 
 	@Override

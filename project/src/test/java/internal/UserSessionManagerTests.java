@@ -1,6 +1,6 @@
 package internal;
 
-import actions.rest.AuthAPIActions;
+import actions.rest.UserAPIActions;
 import base.BaseTest;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.profile.model.UserProfile;
@@ -84,7 +84,7 @@ public class UserSessionManagerTests extends BaseTest {
 
 	@Test
 	public void testAuthenticationTokenRemainsTheSameForOneUser() throws IOException {
-		AuthAPIActions restLoginActions = new AuthAPIActions();
+		UserAPIActions restLoginActions = new UserAPIActions();
 		Session response = restLoginActions.authenticateUser(defaultUser).body();
 		String defaultUserToken = response.token();
 

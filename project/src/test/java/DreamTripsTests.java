@@ -1,4 +1,4 @@
-import base.BaseTestAfterLogin;
+import base.BaseTestForLoggedInUserWithRestart;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +12,7 @@ import utils.annotations.LoginAs;
 
 import java.io.IOException;
 
-public class DreamTripsTests extends BaseTestAfterLogin {
+public class DreamTripsTests extends BaseTestForLoggedInUserWithRestart {
 
 	private DreamTripsSteps dreamTripsSteps = getStepsComponent().dreamTripsSteps();
 	private HermetProxySteps hermetSteps = new HermetProxySteps();

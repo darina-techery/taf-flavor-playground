@@ -330,7 +330,7 @@ public class Waiter implements CommonLogMessages, HasDriver {
 		wait.go();
 	}
 
-	public boolean exists(MobileElement e, WaitConfig config) {
+	public boolean exists(MobileElement e) {
 		ElementWait<Boolean> wait = wait(e, Boolean.class);
 		wait.calculate(el -> el.getSize() != null);
 		describeExists(wait);

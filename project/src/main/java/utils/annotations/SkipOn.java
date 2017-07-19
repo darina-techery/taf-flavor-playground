@@ -27,4 +27,10 @@ public @interface SkipOn {
 	 * @return jira ticket for the issue blocking this test
 	 */
 	String jiraIssue();
+
+
+	/**
+	 * @return explanation of reason why the test is disabled
+	 */
+	String reason() default "";
 }

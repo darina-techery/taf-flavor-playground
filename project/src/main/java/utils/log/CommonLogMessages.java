@@ -63,4 +63,12 @@ public interface CommonLogMessages {
 	default String messageForCalledAt(StackTraceElement e){
 		return String.format("For %s in %s", getMethodName(e), getFileName(e));
 	}
+
+	default String getErrorDescription(Throwable t) {
+		StringBuilder textBuilder = new StringBuilder(t.getMessage());
+		for (StackTraceElement ste : t.getStackTrace()) {
+			textBuilder.append("\n\t").append("at ").append(ste.toString());
+		}
+		return textBuilder.toString();
+	}
 }
