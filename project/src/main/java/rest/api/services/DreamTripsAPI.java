@@ -5,7 +5,8 @@ import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
-import com.worldventures.dreamtrips.api.bucketlist.model.BucketItem;
+import com.worldventures.dreamtrips.api.bucketlist.model.BucketItemSimple;
+import com.worldventures.dreamtrips.api.bucketlist.model.GsonAdaptersBucketItemSimple;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -31,11 +32,11 @@ public interface DreamTripsAPI {
 	@GET("/api/{uid}")
 	Call<EntityHolder<TripWithDetails>> getTripDetails(@Path("uid") String tripUid);
 
-	@GET("/api/users/{uid}/bucket_list_items")
-	Call<List<BucketItem>> getUserBucketLists(@Path("uid") String userUid);
+	@GET("/api/users/{userId}/bucket_list_items?status=new")
+	Call<List<BucketItemSimple>> getUserBucketLists(@Path("userId") Integer userUid);
 
 	@GET("/api/{uid}")
-	Call<EntityHolder<TripWithDetails>> getBucketLists(@Path("uid") String tripUid);
+	Call<EntityHolder<BucketItemSimple>> getBucketLists(@Path("uid") String tripUid);
 
 	@DELETE("/api/bucket_list_items/{item}")
 	Call<Void> deleteBucketItem(@Path("item") String item);

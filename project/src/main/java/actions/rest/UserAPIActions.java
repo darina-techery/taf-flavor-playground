@@ -72,6 +72,10 @@ public class UserAPIActions {
 		return response.body();
 	}
 
+	public Integer getCurrentUserId() throws IOException {
+		return getCurrentUserProfile().id();
+	}
+
 	public void uploadUserAvatar(File avatarFile) throws IOException {
 		UploadAPIClient client = new UploadAPIClient();
 		DreamTripsAPI uploadService = client.create(DreamTripsAPI.class);
