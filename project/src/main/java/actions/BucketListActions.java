@@ -5,6 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import ru.yandex.qatools.allure.annotations.Step;
 import ui.screens.BucketListScreen;
+import utils.StringHelper;
 import utils.waiters.AnyWait;
 import utils.waiters.Waiter;
 
@@ -32,17 +33,14 @@ public abstract class BucketListActions extends BaseUiActions {
 		element.click();
 	}
 
-	public String generateNameForBucketList(){
-		String nameOfBucketList = "BucketListForAutotests";
-
-		LocalDateTime time = LocalDateTime.now();
-		return nameOfBucketList + "_" + time.format(java.time.format.DateTimeFormatter.ofPattern("hh.mm.ss.SSS"));
+	public String generateNameForBucketList(String testName){
+		return testName + StringHelper.getTimestampSuffix();
 	}
 
 	@Step("Press DONE button on keyboard")
 	public void pressDone() {}
 
-	@Step("Find just created bucket list with name - ''{0}''")
+	@Step("Find just created bucket item with name - ''{0}''")
 	public MobileElement getBucketList(String bucketListName, boolean scrollIfNotFound) {
 
 		final Waiter waiter = new Waiter();

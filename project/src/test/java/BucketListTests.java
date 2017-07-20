@@ -2,6 +2,7 @@ import base.BaseTestForLoggedInUserWithoutRestart;
 import data.Platform;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
@@ -29,7 +30,7 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 		}
 	}
 
-	@BeforeTest
+	@BeforeMethod
 	public void openBucketListMenu() {
 		bucketListSteps.openBucketListScreen();
 	}
@@ -41,10 +42,11 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 						reason = "need to add ID to field for new bucket name on iOS")
  	@Test
 	public void addNewBucketList() throws IOException {
-		String bucketItemName = bucketListSteps.getRandomNameForBucketList();
+		String testName = getTestMethodName();
+		String bucketItemName = bucketListSteps.getRandomNameForBucketList(testName);
 		createdBucketItems.add(bucketItemName);
 		MobileElement bucketList = bucketListSteps.createNewBucketListWithName(bucketItemName);
-		Assert.assertThat("New BucketList should be found in BucketLists", bucketList,
+		Assert.assertThat("New BucketItem should be found in BucketLists", bucketList,
 				notNullValue());
 
 	}

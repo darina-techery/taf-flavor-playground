@@ -39,13 +39,13 @@ public class BucketListSteps {
 		return bucketListActions.getBucketList(bucketListName,false);
 	}
 
-	public String getRandomNameForBucketList(){
-		return bucketListActions.generateNameForBucketList();
+	public String getRandomNameForBucketList(String methodName){
+		return bucketListActions.generateNameForBucketList(methodName);
 	}
 
 	@Step("Delete Bucket List with name {0}")
 	public void deleteBucketList(String bucketListName) throws IOException {
-		String bucketListUid = bucketListAPIActions.getUidFromBucketListsWithSpecificName(bucketListName);
+		String bucketListUid = bucketListAPIActions.getUidFromBucketItemListsWithSpecificName(bucketListName);
 		bucketListAPIActions.deleteBucketListWithUid(bucketListUid);
 	}
 }

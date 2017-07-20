@@ -20,16 +20,16 @@ public class BucketListAPIActions {
 
 	UserCredentials userCredentials = UserSessionManager.getActiveUser();
 
-	public List<BucketItemSimple> getListOfBucketLists(Integer userId) throws IOException {
+	public List<BucketItemSimple> getListOfBucketItemsList(Integer userId) throws IOException {
 		return dreamTripsAPI.getUserBucketLists(userId).execute().body();
 	}
 
-	public String getUidFromBucketListsWithSpecificName(String bucketName) throws IOException {
-		return getBucketItemFromBucketListsWithSpecificName(bucketName).name();
+	public String getUidFromBucketItemListsWithSpecificName(String bucketName) throws IOException {
+		return getBucketItemFromBucketItemListsWithSpecificName(bucketName).name();
 	}
 
-	public BucketItemSimple getBucketItemFromBucketListsWithSpecificName(String bucketName) throws IOException {
-		for(BucketItemSimple bucketItem : getListOfBucketLists(userAPIActions.getCurrentUserId())){
+	public BucketItemSimple getBucketItemFromBucketItemListsWithSpecificName(String bucketName) throws IOException {
+		for(BucketItemSimple bucketItem : getListOfBucketItemsList(userAPIActions.getCurrentUserId())){
 			if (bucketItem.name().equals(bucketName)) {
 				return bucketItem;
 			}
