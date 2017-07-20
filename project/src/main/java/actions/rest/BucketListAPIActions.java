@@ -24,11 +24,14 @@ public class BucketListAPIActions {
 		return dreamTripsAPI.getUserBucketLists(userId).execute().body();
 	}
 
-	public String getUidFromBucketLists(String bucketName) throws IOException {
-		for(BucketItemSimple bucketItem : getListOfBucketLists(userAPIActions.getCurrentUserId())){
+	public String getUidFromBucketListsWithSpecificName(String bucketName) throws IOException {
+		return getBucketItemFromBucketListsWithSpecificName(bucketName).name();
+	}
 
+	public BucketItemSimple getBucketItemFromBucketListsWithSpecificName(String bucketName) throws IOException {
+		for(BucketItemSimple bucketItem : getListOfBucketLists(userAPIActions.getCurrentUserId())){
 			if (bucketItem.name().equals(bucketName)) {
-				return bucketItem.uid();
+				return bucketItem;
 			}
 		}
 		return null;

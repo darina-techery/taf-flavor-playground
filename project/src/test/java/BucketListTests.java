@@ -1,8 +1,8 @@
 import base.BaseTestForLoggedInUserWithoutRestart;
 import data.Platform;
 import io.appium.java_client.MobileElement;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
@@ -19,14 +19,19 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart implements LogProvider {
 	private BucketListSteps bucketListSteps = getStepsComponent().bucketListSteps();
-	private List<String> createdBucketLists = new ArrayList<>();
+	private List<String> createdBucketItems = new ArrayList<>();
 
 
-	@AfterClass
+	@AfterTest
 	public void deleteCreatedBucketLists() throws IOException {
-		for (String bucketListName : createdBucketLists) {
-			bucketListSteps.deleteBucketList(bucketListName);
+		for (String bucketItemName : createdBucketItems) {
+			bucketListSteps.deleteBucketList(bucketItemName);
 		}
+	}
+
+	@BeforeTest
+	public void openBucketListMenu() {
+		bucketListSteps.openBucketListScreen();
 	}
 
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213564")
@@ -36,11 +41,10 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 						reason = "need to add ID to field for new bucket name on iOS")
  	@Test
 	public void addNewBucketList() throws IOException {
-		bucketListSteps.openBucketListScreen();
-		String bucketListName = bucketListSteps.getRandomNameForBucketList();
-		createdBucketLists.add(bucketListName);
-		MobileElement bucketList = bucketListSteps.createNewBucketListWithName(bucketListName);
-		Assert.assertThat("New BucketList not found in BucketLists", bucketList,
+		String bucketItemName = bucketListSteps.getRandomNameForBucketList();
+		createdBucketItems.add(bucketItemName);
+		MobileElement bucketList = bucketListSteps.createNewBucketListWithName(bucketItemName);
+		Assert.assertThat("New BucketList should be found in BucketLists", bucketList,
 				notNullValue());
 
 	}

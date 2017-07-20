@@ -45,7 +45,7 @@ public class BucketListSteps {
 
 	@Step("Delete Bucket List with name {0}")
 	public void deleteBucketList(String bucketListName) throws IOException {
-		String bucketListUid = bucketListAPIActions.getUidFromBucketLists(bucketListName);
+		String bucketListUid = bucketListAPIActions.getUidFromBucketListsWithSpecificName(bucketListName);
 		bucketListAPIActions.deleteBucketListWithUid(bucketListUid);
 	}
 }

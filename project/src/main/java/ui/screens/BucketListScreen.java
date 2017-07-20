@@ -25,18 +25,12 @@ public class BucketListScreen extends BaseUiModule {
     @AndroidFindBy(id = "appbar")
     public MobileElement menuUpper;
 
-    @AndroidFindBy(id = "pager")
-    public MobileElement listPager;
 
 	 /*----------- BUTTONS ------------*/
 
     @iOSFindBy(uiAutomator = ".navigationBars().firstWithPredicate(\"buttons.name contains 'filter icon' \").staticTexts()[0]")
     @AndroidFindBy(xpath = "//*[contains(@text, 'Bucket List')]")
     public MobileElement fldPageTitle;
-
-    @iOSFindBy(uiAutomator = ".collectionViews()[0].cells()[0].textFields()[0]")
-    @AndroidFindBy(id = "textViewName")
-    public MobileElement fldFirstItem;
 
     @iOSFindBy(accessibility = "Done")
     public MobileElement btnDoneNaming;
@@ -51,23 +45,7 @@ public class BucketListScreen extends BaseUiModule {
     @iOSFindBy(accessibility = "TITLE:")
     public MobileElement fldBucketListName;
 
-    @iOSFindBy(uiAutomator = ".textFields()[0]")
     @AndroidFindBy(id = "editTextQuickInput")
     public MobileElement fldCreateItemInput;
-
-    @iOSFindBy(uiAutomator = ".collectionViews()[0].cells()")
-    @AndroidFindBy(id = "textViewName")
-    public List<MobileElement> listFldsBucketListItems;
-
-    @iOSFindBy(uiAutomator = ".collectionViews()[0].cells()")
-    @AndroidFindBy(id = "buttonNew")
-    public MobileElement btnCreateMyOwnList;
-
-    @iOSFindBy(uiAutomator = ".collectionViews()[0].cells()")
-    @AndroidFindBy(id = "buttonPopular")
-    public MobileElement btnChoseFromPopular;
-
-    @iOSFindBy(uiAutomator = ".scrollViews()")
-    public MobileElement fldDialer;
 
 }
