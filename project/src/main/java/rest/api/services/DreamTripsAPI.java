@@ -5,6 +5,13 @@ import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
+import com.worldventures.dreamtrips.api.bucketlist.model.BucketItemSimple;
+import com.worldventures.dreamtrips.api.bucketlist.model.GsonAdaptersBucketItemSimple;
+import retrofit2.Call;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,6 +32,14 @@ public interface DreamTripsAPI {
 	@GET("/api/{uid}")
 	Call<EntityHolder<TripWithDetails>> getTripDetails(@Path("uid") String tripUid);
 
+	@GET("/api/users/{userId}/bucket_list_items?status=new")
+	Call<List<BucketItemSimple>> getUserBucketItems(@Path("userId") Integer userUid);
+
+	@GET("/api/{uid}")
+	Call<EntityHolder<BucketItemSimple>> getBucketItem(@Path("uid") String bucketItemUid);
+
+	@DELETE("/api/bucket_list_items/{item}")
+	Call<Void> deleteBucketItem(@Path("item") String item);
 
 	@GET("/api/hashtags/search?per_page=10&type=post")
 	Call<HashtagsSearchResponse> getPostsByHashTag(@Query("before") String beforeDate,
