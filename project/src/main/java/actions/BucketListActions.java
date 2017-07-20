@@ -10,7 +10,6 @@ import utils.waiters.AnyWait;
 import utils.waiters.Waiter;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class BucketListActions extends BaseUiActions {
@@ -26,8 +25,8 @@ public abstract class BucketListActions extends BaseUiActions {
 		waiter.click(bucketListScreen.btnAddNewItem);
 	}
 
-	@Step("Enter Bucket List name ''{0}''")
-	public void enterBucketListName(String name) {
+	@Step("Enter Bucket Item name ''{0}''")
+	public void enterBucketItemName(String name) {
 		MobileElement element = bucketListScreen.fldNewBucketItemName;
 		element.sendKeys(name);
 		element.click();
@@ -41,7 +40,7 @@ public abstract class BucketListActions extends BaseUiActions {
 	public void pressDone() {}
 
 	@Step("Find just created bucket item with name - ''{0}''")
-	public MobileElement getBucketList(String bucketListName, boolean scrollIfNotFound) {
+	public MobileElement getBucketItem(String bucketListName, boolean scrollIfNotFound) {
 
 		final Waiter waiter = new Waiter();
 		final AnyWait<String, MobileElement> finder = new AnyWait<>();

@@ -21,7 +21,7 @@ public class BucketListAPIActions {
 	UserCredentials userCredentials = UserSessionManager.getActiveUser();
 
 	public List<BucketItemSimple> getBucketItemsForUser(Integer userId) throws IOException {
-		return dreamTripsAPI.getUserBucketLists(userId).execute().body();
+		return dreamTripsAPI.getUserBucketItems(userId).execute().body();
 	}
 
 	public String getUidFromBucketItemByName(String bucketName) throws IOException {

@@ -34,9 +34,9 @@ public class BucketListSteps {
 	@Step("Create new Bucket Item with name {0}")
 	public MobileElement createNewBucketItemWithName(String bucketListName) {
 		bucketListActions.pressAddButton();
-		bucketListActions.enterBucketListName(bucketListName);
+		bucketListActions.enterBucketItemName(bucketListName);
 		bucketListActions.pressDone();
-		return bucketListActions.getBucketList(bucketListName,false);
+		return bucketListActions.getBucketItem(bucketListName,false);
 	}
 
 	public String getRandomNameForBucketItem(String methodName){

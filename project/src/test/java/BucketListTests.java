@@ -1,6 +1,7 @@
 import base.BaseTestForLoggedInUserWithoutRestart;
 import data.Platform;
 import io.appium.java_client.MobileElement;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,8 +23,8 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 	private List<String> createdBucketItems = new ArrayList<>();
 
 
-	@AfterTest
-	public void deleteCreatedBucketLists() throws IOException {
+	@AfterMethod
+	public void deleteCreatedBucketItem() throws IOException {
 		for (String bucketItemName : createdBucketItems) {
 			bucketListSteps.deleteBucketItem(bucketItemName);
 		}
@@ -40,7 +41,7 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 						jiraIssue = "https://techery.atlassian.net/browse/DTAUT-509",
 						reason = "need to add ID to field for new bucket name on iOS")
  	@Test
-	public void addNewBucketList() throws IOException {
+	public void addNewBucketItem() throws IOException {
 		String testName = getTestMethodName();
 		String bucketItemName = bucketListSteps.getRandomNameForBucketItem(testName);
 		createdBucketItems.add(bucketItemName);

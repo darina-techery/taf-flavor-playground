@@ -33,10 +33,10 @@ public interface DreamTripsAPI {
 	Call<EntityHolder<TripWithDetails>> getTripDetails(@Path("uid") String tripUid);
 
 	@GET("/api/users/{userId}/bucket_list_items?status=new")
-	Call<List<BucketItemSimple>> getUserBucketLists(@Path("userId") Integer userUid);
+	Call<List<BucketItemSimple>> getUserBucketItems(@Path("userId") Integer userUid);
 
 	@GET("/api/{uid}")
-	Call<EntityHolder<BucketItemSimple>> getBucketLists(@Path("uid") String tripUid);
+	Call<EntityHolder<BucketItemSimple>> getBucketItem(@Path("uid") String bucketItemUid);
 
 	@DELETE("/api/bucket_list_items/{item}")
 	Call<Void> deleteBucketItem(@Path("item") String item);
@@ -51,6 +51,5 @@ public interface DreamTripsAPI {
 	@Multipart
 	@POST("/api/profile/avatar")
 	Call<ResponseBody> uploadAvatar(
-//	Call<ResponseBody> uploadAvatar(@Part("description") RequestBody description,
 	                                @Part MultipartBody.Part file);
 }
