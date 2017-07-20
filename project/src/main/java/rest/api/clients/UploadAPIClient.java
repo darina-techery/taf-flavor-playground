@@ -3,6 +3,7 @@ package rest.api.clients;
 import org.apache.http.entity.ContentType;
 import rest.api.hermet.HermetProxyDataFactory;
 import rest.api.interceptors.AuthenticationInterceptor;
+import rest.api.interceptors.RetryInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UploadAPIClient extends BaseAPIClient {
@@ -14,6 +15,7 @@ public class UploadAPIClient extends BaseAPIClient {
 				.addHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.getMimeType())
 				.addHeaders(RetrofitBuilder.DT_HEADERS)
 				.addInterceptor(new AuthenticationInterceptor())
+				.addInterceptor(new RetryInterceptor())
 				.build();
 	}
 

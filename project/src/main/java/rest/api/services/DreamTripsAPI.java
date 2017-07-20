@@ -36,6 +36,8 @@ public interface DreamTripsAPI {
 	@Multipart
 	@POST("/api/profile/avatar")
 	Call<ResponseBody> uploadAvatar(
-//	Call<ResponseBody> uploadAvatar(@Part("description") RequestBody description,
 	                                @Part MultipartBody.Part file);
+
+	@POST("/api/terms_and_conditions/accept")
+	Call<ResponseBody> acceptTermsAndConditions();
 }

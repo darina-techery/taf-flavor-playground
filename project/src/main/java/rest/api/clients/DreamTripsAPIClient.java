@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.worldventures.dreamtrips.api.api_common.converter.GsonProvider;
 import rest.api.hermet.HermetProxyDataFactory;
 import rest.api.interceptors.AuthenticationInterceptor;
+import rest.api.interceptors.RetryInterceptor;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DreamTripsAPIClient extends BaseAPIClient {
@@ -16,7 +17,8 @@ public class DreamTripsAPIClient extends BaseAPIClient {
 				.addHeaders(RetrofitBuilder.COMMON_HEADERS)
 				.addHeaders(RetrofitBuilder.DT_HEADERS)
 				.addGsonConverterFactory(gsonConverterFactory)
-				.addInterceptor(new AuthenticationInterceptor());
+				.addInterceptor(new AuthenticationInterceptor())
+				.addInterceptor(new RetryInterceptor());
 		client = builder.build();
 	}
 

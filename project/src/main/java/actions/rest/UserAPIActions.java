@@ -14,19 +14,17 @@ import rest.api.clients.UploadAPIClient;
 import rest.api.model.login.request.LoginRequest;
 import rest.api.services.AuthAPI;
 import rest.api.services.DreamTripsAPI;
-import rest.helpers.FailedResponseParser;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import user.UserCredentials;
 import user.UserSessionManager;
 import utils.FileUtils;
 import utils.exceptions.FailedConfigurationException;
 import utils.exceptions.FailedWaitAttemptException;
-import utils.waiters.AnyWait;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
 
 import static org.hamcrest.core.Is.is;
 
@@ -45,25 +43,28 @@ public class UserAPIActions {
 
 	public Response<Session> authenticateUser(UserCredentials userCredentials) {
 		final LoginRequest request = new LoginRequest(userCredentials);
-
-		final AnyWait<Void, Response<Session>> loginOperation = new AnyWait<>();
-		loginOperation.duration(Duration.ofMinutes(1));
-		loginOperation.calculate(() -> {
-			try {
-				return authAPI.login(request).execute();
-			} catch (IOException e) {
-				throw new FailedWaitAttemptException("Failed to execute login request", e);
-			}
-		});
-		loginOperation.until(Response::isSuccessful);
-		final Response<Session> loginResponse = loginOperation.go();
-		if (loginResponse == null || !loginResponse.isSuccessful()) {
-			String message = new FailedResponseParser()
-					.describeFailedResponse(loginResponse, "Login via Rest API");
-			throw new FailedConfigurationException(message);
+		Response<Session> loginResponse;
+		try {
+			loginResponse = authAPI.login(request).execute();
+		} catch (IOException e) {
+			throw new FailedWaitAttemptException("Failed to execute login request", e);
 		}
 		UserSessionManager.addApiSession(loginResponse.body());
 		return loginResponse;
+	}
+
+	public void authenticateUserInBackground(UserCredentials userCredentials) {
+		final LoginRequest request = new LoginRequest(userCredentials);
+		authAPI.login(request).enqueue(new Callback<Session>() {
+			@Override
+			public void onResponse(Call<Session> call, Response<Session> response) {
+				UserSessionManager.addApiSession(response.body());
+			}
+			@Override
+			public void onFailure(Call<Session> call, Throwable t) {
+				throw new FailedConfigurationException("Failed to execute login request", t);
+			}
+		});
 	}
 
 	public PrivateUserProfile getCurrentUserProfile() throws IOException {
@@ -81,5 +82,19 @@ public class UserAPIActions {
 		MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", avatarFile.getName(), requestFile);
 		Call<ResponseBody> call = uploadService.uploadAvatar(body);
 		call.execute();
+	}
+
+	public void acceptTermsAndConditionsInBackground() {
+		dreamTripsAPI.acceptTermsAndConditions().enqueue(new Callback<ResponseBody>() {
+			@Override
+			public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+				log.debug("Accepted Terms & Conditions for current user (if not accepted yet)");
+			}
+
+			@Override
+			public void onFailure(Call<ResponseBody> call, Throwable t) {
+				throw new FailedConfigurationException("Failed to accept terms and conditions for current user: ", t);
+			}
+		});
 	}
 }
