@@ -32,8 +32,8 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 	@TestCaseId("https://techery.testrail.net/index.php?/cases/view/213564")
  	@Issue("https://techery.atlassian.net/browse/DTAUT-465")
 	@SkipOn(platforms = {Platform.IPAD, Platform.IPHONE},
-						jiraIssue = "")
-						//reason = "need to add ID to field with bucketName")
+						jiraIssue = "https://techery.atlassian.net/browse/DTAUT-509",
+						reason = "need to add ID to field for new bucket name on iOS")
  	@Test
 	public void addNewBucketList() throws IOException {
 		bucketListSteps.openBucketListScreen();
