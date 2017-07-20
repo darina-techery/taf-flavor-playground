@@ -20,16 +20,16 @@ public class BucketListAPIActions {
 
 	UserCredentials userCredentials = UserSessionManager.getActiveUser();
 
-	public List<BucketItemSimple> getListOfBucketItemsList(Integer userId) throws IOException {
+	public List<BucketItemSimple> getBucketItemsForUser(Integer userId) throws IOException {
 		return dreamTripsAPI.getUserBucketLists(userId).execute().body();
 	}
 
-	public String getUidFromBucketItemListsWithSpecificName(String bucketName) throws IOException {
-		return getBucketItemFromBucketItemListsWithSpecificName(bucketName).name();
+	public String getUidFromBucketItemByName(String bucketName) throws IOException {
+		return getBucketItemByNameForCurrentUser(bucketName).name();
 	}
 
-	public BucketItemSimple getBucketItemFromBucketItemListsWithSpecificName(String bucketName) throws IOException {
-		for(BucketItemSimple bucketItem : getListOfBucketItemsList(userAPIActions.getCurrentUserId())){
+	public BucketItemSimple getBucketItemByNameForCurrentUser(String bucketName) throws IOException {
+		for(BucketItemSimple bucketItem : getBucketItemsForUser(userAPIActions.getCurrentUserId())){
 			if (bucketItem.name().equals(bucketName)) {
 				return bucketItem;
 			}
@@ -37,7 +37,7 @@ public class BucketListAPIActions {
 		return null;
 	}
 
-	public int deleteBucketListWithUid(String uid) throws IOException {
+	public int deleteBucketItemWithUid(String uid) throws IOException {
 		return dreamTripsAPI.deleteBucketItem(uid).execute().code();
 	}
 }

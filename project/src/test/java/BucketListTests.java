@@ -3,7 +3,6 @@ import data.Platform;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
 import ru.yandex.qatools.allure.annotations.TestCaseId;
@@ -26,7 +25,7 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
 	@AfterTest
 	public void deleteCreatedBucketLists() throws IOException {
 		for (String bucketItemName : createdBucketItems) {
-			bucketListSteps.deleteBucketList(bucketItemName);
+			bucketListSteps.deleteBucketItem(bucketItemName);
 		}
 	}
 
@@ -43,9 +42,9 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
  	@Test
 	public void addNewBucketList() throws IOException {
 		String testName = getTestMethodName();
-		String bucketItemName = bucketListSteps.getRandomNameForBucketList(testName);
+		String bucketItemName = bucketListSteps.getRandomNameForBucketItem(testName);
 		createdBucketItems.add(bucketItemName);
-		MobileElement bucketList = bucketListSteps.createNewBucketListWithName(bucketItemName);
+		MobileElement bucketList = bucketListSteps.createNewBucketItemWithName(bucketItemName);
 		Assert.assertThat("New BucketItem should be found in BucketLists", bucketList,
 				notNullValue());
 

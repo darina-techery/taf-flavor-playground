@@ -31,21 +31,21 @@ public class BucketListSteps {
 	}
 
 
-	@Step("Create new Bucket List with name {0}")
-	public MobileElement createNewBucketListWithName(String bucketListName) {
+	@Step("Create new Bucket Item with name {0}")
+	public MobileElement createNewBucketItemWithName(String bucketListName) {
 		bucketListActions.pressAddButton();
 		bucketListActions.enterBucketListName(bucketListName);
 		bucketListActions.pressDone();
 		return bucketListActions.getBucketList(bucketListName,false);
 	}
 
-	public String getRandomNameForBucketList(String methodName){
-		return bucketListActions.generateNameForBucketList(methodName);
+	public String getRandomNameForBucketItem(String methodName){
+		return bucketListActions.generateNameForBucketItem(methodName);
 	}
 
-	@Step("Delete Bucket List with name {0}")
-	public void deleteBucketList(String bucketListName) throws IOException {
-		String bucketListUid = bucketListAPIActions.getUidFromBucketItemListsWithSpecificName(bucketListName);
-		bucketListAPIActions.deleteBucketListWithUid(bucketListUid);
+	@Step("Delete Bucket Item with name {0}")
+	public void deleteBucketItem(String bucketListName) throws IOException {
+		String bucketItemUid = bucketListAPIActions.getUidFromBucketItemByName(bucketListName);
+		bucketListAPIActions.deleteBucketItemWithUid(bucketItemUid);
 	}
 }

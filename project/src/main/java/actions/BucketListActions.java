@@ -28,12 +28,12 @@ public abstract class BucketListActions extends BaseUiActions {
 
 	@Step("Enter Bucket List name ''{0}''")
 	public void enterBucketListName(String name) {
-		MobileElement element = bucketListScreen.fldCreateItemInput;
+		MobileElement element = bucketListScreen.fldNewBucketItemName;
 		element.sendKeys(name);
 		element.click();
 	}
 
-	public String generateNameForBucketList(String testName){
+	public String generateNameForBucketItem(String testName){
 		return testName + StringHelper.getTimestampSuffix();
 	}
 

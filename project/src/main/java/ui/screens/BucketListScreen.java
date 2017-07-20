@@ -1,11 +1,8 @@
 package ui.screens;
 
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.iOSFindBy;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.openqa.selenium.By;
 import ui.BaseUiModule;
 
 import java.util.List;
@@ -17,21 +14,14 @@ public class BucketListScreen extends BaseUiModule {
  	@iOSFindBy(accessibility = "feedCell")
  	public List<MobileElement> bucketListContainers;
 
-    @iOSFindBy(uiAutomator = ".collectionViews()[0].cells()[0].textFields()[0]")
     @AndroidFindBy(id = "textViewName")
     public List<MobileElement> bucketListTextEntries;
 
-    /*----------- LINKS --------------*/
     @AndroidFindBy(id = "appbar")
-    public MobileElement menuUpper;
+    public MobileElement tabBar;
 
 
 	 /*----------- BUTTONS ------------*/
-
-    @iOSFindBy(uiAutomator = ".navigationBars().firstWithPredicate(\"buttons.name contains 'filter icon' \").staticTexts()[0]")
-    @AndroidFindBy(xpath = "//*[contains(@text, 'Bucket List')]")
-    public MobileElement fldPageTitle;
-
     @iOSFindBy(accessibility = "Done")
     public MobileElement btnDoneNaming;
 
@@ -42,10 +32,12 @@ public class BucketListScreen extends BaseUiModule {
     @AndroidFindBy(id = "action_quick")
     public MobileElement btnAddNewItem;
 
-    @iOSFindBy(accessibility = "TITLE:")
-    public MobileElement fldBucketListName;
+
+    /*------------ FIELDS ------------*/
+    @AndroidFindBy(xpath = "//android.widget.TextView[contains(@text, 'Bucket List')]")
+    public MobileElement fldPageTitle;
 
     @AndroidFindBy(id = "editTextQuickInput")
-    public MobileElement fldCreateItemInput;
+    public MobileElement fldNewBucketItemName;
 
 }
