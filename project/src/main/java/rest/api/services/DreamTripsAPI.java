@@ -1,17 +1,11 @@
 package rest.api.services;
 
+import com.worldventures.dreamtrips.api.bucketlist.model.BucketItemSimple;
 import com.worldventures.dreamtrips.api.entity.model.EntityHolder;
 import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.trip.model.TripWithDetails;
 import com.worldventures.dreamtrips.api.trip.model.TripWithoutDetails;
-import com.worldventures.dreamtrips.api.bucketlist.model.BucketItemSimple;
-import com.worldventures.dreamtrips.api.bucketlist.model.GsonAdaptersBucketItemSimple;
-import retrofit2.Call;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -50,8 +44,7 @@ public interface DreamTripsAPI {
 
 	@Multipart
 	@POST("/api/profile/avatar")
-	Call<ResponseBody> uploadAvatar(
-	                                @Part MultipartBody.Part file);
+	Call<ResponseBody> uploadAvatar(@Part MultipartBody.Part file);
 
 	@POST("/api/terms_and_conditions/accept")
 	Call<ResponseBody> acceptTermsAndConditions();

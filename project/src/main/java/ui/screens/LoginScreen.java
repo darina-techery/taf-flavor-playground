@@ -15,7 +15,6 @@ public class LoginScreen extends BaseUiModule {
 
 	@iOSFindBy(accessibility = "PASSWORD")
 	@AndroidFindBy(id = "et_password")
-	@AndroidFindBy(className = "android.widget.TextView")
 	public MobileElement fldPassword;
 
 	@iOSFindBy(accessibility = "LOGINBTN")
