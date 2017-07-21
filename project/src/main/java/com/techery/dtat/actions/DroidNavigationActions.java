@@ -18,16 +18,6 @@ public class DroidNavigationActions extends NavigationActions {
 		boolean isMenuButtonDisplayed = new Waiter(Duration.ofSeconds(10))
 				.waitDisplayed(navigationMenu.menuButton);
 		Assert.assertThat("Menu button should be visible now as an attribute of landing page", isMenuButtonDisplayed);
-//		String expectedActivityName = "MainActivity";
-//		AnyWait<Void, String> activityWait = new AnyWait<>();
-//		activityWait.duration(Duration.ofMinutes(1));
-//		activityWait.calculate(()->((AndroidDriver) getDriver()).currentActivity());
-//		activityWait.until(activityName -> activityName.contains(expectedActivityName));
-//		activityWait.describe("Get current activity name and compare to ["+expectedActivityName+"]");
-//		activityWait.go();
-//		if (!activityWait.isSuccess()) {
-//			throw new FailedTestException("Cannot load "+expectedActivityName+", "+activityWait.result() + " found instead.");
-//		}
 	}
 
 	@Override
