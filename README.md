@@ -166,7 +166,7 @@ Tests operate Test Steps, which are accessible by `getStepsComponent().***Steps(
 Dagger.
 
 There are 3 base classes for tests:
-* `BaseTest` provides access to test steps. Use it for basic tests.internal self-tests.
+* `BaseTest` provides access to test steps. Use it for basic internal self-tests.
 ```java
 public class MySimpleTest extends BaseTest {
 	MySimpleSteps steps = getStepsComponent().mySimpleSteps();
@@ -325,7 +325,7 @@ If actions chain fails, Waiter pauses and then executes all sequence from beginn
 Either test object, or result, or both of them can be null. 
 In this case, type will be AnyWait&lt;Void, Void&gt;, because we take nothing and return nothing.
 
-Waiters are parameterized: tests.base class is AnyWait&lt;T, R&gt;, where T is for test object, R is for result.
+Waiters are parameterized: base class is AnyWait&lt;T, R&gt;, where T is for test object, R is for result.
 
 Details:
 1. If our AnyWait accepts a button to click and returns nothing, T will be MobileElement (for button),
