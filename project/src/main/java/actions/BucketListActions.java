@@ -28,6 +28,7 @@ public abstract class BucketListActions extends BaseUiActions {
 	@Step("Enter Bucket Item name ''{0}''")
 	public void enterBucketItemName(String name) {
 		MobileElement element = bucketListScreen.fldNewBucketItemName;
+		element.click();
 		element.sendKeys(name);
 		element.click();
 	}

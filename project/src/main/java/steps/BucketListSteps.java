@@ -39,7 +39,7 @@ public class BucketListSteps {
 		return bucketListActions.getBucketItem(bucketListName,false);
 	}
 
-	public String getRandomNameForBucketItem(String methodName){
+	public String getUniqueNameForBucketItem(String methodName){
 		return bucketListActions.generateNameForBucketItem(methodName);
 	}
 

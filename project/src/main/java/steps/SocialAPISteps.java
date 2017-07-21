@@ -7,13 +7,8 @@ import com.worldventures.dreamtrips.api.hashtags.model.HashtagsSearchResponse;
 import org.apache.logging.log4j.LogManager;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
-import utils.exceptions.FailedTestException;
-import utils.exceptions.FailedWaitAttemptException;
-import utils.waiters.AnyWait;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,23 +43,7 @@ public class SocialAPISteps {
 
 	@Step("Get all feed items with hashtags '{0}'")
 	public List<FeedItem> getFeedItemsByHashTags(String hashtags) throws IOException {
-		AnyWait<Void, HashtagsSearchResponse> waitUntilFeedItemsAreFetched = new AnyWait<>();
-		waitUntilFeedItemsAreFetched.duration(Duration.ofMinutes(1));
-		waitUntilFeedItemsAreFetched.calculate(() -> {
-			try {
-				return socialAPIActions.searchFeedItemsByHashtags(hashtags);
-			} catch (SocketTimeoutException e) {
-				throw new FailedWaitAttemptException("Search by hashtag service is not available, retry.");
-			} catch (IOException e) {
-				throw new FailedTestException("Failed to fetch feed items by hashtags '" + hashtags + "'", e);
-			}
-		});
-		waitUntilFeedItemsAreFetched.go();
-		if (!waitUntilFeedItemsAreFetched.isSuccess()) {
-			Throwable lastError = waitUntilFeedItemsAreFetched.getLastError();
-			throw new FailedTestException("Failed to fetch feed items by hashtags '" + hashtags + "'", lastError);
-		}
-		HashtagsSearchResponse response = waitUntilFeedItemsAreFetched.result();
+		HashtagsSearchResponse response = socialAPIActions.searchFeedItemsByHashtags(hashtags);
 		return socialAPIActions.getFeedItemsFromSearchResponse(response);
 	}
 }

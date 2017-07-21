@@ -2,7 +2,6 @@ import base.BaseTestForLoggedInUserWithoutRestart;
 import data.Platform;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.yandex.qatools.allure.annotations.Issue;
@@ -43,10 +42,10 @@ public final class BucketListTests extends BaseTestForLoggedInUserWithoutRestart
  	@Test
 	public void addNewBucketItem() throws IOException {
 		String testName = getTestMethodName();
-		String bucketItemName = bucketListSteps.getRandomNameForBucketItem(testName);
+		String bucketItemName = bucketListSteps.getUniqueNameForBucketItem(testName);
 		createdBucketItems.add(bucketItemName);
-		MobileElement bucketList = bucketListSteps.createNewBucketItemWithName(bucketItemName);
-		Assert.assertThat("New BucketItem should be found in BucketLists", bucketList,
+		MobileElement bucketItem = bucketListSteps.createNewBucketItemWithName(bucketItemName);
+		Assert.assertThat("New BucketItem should be found in BucketLists", bucketItem,
 				notNullValue());
 
 	}
