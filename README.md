@@ -165,7 +165,7 @@ Tests operate Test Steps, which are accessible by `getStepsComponent().***Steps(
 **NOTE**: DO NOT create Steps via `steps = new ***Steps()`, because Steps are constructed by
 Dagger.
 
-There are 3 tests.base classes for tests:
+There are 3 base classes for tests:
 * `BaseTest` provides access to test steps. Use it for basic tests.internal self-tests.
 ```java
 public class MySimpleTest extends BaseTest {
