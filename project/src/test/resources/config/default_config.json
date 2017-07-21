@@ -1,8 +1,8 @@
 {
-    "platformName" : "iPhone",
-    "device": "10A6681A-1E88-47DF-96C4-955B74ED1973",
+    "platformName" : "AndroidPhone",
+    "device": "emulator-5554",
     "apiURL" : "http://techery-dt-integration.techery.io",
-    "droidAppName" : "DreamTrips-hermet.apk",
+    "droidAppName" : "DreamTrips-external-stable-integration-debug.apk",
     "iosAppName" : "DreamTrip.app",
     "locale" : "en-US",
     "runOnCI": "y"
@@ -10,7 +10,7 @@
 
 /*
 
-"droidAppName" : "DreamTrips.apk",
+"droidAppName" : "DreamTrips-external-stable-integration-debug.apk",
   "iosAppName" : "DreamTrip.app",
 
 platform:

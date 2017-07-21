@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="All tests" configfailurepolicy="continue" preserve-order="true" verbose="1">
     <listeners>
-        <listener class-name="listeners.CustomTestListener" />
+        <listener class-name="com.techery.dtat.listeners.CustomTestListener" />
     </listeners>
     <test name="All Tests">
         <classes>
-            <class name="DreamTripsTests"/>
-            <class name="LoginTests"/>
-            <class name="LogoutTests"/>
+            <class name="com.techery.dtat.tests.DreamTripsTests"/>
+            <class name="com.techery.dtat.tests.LoginTests"/>
+            <class name="com.techery.dtat.tests.LogoutTests"/>
         </classes>
     </test>
 </suite>
