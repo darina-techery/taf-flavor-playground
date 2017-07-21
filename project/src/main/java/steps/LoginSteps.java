@@ -53,8 +53,8 @@ public class LoginSteps {
 	@Step("Login to application with valid credentials: '{0}'")
 	public void loginWithValidCredentials(UserCredentials user) {
 		userAPIActions.authenticateUserInBackground(user);
-		submitCredentials(user);
 		userAPIActions.acceptTermsAndConditionsInBackground();
+		submitCredentials(user);
 		if (!loginActions.waitUntilLoginScreenGone()) {
 			throw new FailedTestException("Failed to login with provided valid credentials as "+user.getUsername());
 		}
