@@ -3,11 +3,13 @@ package steps;
 import actions.rest.UserAPIActions;
 import com.worldventures.dreamtrips.api.profile.model.PrivateUserProfile;
 import com.worldventures.dreamtrips.api.profile.model.UserProfile;
+import com.worldventures.dreamtrips.api.session.model.Subscription;
 import ru.yandex.qatools.allure.annotations.Step;
 import utils.annotations.UseActions;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class UserAPISteps {
 	private final UserAPIActions userAPIActions;
@@ -33,4 +35,17 @@ public class UserAPISteps {
 			uploadAvatar(avatarFile);
 		}
 	}
+
+    @Step("Verify account type")
+    public String getAccountType(List<Subscription> subscriptions) throws IOException {
+        if (subscriptions.contains(Subscription.DTP)) {
+            return "Platinum member";
+        } else if (subscriptions.contains(Subscription.DTG)) {
+            return "Gold member";
+        } else if (subscriptions.contains(Subscription.DTS)) {
+            return "Silver member";
+        } else {
+            return "";
+        }
+    }
 }
